@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.cinshop"})
+@ComponentScan(basePackages = {"com.cinshop.*"})
+@EntityScan("com.cinshop.common.entity")
 public class ShopWebUserApplication {
 
 	public static void main(String[] args) {
