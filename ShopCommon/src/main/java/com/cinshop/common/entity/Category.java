@@ -1,10 +1,15 @@
 package com.cinshop.common.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,6 +23,10 @@ public class Category {
 	
 	@Column(length = 45,nullable = false, unique = true)
 	private String name;
+	
+	@OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
+	private Set<ProductDetail> productDetails = new HashSet<>();
+	
 	
 
 	public Category() {
@@ -39,6 +48,15 @@ public class Category {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public Set<ProductDetail> getProductDetails() {
+		return productDetails;
+	}
+
+	public void setProductDetails(Set<ProductDetail> productDetails) {
+		this.productDetails = productDetails;
+	}
+	
 	
 	
 

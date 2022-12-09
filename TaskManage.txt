@@ -1,0 +1,9 @@
+#2022/12/09
+- Fix and update file gitignore in School PC
+- Code ProductDetailRepo and Test class - Tested
+- Code ProductDetailService and Test class -tested
+- Code ProductUtility class - Test Success
+*Note
+- Should fix and redesign product table and color, size tables
+- fix and update database by entity 
+- code and test review module class

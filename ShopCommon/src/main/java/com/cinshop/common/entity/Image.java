@@ -24,8 +24,6 @@ public class Image {
 	private ProductDetail productDetail;
 
 	public Image() {
-		super();
-		// TODO 自動生成されたコンストラクター・スタブ
 	}
 
 	public Integer getId() {
