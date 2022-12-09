@@ -9,7 +9,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
+import com.cinshop.common.entity.Address;
 import com.cinshop.common.entity.Customer;
+import com.cinshop.common.entity.Sex;
 import com.cinshop.customer.CustomerService;
 
 @DataJpaTest
@@ -23,10 +25,11 @@ public class CustomerTest {
 	@Test
 	public void saveCustomerTest() {
 		Customer customer = new Customer();
-		customer.setName("Chien");
-		Customer savedCust = service.saveCustomer(customer);
+		Address address = new Address();
+		Sex sex = new Sex();
+		//Customer savedCust = service.saveCustomer(customer);
 		
-		assertThat(savedCust).isNotNull();
+		//assertThat(savedCust).isNotNull();
 	}
 
 }
