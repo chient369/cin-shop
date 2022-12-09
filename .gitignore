@@ -1,4 +1,3 @@
 ##java eviroment config
 *.log
 *.properties
-bin/
