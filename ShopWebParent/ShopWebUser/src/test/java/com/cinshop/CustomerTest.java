@@ -25,6 +25,8 @@ public class CustomerTest {
 	@Test
 	public void saveCustomerTest() {
 		Customer customer = new Customer();
+		Address address = new Address();
+		Sex sex = new Sex();
 		//Customer savedCust = service.saveCustomer(customer);
 		
 		//assertThat(savedCust).isNotNull();
