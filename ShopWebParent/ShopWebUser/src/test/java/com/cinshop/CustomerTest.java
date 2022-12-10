@@ -30,5 +30,4 @@ public class CustomerTest {
 		//assertThat(savedCust).isNotNull();
 		//test
 	}
-
 }
