@@ -18,7 +18,7 @@ public class Address {
 	private Integer id;
 	
 	@OneToOne
-	@JoinColumn(name="customer_id")
+	@JoinColumn(name="customer_id", nullable = true)
 	private Customer customer;
 	
 	@Column(name = "post_code", length = 20, nullable = true)

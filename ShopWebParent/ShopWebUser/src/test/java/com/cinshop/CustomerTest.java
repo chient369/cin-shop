@@ -24,12 +24,42 @@ public class CustomerTest {
 	
 	@Test
 	public void saveCustomerTest() {
+		
 		Customer customer = new Customer();
 		Address address = new Address();
 		Sex sex = new Sex();
-		//Customer savedCust = service.saveCustomer(customer);
 		
-		//assertThat(savedCust).isNotNull();
-		//test
+		//性別
+		//insert into sex values(1, "男");
+		//insert into sex values(2, "女");
+		sex.setSex_id(1);
+		sex.setSexName("男");
+		
+		//顧客登録
+		customer.setEmail("値を変える@gmail.com");
+		customer.setFirstName("山田");
+		customer.setLastName("太郎");
+		customer.setSex(sex);
+		customer.setEnable((byte)1);
+		customer.setImage("img/xxx.jpg");
+		customer.setPhoneNumber("xxx-xxxx-xxxx");
+		customer.setPoint(100);
+		
+		Customer savedCust = service.saveCustomer(customer);
+		assertThat(savedCust).isNotNull();
+		
+		//住所登録
+		address.setCustomer(customer);
+		address.setPostCode("xxx-xxxxx");
+		address.setFirstAddress("hoge県");
+		address.setLastAddress("hoge市hogex-x-x");
+
+		Address savedAddr = service.saveAddress(address);
+		assertThat(savedAddr).isNotNull();
+	}
+	
+	@Test
+	public void loginCustomerTest() {
+		
 	}
 }
