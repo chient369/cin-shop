@@ -15,6 +15,7 @@ import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Category;
 import com.cinshop.common.entity.Color;
 import com.cinshop.common.entity.Size;
+import com.cinshop.dto.FavouriteProductDTO;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -43,9 +44,26 @@ public class ProductUtilityTest {
 	}
 	
 	@Test
-	public void findAllSizes() {
+	public void findAllSizesTest() {
 		List<Size> sizes = utility.findAllSizes();
 		assertThat(sizes.size()).isGreaterThan(0);
 	}
+//	@Test
+//	public void addFavTest() {
+//		utility.addFavProduct(1, 1);
+//		utility.addFavProduct(1, 2);
+//	}
+//	
+//	@Test
+//	public void getFavProductsByCustIdTest() {
+//		List<FavouriteProductDTO> favs = utility.getAllFavProductByCustId(1);
+//		
+//		favs.forEach(fav -> System.out.println(fav));
+//		assertThat(favs.size()).isGreaterThan(0);
+//	}
+//	@Test
+//	public void removeFavTest() {
+//		utility.removeFavProduct(1, 1);
+//	}
 
 }

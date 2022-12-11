@@ -4,6 +4,11 @@
 - Code ProductDetailService and Test class -tested
 - Code ProductUtility class - Test Success
 *Note
-- Should fix and redesign product table and color, size tables
-- fix and update database by entity 
-- code and test review module class
+- Should fix and redesign product table and color, size tables- Ok
+- fix and update database by entity -Ok
+- code and test review module class - OK
++ completed define entity class
++ Order module of repo, service, test - SUCCESS
+#2022/12/11
+-code Favorite Product module class and test case - Success
+-fix product class of code => getable colors and sizes
