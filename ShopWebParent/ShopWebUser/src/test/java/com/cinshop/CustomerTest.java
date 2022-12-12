@@ -12,6 +12,7 @@ import org.springframework.test.annotation.Rollback;
 import com.cinshop.common.entity.Address;
 import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.Sex;
+import com.cinshop.customer.CustomerRepository;
 import com.cinshop.customer.CustomerService;
 
 @DataJpaTest
@@ -29,9 +30,9 @@ public class CustomerTest {
 		Address address = new Address();
 		Sex sex = new Sex();
 		
-		//性別
-		//insert into sex values(1, "男");
-		//insert into sex values(2, "女");
+		//性別		
+		//insert into sex values(1, "男");登録してから実行
+		//insert into sex values(2, "女");登録してから実行
 		sex.setSex_id(1);
 		sex.setSexName("男");
 		
@@ -59,7 +60,14 @@ public class CustomerTest {
 	}
 	
 	@Test
+	public void findCustomer() {
+		Customer customer = service.findCustomerByEmail("値を変える@gmail.com");
+		assertThat(customer).isNotNull();
+	}
+	
+	@Test
 	public void loginCustomerTest() {
-		
+		//参考サイト
+		//https://www.docswell.com/s/MasatoshiTada/KGVY9K-spring-security-intro
 	}
 }
