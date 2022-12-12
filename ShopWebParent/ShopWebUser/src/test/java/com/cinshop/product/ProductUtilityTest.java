@@ -15,7 +15,6 @@ import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Category;
 import com.cinshop.common.entity.Color;
 import com.cinshop.common.entity.Size;
-import com.cinshop.dto.FavouriteProductDTO;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)

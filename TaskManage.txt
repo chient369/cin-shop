@@ -1,14 +1,16 @@
 #2022/12/09
-- Fix and update file gitignore in School PC
-- Code ProductDetailRepo and Test class - Tested
-- Code ProductDetailService and Test class -tested
-- Code ProductUtility class - Test Success
-*Note
-- Should fix and redesign product table and color, size tables- Ok
-- fix and update database by entity -Ok
-- code and test review module class - OK
-+ completed define entity class
-+ Order module of repo, service, test - SUCCESS
+- ProductDetailRepo　クラス と テスト クラス作成- 完了
+- ProductDetailServiceクラス とテストクラス作成ー完了
+-ProductUtilityクラス作成 - 完了
+-注文機能のクラスを作成(entity, repo,service,test) -　完了
 #2022/12/11
--code Favorite Product module class and test case - Success
--fix product class of code => getable colors and sizes
+-お気に入り機能のクラスを作成(entity,repo,service,test,dto)-　完了
+#2022/12/12
+-レビュー機能のクラスを作成（entity,repo,service,test）-完了
+-カート機能のクラスを作成
++entityカラス-完了
++CartItemRepositoryクラス-完了
++CartService クラス-完了
++CartServiceTest クラス-完了
+＊C
+

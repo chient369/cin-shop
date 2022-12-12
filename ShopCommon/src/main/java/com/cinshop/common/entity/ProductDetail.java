@@ -1,7 +1,9 @@
 package com.cinshop.common.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -23,45 +25,49 @@ public class ProductDetail {
 	@Column(name = "detail_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(length = 15, unique = true, nullable = false)
 	private String code;
-	
+
 	@Column(length = 256, nullable = false)
 	private String name;
-	
+
 	@Column(length = 4096)
 	private String description;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "brand_id")
 	private Brand brand;
-	
+
 	@Column(nullable = false)
 	private Integer price;
-	
+
 	private Boolean enable;
-	
+
 	@Column(name = "create_time", nullable = false)
 	private Date createTime;
-	
+
 	@Column(name = "main_image", length = 256, nullable = false)
 	private String mainImage;
-	
-	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL,orphanRemoval = true)
-	private Set<Product> products = new HashSet<>();
-	
-	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL,orphanRemoval = true)
-	private Set<Image> images = new HashSet<>();
 
+	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Product> products = new HashSet<>();
+
+	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Image> images = new HashSet<>();
 	
-	
-	
+	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL,orphanRemoval = true)
+	private List<Review> reviews = new ArrayList<>();
+
 	public ProductDetail() {
+	}
+
+	public ProductDetail(Integer detailId) {
+		this.id = detailId;
 	}
 
 	public Integer getId() {
@@ -144,7 +150,6 @@ public class ProductDetail {
 		this.mainImage = mainImage;
 	}
 
-
 	public Set<Product> getProducts() {
 		return products;
 	}
@@ -161,8 +166,13 @@ public class ProductDetail {
 		this.images = images;
 	}
 
-	
-	
-	
-	
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+
 }

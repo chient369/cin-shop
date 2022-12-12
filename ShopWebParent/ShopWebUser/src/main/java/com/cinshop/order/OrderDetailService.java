@@ -14,7 +14,7 @@ public class OrderDetailService {
 	@Autowired
 	private OrderDetailRepository repository;
 	
-	public List<OrderDetail> findOrderDetails(Integer orderId){
+	public List<OrderDetail> findOrderDetailsByProductId(Integer orderId){
 		return repository.findByOrder(new Order(orderId));
 	}
 	public OrderDetail saveOrderDetail(OrderDetail orderDetail) {

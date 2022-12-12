@@ -2,6 +2,7 @@ package com.cinshop.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,11 +19,11 @@ public class CartItem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id")
 	private Product product;
 	
@@ -38,6 +39,11 @@ public class CartItem {
 		this.customer = customer;
 		this.product = product;
 		this.quantity = quantity;
+	}
+
+	public CartItem(Customer customer, Product product) {
+		this.customer = customer;
+		this.product = product;
 	}
 
 	public Integer getId() {
@@ -71,5 +77,13 @@ public class CartItem {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
+
+	@Override
+	public String toString() {
+		return "CartItem [id=" + id + ", customer=" + customer + ", product=" + product + ", quantity=" + quantity
+				+ "]";
+	}
+	
+	
 
 }

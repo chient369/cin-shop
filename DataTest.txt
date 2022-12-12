@@ -1,0 +1,21 @@
+#カラーのデータを追加
+INSERT INTO `cinshopdb`.`color` (`color_id`, `name`) VALUES ('1', 'red');
+INSERT INTO `cinshopdb`.`color` (`color_id`, `name`) VALUES ('2', 'blue');
+INSERT INTO `cinshopdb`.`color` (`color_id`, `name`) VALUES ('3', 'orange');
+
+#顧客データ
+INSERT INTO `cinshopdb`.`customer` (`id`, `name`) VALUES ('1', 'test');
+INSERT INTO `cinshopdb`.`customer` (`id`, `name`) VALUES ('2', 'admin');
+
+#サイズのデータ
+INSERT INTO `cinshopdb`.`size` (`size_id`, `size`) VALUES ('1', '25');
+INSERT INTO `cinshopdb`.`size` (`size_id`, `size`) VALUES ('2', '25.5');
+INSERT INTO `cinshopdb`.`size` (`size_id`, `size`) VALUES ('3', '26');
+
+#
+INSERT INTO `cinshopdb`.`tax` (`tax_id`, `effective_date`, `tax`) VALUES ('1', '2021-10-1', '10');
+
+#
+
+INSERT INTO `cinshopdb`.`orders` (`order_id`, `order_time`, `payment_method`, `status`, `total`, `customer_id`, `tax_id`) VALUES ('1', '2022-12-12', 'paypay', 'paid', '50000', '1', '1');
+INSERT INTO `cinshopdb`.`orders` (`order_id`, `order_time`, `payment_method`, `status`, `total`, `customer_id`, `tax_id`) VALUES ('2', '2022-12-25', 'cod', 'ordered', '23333', '2', '1');

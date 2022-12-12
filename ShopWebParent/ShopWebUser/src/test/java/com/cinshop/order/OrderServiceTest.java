@@ -20,7 +20,7 @@ import com.cinshop.common.entity.Tax;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@Rollback(false)
+@Rollback()
 public class OrderServiceTest {
 
 	@Autowired
@@ -55,7 +55,7 @@ public class OrderServiceTest {
 
 	@Test
 	public void findOrderByIdTest() {
-		Order order = service.findOrderById(2);
+		Order order = service.findOrderById(1);
 		System.err.println(order);
 		order.getOrderDetails().forEach(od -> System.out.println("Order detail id : " + od.getId()));
 		assertThat(order).isNotNull();

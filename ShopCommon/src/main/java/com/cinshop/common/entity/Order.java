@@ -74,6 +74,7 @@ public class Order {
 		this.paymentMethod = paymentMethod;
 		this.total = total;
 	}
+	//注文詳細を追加
 	public void addOrderDetail(OrderDetail detail) {
 		this.orderDetails.add(detail);
 	}

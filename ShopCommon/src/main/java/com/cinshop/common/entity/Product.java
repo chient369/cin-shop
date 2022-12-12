@@ -54,6 +54,14 @@ public class Product {
 		this.id = id;
 	}
 
+	public void addColor(Color color) {
+		this.colors.add(color);
+	}
+	
+	public void addSize(Size size) {
+		this.sizes.add(size);
+	}
+	
 	public Integer getId() {
 		return id;
 	}
