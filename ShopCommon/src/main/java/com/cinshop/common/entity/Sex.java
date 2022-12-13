@@ -14,10 +14,11 @@ import jakarta.persistence.Table;
 public class Sex {
 
 	@Id
+	@Column(name = "sex_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer sex_id;
+	private Integer sexId;
 	
-	@Column(name = "sex_name", length = 15, nullable = true)
+	@Column(name = "sex_name", length = 15, nullable = false)
 	private String sexName;
 	
 	@OneToOne(mappedBy="sex", cascade=CascadeType.ALL)
@@ -26,18 +27,13 @@ public class Sex {
 	public Sex() {
 		
 	}
-	
-	//テスト用
-	public Sex(String name) {
-		this.sexName = name;
-	}
 
 	public Integer getSex_id() {
-		return sex_id;
+		return sexId;
 	}
 
-	public void setSex_id(Integer sex_id) {
-		this.sex_id = sex_id;
+	public void setSex_id(Integer sexId) {
+		this.sexId = sexId;
 	}
 
 	public String getSexName() {
@@ -55,7 +51,4 @@ public class Sex {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-
-
-	
 }

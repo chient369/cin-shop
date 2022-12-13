@@ -1,18 +1,15 @@
 package com.cinshop;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
-
 import com.cinshop.common.entity.Address;
 import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.Sex;
-import com.cinshop.customer.CustomerRepository;
 import com.cinshop.customer.CustomerService;
 
 @DataJpaTest
@@ -40,6 +37,7 @@ public class CustomerTest {
 		customer.setEmail("値を変える@gmail.com");
 		customer.setFirstName("山田");
 		customer.setLastName("太郎");
+		customer.setPassword("$2a$08$KAfQk5Ix8xCnIpYsAUT2yeCdKBe3Cnw9vU5VVEIQDR3x3n0F7Pntq");	//encode前の値は"admin"
 		customer.setSex(sex);
 		customer.setEnable((byte)1);
 		customer.setImage("img/xxx.jpg");
@@ -67,7 +65,5 @@ public class CustomerTest {
 	
 	@Test
 	public void loginCustomerTest() {
-		//参考サイト
-		//https://www.docswell.com/s/MasatoshiTada/KGVY9K-spring-security-intro
 	}
 }

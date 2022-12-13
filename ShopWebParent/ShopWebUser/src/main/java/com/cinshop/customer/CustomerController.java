@@ -11,7 +11,7 @@ public class CustomerController {
 		return "login";
 	}
 	
-	@GetMapping("/")
+	@GetMapping("/index")
 	public String viewSuccessPage() {	  
 		return "index";
 	}

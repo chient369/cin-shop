@@ -3,6 +3,8 @@ package com.cinshop.customer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -14,13 +16,15 @@ import com.cinshop.common.entity.Customer;
 @Repository
 public class LoginUserRepository {
 	
+    @Autowired
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	
     private static final String SQL_FIND_BY_EMAIL = """
             SELECT
-              u.e-mail AS email,
-              CONCAT(u.first_name, u.lastname) AS user_name,
-              u.password,
-              u.role AS role_name
-            FROM customer u
+              email,
+              first_name AS user_name,
+              password
+            FROM customer WHERE email = :email
             """;
 
     private static final ResultSetExtractor<LoginUser> LOGIN_USER_EXTRACTOR = (rs) -> {
@@ -34,15 +38,13 @@ public class LoginUserRepository {
                 userName = rs.getString("user_name");
                 password = rs.getString("password");
             }
-            roleList.add(rs.getString("role_name"));
+            roleList.add("USER");
         }
         if (email == null) {
             return null;
         }
         return new LoginUser(email, userName, password, roleList);
     };
-
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public LoginUserRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;

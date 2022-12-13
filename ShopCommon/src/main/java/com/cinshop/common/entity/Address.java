@@ -18,16 +18,16 @@ public class Address {
 	private Integer id;
 	
 	@OneToOne
-	@JoinColumn(name="customer_id", nullable = true)
+	@JoinColumn(name="customer_id", nullable = false)
 	private Customer customer;
 	
-	@Column(name = "post_code", length = 20, nullable = true)
+	@Column(name = "post_code", length = 20, nullable = false)
 	private String postCode;
 	
-	@Column(name = "first_address", length = 45, nullable = true)
+	@Column(name = "first_address", length = 45, nullable = false)
 	private String firstAddress;
 	
-	@Column(name = "last_address", length = 45, nullable = true)
+	@Column(name = "last_address", length = 45, nullable = false)
 	private String lastAddress;
 	
 	public Address() {

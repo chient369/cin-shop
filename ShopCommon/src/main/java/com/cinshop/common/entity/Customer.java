@@ -18,14 +18,17 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name = "e-mail", length = 128, nullable = true, unique = true)
+	@Column(name = "email", length = 128, nullable = false, unique = true)
 	private String email;
-	
-	@Column(name = "first_name", length = 64, nullable = true)
+
+	@Column(name = "first_name", length = 64, nullable = false)
 	private String firstName;
 	
-	@Column(name = "last_name", length = 45, nullable = true)
+	@Column(name = "last_name", length = 45, nullable = false)
 	private String lastName;
+	
+	@Column(name = "password", length = 100, nullable = false)
+	private String password;
 
 	@OneToOne
 	@JoinColumn(name="sex_id")
@@ -80,6 +83,14 @@ public class Customer {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Sex getSex() {
