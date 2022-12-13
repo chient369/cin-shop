@@ -10,17 +10,20 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "color")
 public class Color {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "color_id")
 	private Integer id;
-	
-	@Column(length = 45,nullable = false, unique = true)
+
+	@Column(length = 45, nullable = false, unique = true)
 	private String name;
 
+	@Column(name = "color_code", length = 45, nullable = false, unique = true)
+	private String colorCode;
+
 	public Color() {
-		
+
 	}
 
 	public Integer getId() {
@@ -38,9 +41,14 @@ public class Color {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
-	
-	
+
+	public String getColorCode() {
+		return colorCode;
+	}
+
+	public void setColorCode(String colorCode) {
+		this.colorCode = colorCode;
+	}
+
 
 }

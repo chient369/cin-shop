@@ -33,6 +33,7 @@ public class ProductUtility {
 				Color color = new Color();
 				color.setId(rs.getInt("color_id"));
 				color.setName(rs.getString("name"));
+				color.setColorCode(rs.getString("color_code"));
 				return color;
 			}
 

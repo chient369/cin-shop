@@ -1,29 +1,51 @@
 package com.cinshop.dto;
 
+import com.cinshop.common.entity.CartItem;
+import com.cinshop.common.entity.Product;
+
 public class CartItemDTO {
-	private Integer custId;
+	private Integer customerId;
 	private Integer productId;
+	private String productImage;
+	private String productName;
 	private Integer quantity;
 
 	public CartItemDTO() {
-		super();
-		// TODO 自動生成されたコンストラクター・スタブ
+		
 	}
 
-	public CartItemDTO(Integer custId, Integer productId, Integer quantity) {
-		super();
-		this.custId = custId;
-		this.productId = productId;
-		this.quantity = quantity;
+	public void convertTo(CartItem cartItem) {
+		this.productId= cartItem.getProduct().getId();
+		this.productImage = cartItem.getProduct().getProductDetail().getMainImage();
+		this.productName = cartItem.getProduct().getProductDetail().getName();
+		this.quantity = cartItem.getQuantity();
 	}
 	
-
-	public Integer getCustId() {
-		return custId;
+	
+	public CartItemDTO(Integer customerId, Integer productId) {
+		super();
+		this.customerId = customerId;
+		this.productId = productId;
 	}
 
-	public void setCustId(Integer custId) {
-		this.custId = custId;
+	public CartItemDTO(Integer customerId, Integer productId, String productImage, String productName,
+			Integer quantity) {
+		super();
+		this.customerId = customerId;
+		this.productId = productId;
+		this.productImage = productImage;
+		this.productName = productName;
+		this.quantity = quantity;
+	}
+
+
+
+	public Integer getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
 	}
 
 	public Integer getProductId() {
@@ -34,6 +56,22 @@ public class CartItemDTO {
 		this.productId = productId;
 	}
 
+	public String getProductImage() {
+		return productImage;
+	}
+
+	public void setProductImage(String productImage) {
+		this.productImage = productImage;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
 	public Integer getQuantity() {
 		return quantity;
 	}
@@ -41,5 +79,5 @@ public class CartItemDTO {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-
+	
 }

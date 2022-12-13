@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cinshop.common.entity.CartItem;
 import com.cinshop.dto.CartItemDTO;
-
+/*
+ * APIにアクセスする前に、Fillterクラスでログインしたかどうかをチェックする
+ * */
 @RestController
 @RequestMapping("/api/cart")
 public class CartApiController {
@@ -24,23 +25,30 @@ public class CartApiController {
 	private CartService service;
 
 	@PostMapping
-	public ResponseEntity<CartItemDTO> addItem(@RequestBody CartItemDTO cartItemDTO) {
-		service.saveCartItem(cartItemDTO.getCustId(), cartItemDTO.getProductId(), cartItemDTO.getQuantity());
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<List<CartItemDTO>> addItem(@RequestBody CartItemDTO dto) {
+		service.saveCartItem(dto.getCustomerId(), dto.getProductId(), dto.getQuantity());
+		
+		List<CartItemDTO> responseData = service.findCartItemsByCustomerId(dto.getCustomerId());
+		
+		return ResponseEntity.ok(responseData);
 
 	}
 
 	@GetMapping("/{custId}")
-	public ResponseEntity getCartItems(@PathVariable Integer custId) {
-		List<CartItem> cartItems = service.findCartItemsByCustomerId(custId);
+	public List<CartItemDTO> getCartItems(@PathVariable Integer custId) {
+		//与えたIDのユーザーがログインしたかどうかをチェック
+		List<CartItemDTO> cartItems = service.findCartItemsByCustomerId(custId);
 		cartItems.forEach(ci -> System.out.println(ci));
-		return ResponseEntity.ok().body(cartItems);
+		return cartItems;
 	}
 
 	@DeleteMapping
-	public ResponseEntity removeItem(@RequestBody CartItemDTO dto) {
-		service.removeItem(dto.getCustId(), dto.getProductId());
-		return ResponseEntity.ok().build();
+	public ResponseEntity<List<CartItemDTO>> removeItem(@RequestBody CartItemDTO dto) {
+		service.removeItem(dto.getCustomerId(), dto.getProductId());
+		List<CartItemDTO> responeData = service.findCartItemsByCustomerId(dto.getCustomerId());
+		return ResponseEntity.ok().body(responeData);
 
 	}
+	
+	
 }

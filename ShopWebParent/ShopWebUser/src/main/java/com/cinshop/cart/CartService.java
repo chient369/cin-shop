@@ -1,5 +1,7 @@
 package com.cinshop.cart;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +11,9 @@ import org.springframework.stereotype.Service;
 import com.cinshop.common.entity.CartItem;
 import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.Product;
+import com.cinshop.dto.CartItemDTO;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class CartService {
@@ -16,10 +21,20 @@ public class CartService {
 	@Autowired
 	private CartItemRepository repository;
 
-	public List<CartItem> findCartItemsByCustomerId(Integer custId) {
-		return repository.findByCustomer(new Customer(custId));
+	public List<CartItemDTO> findCartItemsByCustomerId(Integer custId) {
+		List<CartItemDTO> dtos = new ArrayList<>();
+
+		List<CartItem> cartItems = repository.findByCustomer(new Customer(custId));
+		Iterator<CartItem> it = cartItems.iterator();
+		while (it.hasNext()) {
+			CartItemDTO dto = new CartItemDTO();
+			dto.convertTo(it.next());
+			dtos.add(dto);
+		}
+		return dtos;
 	}
 
+	@Transactional
 	public void saveCartItem(Integer custId, Integer pId, Integer quantity) {
 
 		if (isExistCartItem(custId, pId)) {
@@ -29,8 +44,9 @@ public class CartService {
 		repository.updateCartItem(custId, pId, quantity);
 	}
 
+	@Transactional
 	public void removeItem(Integer custId, Integer pId) {
-		repository.delete(new CartItem(new Customer(custId), new Product(pId)));
+		repository.removeItem(custId, pId);;
 	}
 
 	public void deleteCartByCustomerid(Integer custId) {

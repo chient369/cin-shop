@@ -9,6 +9,7 @@ import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -54,13 +55,13 @@ public class ProductDetail {
 	@Column(name = "main_image", length = 256, nullable = false)
 	private String mainImage;
 
-	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Set<Product> products = new HashSet<>();
 
 	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Image> images = new HashSet<>();
-	
-	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL,orphanRemoval = true)
+	private List<Image> images = new ArrayList<>();
+
+	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Review> reviews = new ArrayList<>();
 
 	public ProductDetail() {
@@ -158,11 +159,11 @@ public class ProductDetail {
 		this.products = products;
 	}
 
-	public Set<Image> getImages() {
+	public List<Image> getImages() {
 		return images;
 	}
 
-	public void setImages(Set<Image> images) {
+	public void setImages(List<Image> images) {
 		this.images = images;
 	}
 
@@ -174,5 +175,12 @@ public class ProductDetail {
 		this.reviews = reviews;
 	}
 
+	@Override
+	public String toString() {
+		return "ProductDetail [id=" + id + ", code=" + code + ", name=" + name + ", description=" + description
+				+ ", category=" + category + ", brand=" + brand + ", price=" + price + ", enable=" + enable
+				+ ", createTime=" + createTime + ", mainImage=" + mainImage + ", products=" + products + ", images="
+				+ images + ", reviews=" + reviews + "]";
+	}
 
 }

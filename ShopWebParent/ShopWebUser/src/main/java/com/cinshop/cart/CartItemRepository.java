@@ -13,14 +13,19 @@ import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.Product;
 
 @Repository
-public interface CartItemRepository extends JpaRepository<CartItem , Integer>{
+public interface CartItemRepository extends JpaRepository<CartItem, Integer> {
 
 	public List<CartItem> findByCustomer(Customer customer);
-	public Optional<CartItem> findByCustomerAndProduct(Customer customer,Product product);
-	
+
+	public Optional<CartItem> findByCustomerAndProduct(Customer customer, Product product);
+
 	@Modifying
 	@Query("update CartItem c set c.quantity = ?3 where c.customer.id = ?1 and c.product.id = ?2 ")
-	public void updateCartItem(Integer custId,Integer pId,Integer quantity);
-	
+	public void updateCartItem(Integer custId, Integer pId, Integer quantity);
+
+	@Modifying
+	@Query("delete from CartItem c where c.customer.id = ?1 and c.product.id = ?2 ")
+	public void removeItem(Integer custId, Integer pId);
+
 	public void deleteByCustomer(Customer customer);
 }
