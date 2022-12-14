@@ -56,7 +56,7 @@ public class ProductDetail {
 	private String mainImage;
 
 	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	private Set<Product> products = new HashSet<>();
+	private List<Product> products = new ArrayList<>();
 
 	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Image> images = new ArrayList<>();
@@ -151,11 +151,11 @@ public class ProductDetail {
 		this.mainImage = mainImage;
 	}
 
-	public Set<Product> getProducts() {
+	public List<Product> getProducts() {
 		return products;
 	}
 
-	public void setProducts(Set<Product> products) {
+	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
 

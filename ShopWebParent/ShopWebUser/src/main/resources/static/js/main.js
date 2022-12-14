@@ -1,10 +1,7 @@
 
 (function ($) {
     "use strict";
-    initPage();
-
-
-    /*[ Load page ]
+     /*[ Load page ]
     ===========================================================*/
     $(".animsition").animsition({
         inClass: 'fade-in',
@@ -278,89 +275,7 @@
 
 
 
-    function initPage() {
-        $.ajax({
-            url: "api/pd/colors",
-
-            success: function (data) {
-                renderColors(data);
-            },
-            error: function () {
-                console.log("Can't display colors from json : getInitData");
-
-            }
-        }
-        )
-        $.ajax({
-            url: "api/pd/cat",
-
-            success: function (data) {
-                renderCat(data);
-            },
-            error: function () {
-                console.log("Can't display cat from json : getInitData");
-
-            }
-        }
-        )
-        $.ajax({
-            url: "api/pd/b",
-
-            success: function (data) {
-            },
-            error: function () {
-                console.log("Can't display brand from json : getInitData");
-
-            }
-        }
-        )
-        $.ajax({
-            url: "api/pd/sizes",
-
-            success: function (data) {
-            },
-            error: function () {
-                console.log("Can't display sizes from json : GetcolorsAJAX");
-
-            }
-        }
-        )
-
-
-
-
-    }
-    function renderColors(colors) {
-        for (let color of colors) {
-            let id = color.id;
-            let name = color.name;
-            let code = color.colorCode;
-            let url = window.location.href + id;
-            $("#sbc").append(`<li class="p-b-6">
-            <span class="fs-15 lh-12 m-r-6" style="color: ${code};">
-                <i class="zmdi zmdi-circle"></i>
-            </span>
-
-            <a href="${url}" class="filter-link stext-106 trans-04">
-                ${name}
-            </a>
-        </li>`
-            )
-        }
-
-    }
-    function renderCat(cats) {
-        for (let cat of cats) {
-            let id = cat.id;
-            let name = cat.name;
-            let url = window.location.href + id;
-            $("#cat").append(`
-            <a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 " href="${url}">
-            ${name}
-        </a>`
-            )
-        }
-    }
+    
 
 
 })(jQuery);

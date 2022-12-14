@@ -1,5 +1,7 @@
 package com.cinshop.product;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Category;
 import com.cinshop.common.entity.Color;
+import com.cinshop.common.entity.Product;
 import com.cinshop.common.entity.ProductDetail;
 import com.cinshop.common.entity.Size;
 
@@ -48,6 +51,8 @@ public class ProductDetailService {
 	public Page<ProductDetail> findByPrice(Integer pFrom, Integer pTo, Pageable pageable){
 		return detailRepository.findByPrice(pFrom, pTo, pageable);
 	}
+	
+	
 	
 	public List<Color> findAllColors(){
 		return utility.findAllColors();

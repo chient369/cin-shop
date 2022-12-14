@@ -17,6 +17,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -32,16 +33,13 @@ public class Product {
 	@JoinColumn(name = "detail_id")
 	private ProductDetail productDetail;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "product_color", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "color_id"))
-	private List<Color> colors = new ArrayList<>();
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "color_id")
+	private Color color;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "product_size", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "size_id"))
-	private List<Size> sizes = new ArrayList<>();
-
-	@ManyToMany(mappedBy = "products")
-	private Set<OrderDetail> orderDetails = new HashSet<>();
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "size_id")
+	private Size size;
 
 	private Integer stockAmount;
 
@@ -54,14 +52,6 @@ public class Product {
 		this.id = id;
 	}
 
-	public void addColor(Color color) {
-		this.colors.add(color);
-	}
-	
-	public void addSize(Size size) {
-		this.sizes.add(size);
-	}
-	
 	public Integer getId() {
 		return id;
 	}
@@ -78,20 +68,20 @@ public class Product {
 		this.id = id;
 	}
 
-	public List<Color> getColors() {
-		return colors;
+	public Color getColor() {
+		return color;
 	}
 
-	public void setColors(List<Color> colors) {
-		this.colors = colors;
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
-	public List<Size> getSizes() {
-		return sizes;
+	public Size getSize() {
+		return size;
 	}
 
-	public void setSizes(List<Size> sizes) {
-		this.sizes = sizes;
+	public void setSize(Size size) {
+		this.size = size;
 	}
 
 	public Integer getStockAmount() {
@@ -100,14 +90,6 @@ public class Product {
 
 	public void setStockAmount(Integer stockAmount) {
 		this.stockAmount = stockAmount;
-	}
-
-	public Set<OrderDetail> getOrderDetails() {
-		return orderDetails;
-	}
-
-	public void setOrderDetails(Set<OrderDetail> orderDetails) {
-		this.orderDetails = orderDetails;
 	}
 
 	@Override

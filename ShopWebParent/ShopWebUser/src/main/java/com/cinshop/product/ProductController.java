@@ -1,5 +1,9 @@
 package com.cinshop.product;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.cinshop.common.entity.Color;
+import com.cinshop.common.entity.Product;
 import com.cinshop.common.entity.ProductDetail;
 
 @Controller
@@ -34,10 +40,22 @@ public class ProductController {
 		model.addAttribute("totalPages", page.getTotalPages());
 		return "product";
 	}
+
 	@GetMapping("/{pId}")
 	public String viewProduct(@PathVariable Integer pId, Model model) {
-		ProductDetail product = detailService.findById(pId);
-		model.addAttribute("p", product);
+		ProductDetail detail = detailService.findById(6);
+		model.addAttribute("p", detail.getProducts());
+		model.addAttribute("detail", detail);
+		model.addAttribute("colors", findExistColors(detail.getProducts()));
+
 		return "product-detail";
+	}
+	private List<Color> findExistColors(List<Product> products){
+		List<Color> colors = new ArrayList<>();	
+		Iterator<Product> it = products.iterator();
+		while(it.hasNext()) {
+			colors.add(it.next().getColor());
+		}
+		return colors;
 	}
 }

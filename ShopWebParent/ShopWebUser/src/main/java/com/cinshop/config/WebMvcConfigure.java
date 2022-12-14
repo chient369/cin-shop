@@ -16,17 +16,20 @@ public class WebMvcConfigure implements WebMvcConfigurer {
 		exposeDirectory("../brand-logos", registry);
 		exposeDirectory("../product-images", registry);
 		exposeDirectory("../site-logo", registry);
-		registry.addResourceHandler("/css/**").addResourceLocations("/static/css/");
+		registry.addResourceHandler("../js/**").addResourceLocations("/static/js/");
+		registry.addResourceHandler("../css/**").addResourceLocations("/static/css/");
+		registry.addResourceHandler("../vendor/**").addResourceLocations("/static/vendor/");
+		registry.addResourceHandler("../**").addResourceLocations("/static/");
+		
 	}
-	
+
 	private void exposeDirectory(String pathPattern, ResourceHandlerRegistry registry) {
 		Path path = Paths.get(pathPattern);
 		String absolutePath = path.toFile().getAbsolutePath();
-		
+
 		String logicalPath = pathPattern.replace("../", "") + "/**";
-				
-		registry.addResourceHandler(logicalPath)
-			.addResourceLocations("file:/" + absolutePath + "/");		
+
+		registry.addResourceHandler(logicalPath).addResourceLocations("file:/" + absolutePath + "/");
 	}
 
 }
