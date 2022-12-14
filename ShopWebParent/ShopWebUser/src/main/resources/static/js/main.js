@@ -1,8 +1,7 @@
 
 (function ($) {
     "use strict";
-     /*[ Load page ]
-    ===========================================================*/
+
     $(".animsition").animsition({
         inClass: 'fade-in',
         outClass: 'fade-out',
@@ -272,9 +271,6 @@
 
     /*==================================================================
    [ Show Filter-search ]*/
-
-
-
     
 
 

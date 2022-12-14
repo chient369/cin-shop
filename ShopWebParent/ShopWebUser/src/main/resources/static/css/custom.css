@@ -1,0 +1,15 @@
+.r-custom {
+
+    display: none;
+    /* ラジオボタンを非表示にする */
+
+}
+
+.lb-custom {
+    /* float: left;   
+    margin: 5px;   
+    cursor: pointer;   
+    border: 2px solid #006DD9;
+    border-radius: 5px;
+     */
+}
