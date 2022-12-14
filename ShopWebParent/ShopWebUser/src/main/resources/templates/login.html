@@ -8,28 +8,28 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--===============================================================================================-->
-	<link rel="icon" type="image/png" href="images/icons/favicon.png" />
+	<link rel="icon" type="image/png" th:href="@{/images/icons/favicon.png}" />
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/fonts/font-awesome-4.7.0/css/font-awesome.min.css}">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/fonts/iconic/css/material-design-iconic-font.min.css}">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/linearicons-v1.0.0/icon-font.min.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/fonts/linearicons-v1.0.0/icon-font.min.css}">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/vendor/animate/animate.css}">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/vendor/css-hamburgers/hamburgers.min.css}">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/vendor/animsition/css/animsition.min.css}">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/vendor/select2/select2.min.css}">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/vendor/perfect-scrollbar/perfect-scrollbar.css}">
 	<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
 	<!--===============================================================================================-->
 </head>
 
@@ -312,10 +312,13 @@
 		<div class="container">
 			<div class="flex-w flex-c">
 				<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
-					<form method = "post" action="login.html" th:action="@s{/login}">
+					<form method = "post" action="login.html" th:action="@{/login}">
 						<h4 class="mtext-105 cl2 txt-center p-b-30">
 							ログイン
 						</h4>
+						<p th:if="${param.error}" class="error">
+      						ユーザー名またはパスワードが違います。
+    					</p>
 						<div class="flex-w flex-m m-b-10 p-b-13">
 							<div class="size-203">
 								<span class="stext-110 cl2">
@@ -324,8 +327,7 @@
 							</div>
 
 							<div class="size-204">
-								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="username"
-									placeholder="cin@gmail.com">
+								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="username">
 							</div>
 						</div>
 						<div class="flex-w flex-m m-b-10 p-b-13">
@@ -560,4 +562,3 @@
 </body>
 
 </html>
->>>>>>> 1d862d438b4f80e77a2d8ab8d41407553eba1d1f

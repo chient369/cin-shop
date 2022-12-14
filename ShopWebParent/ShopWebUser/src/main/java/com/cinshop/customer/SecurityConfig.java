@@ -11,23 +11,43 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.formLogin(login -> login
+        		
+        		//ログイン情報の送信先URL
                 .loginProcessingUrl("/login")
+                
+                //ログインページ
                 .loginPage("/login")
+                
+                //ログイン後の遷移する画面
                 .defaultSuccessUrl("/")
+                
+                //ログインエラー用のURL
                 .failureUrl("/login?error")
+                
+                //ログイン画面は誰でもアクセス可能
                 .permitAll()
         ).logout(logout -> logout
-                .logoutSuccessUrl("/")
+        		
+        		//ログアウト後の遷移する画面
+                .logoutSuccessUrl("/login")
+                
         ).authorizeHttpRequests(authz -> authz
+        		
+        		//静的ファイルはログイン無しでもアクセス可能
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers("/").permitAll()
-                .requestMatchers("/index").hasRole("USER")
+                
+                //ログイン無しでもアクセス可能
+                //.requestMatchers("/").permitAll()
+                
+                //権限ごとにアクセス可能なURL
+                .requestMatchers("/about").hasRole("USER")
+                
+                //他のURLはログイン後のみアクセス可能
                 .anyRequest().authenticated()
         );
         return http.build();
