@@ -1,7 +1,7 @@
 
 (function ($) {
     "use strict";
-    initPage();
+    
 
 
     /*[ Load page ]

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.cinshop.common.entity.Product;
 import com.cinshop.common.entity.ProductDetail;
 
 @Controller
@@ -19,6 +20,9 @@ public class ProductController {
 
 	@Autowired
 	private ProductDetailService detailService;
+	
+	@Autowired
+	private ProductService productService;
 
 	@GetMapping("/")
 	public String viewProductPage(Model model) {
@@ -36,8 +40,11 @@ public class ProductController {
 	}
 	@GetMapping("/{pId}")
 	public String viewProduct(@PathVariable Integer pId, Model model) {
-		ProductDetail product = detailService.findById(pId);
+		Product product = productService.findProductById(6);
+		ProductDetail detail = detailService.findById(6);
+		model.addAttribute("detail", detail);
 		model.addAttribute("p", product);
+		System.out.println(product.getProductDetail());
 		return "product-detail";
 	}
 }
