@@ -21,7 +21,9 @@
 						class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 				</a> <a href="product.html" class="stext-109 cl8 hov-cl1 trans-04">
 					メンズ <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+
 				</a> <span class="stext-109 cl4" th:text="${detail.name}"> Lightweight Jacket </span>
+
 			</div>
 		</div>
 
@@ -38,7 +40,10 @@
 								<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 								<!--left - gallery-->
 								<div class="slick3 gallery-lb">
+
 									<th:block th:each="img : ${detail.images}">
+
+		
 
 										<div class="item-slick3" th:data-thumb="${img.name}">
 											<div class="wrap-pic-w pos-relative">
@@ -50,7 +55,6 @@
 											</div>
 										</div>
 									</th:block>
-
 								</div>
 								<!--left - gallery - end-->
 							</div>
@@ -72,6 +76,7 @@
 							<div class="p-t-33">
 								<!--Colors-->
 								<div class="flex-w flex-r-m p-b-10">
+
 									<div class="size-203 flex-c-m respon6">カラー</div>
 
 									<div class="size-204 respon6-next">
@@ -83,22 +88,17 @@
 													<option th:value = "${color.id}" th:text="${color.name}"></option>
 												</th:block>
 												
-											</select>
-											<div class="dropDownSelect2"></div>
-										</div>
-									</div>
-								</div>
 
-								<div class="flex-w flex-r-m p-b-10">
 									<div class="size-203 flex-c-m respon6">サイズ</div>
 
 									<div class="size-204 respon6-next">
 										<div class="rs1-select2 bor8 bg0">
 											<select class="js-select2" name="time">
 												<option>選択してください</option>
-												<!-- <th:block th:each="s : ${p.sizes}">
-													<option th:value="${s.id}" th:text="${s.size}">24</option>
-												</th:block> -->
+												<th:block th:each="size : ${p.sizes}">
+													<option th:value="${size.id}" th:text="${p.size}">24</option>
+												</th:block>
+
 
 											</select>
 											<div class="dropDownSelect2"></div>
@@ -106,8 +106,7 @@
 									</div>
 								</div>
 
-
-
+	
 								<!--Add to cart-->
 								<div class="flex-w flex-r-m p-b-10">
 									<div class="size-204 flex-w flex-m respon6-next">
@@ -615,7 +614,9 @@
 		</div>
 
 		<!--===============================================================================================-->
+
 		<div th:replace="~{fragments/js-common :: import-js}"></div>
+
 </body>
 
 </html>
