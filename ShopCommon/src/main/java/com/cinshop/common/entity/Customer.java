@@ -1,5 +1,7 @@
 package com.cinshop.common.entity;
 
+import java.util.HashSet;
+import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -48,9 +51,19 @@ public class Customer {
 	
 	@OneToOne(mappedBy="customer", cascade=CascadeType.ALL)
 	private Address address;
+	
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Order> order = new HashSet<>();
+
+	@Column(name = "name", length = 64)
+	private String name;
 
 	public Customer() {
-		
+
+	}
+
+	public Customer(Integer id) {
+		this.id = id;
 	}
 
 	public Integer getId() {
@@ -84,7 +97,7 @@ public class Customer {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}

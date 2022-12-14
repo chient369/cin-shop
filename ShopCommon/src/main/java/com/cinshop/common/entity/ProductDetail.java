@@ -1,12 +1,15 @@
 package com.cinshop.common.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,45 +26,49 @@ public class ProductDetail {
 	@Column(name = "detail_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@Column(length = 15, unique = true, nullable = false)
 	private String code;
-	
+
 	@Column(length = 256, nullable = false)
 	private String name;
-	
+
 	@Column(length = 4096)
 	private String description;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "category_id")
 	private Category category;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "brand_id")
 	private Brand brand;
-	
+
 	@Column(nullable = false)
 	private Integer price;
-	
+
 	private Boolean enable;
-	
+
 	@Column(name = "create_time", nullable = false)
 	private Date createTime;
-	
+
 	@Column(name = "main_image", length = 256, nullable = false)
 	private String mainImage;
-	
-	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL,orphanRemoval = true)
-	private Set<Product> products = new HashSet<>();
-	
-	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL,orphanRemoval = true)
-	private Set<Image> images = new HashSet<>();
 
-	
-	
-	
+	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private Set<Product> products = new HashSet<>();
+
+	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Image> images = new ArrayList<>();
+
+	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<Review> reviews = new ArrayList<>();
+
 	public ProductDetail() {
+	}
+
+	public ProductDetail(Integer detailId) {
+		this.id = detailId;
 	}
 
 	public Integer getId() {
@@ -144,7 +151,6 @@ public class ProductDetail {
 		this.mainImage = mainImage;
 	}
 
-
 	public Set<Product> getProducts() {
 		return products;
 	}
@@ -153,16 +159,28 @@ public class ProductDetail {
 		this.products = products;
 	}
 
-	public Set<Image> getImages() {
+	public List<Image> getImages() {
 		return images;
 	}
 
-	public void setImages(Set<Image> images) {
+	public void setImages(List<Image> images) {
 		this.images = images;
 	}
 
-	
-	
-	
-	
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+	@Override
+	public String toString() {
+		return "ProductDetail [id=" + id + ", code=" + code + ", name=" + name + ", description=" + description
+				+ ", category=" + category + ", brand=" + brand + ", price=" + price + ", enable=" + enable
+				+ ", createTime=" + createTime + ", mainImage=" + mainImage + ", products=" + products + ", images="
+				+ images + ", reviews=" + reviews + "]";
+	}
+
 }

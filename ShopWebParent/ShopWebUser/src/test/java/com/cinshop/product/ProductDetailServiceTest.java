@@ -27,6 +27,7 @@ public class ProductDetailServiceTest {
 	@Test
 	public void findProductDetailByIdTest() {
 		ProductDetail product = service.findById(1);
+		System.out.println(product.getImages());
 		assertThat(product).isNotNull();
 	}
 

@@ -1,0 +1,44 @@
+#カラーのデータを追加
+
+INSERT INTO `cinshopdb`.`color` (`name`) VALUES ('ブルー');
+INSERT INTO `cinshopdb`.`color` (`name`) VALUES ('オレンジ');
+ピンク
+
+#顧客データ
+INSERT INTO `cinshopdb`.`customer` (`id`, `name`) VALUES ('1', 'test');
+INSERT INTO `cinshopdb`.`customer` (`id`, `name`) VALUES ('2', 'admin');
+
+#サイズのデータ
+INSERT INTO `cinshopdb`.`size` (`size_id`, `size`) VALUES ('1', '25');
+INSERT INTO `cinshopdb`.`size` (`size_id`, `size`) VALUES ('2', '25.5');
+INSERT INTO `cinshopdb`.`size` (`size_id`, `size`) VALUES ('3', '26');
+
+#
+INSERT INTO `cinshopdb`.`tax` (`tax_id`, `effective_date`, `tax`) VALUES ('1', '2021-10-1', '10');
+
+#
+
+Size
+INSERT INTO `cinshopdb`.`size` (`size`) VALUES ('23.5');
+INSERT INTO `cinshopdb`.`size` (`size`) VALUES ('24');
+INSERT INTO `cinshopdb`.`size` (`size`) VALUES ('24.5');
+INSERT INTO `cinshopdb`.`size` (`size`) VALUES ('25');
+INSERT INTO `cinshopdb`.`size` (`size`) VALUES ('25.5');
+INSERT INTO `cinshopdb`.`size` (`size`) VALUES ('26');
+INSERT INTO `cinshopdb`.`size` (`size`) VALUES ('26.5');
+INSERT INTO `cinshopdb`.`size` (`size`) VALUES ('27');
+INSERT INTO `cinshopdb`.`size` (`size`) VALUES ('27.5');
+INSERT INTO `cinshopdb`.`size` (`size`) VALUES ('28');
+
+
+
+INSERT INTO `cinshopdb`.`category` (`name`) VALUES ('スポーツ');
+INSERT INTO `cinshopdb`.`category` (`name`) VALUES ('ビジネス');
+INSERT INTO `cinshopdb`.`category` (`name`) VALUES ('カジュアル');
+
+INSERT INTO `cinshopdb`.`orders` (`order_id`, `order_time`, `payment_method`, `status`, `total`, `customer_id`, `tax_id`) VALUES ('1', '2022-12-12', 'paypay', 'paid', '50000', '1', '1');
+INSERT INTO `cinshopdb`.`orders` (`order_id`, `order_time`, `payment_method`, `status`, `total`, `customer_id`, `tax_id`) VALUES ('2', '2022-12-25', 'cod', 'ordered', '23333', '2', '1');
+
+INSERT INTO `cinshopdb`.`brand` (`brand_id`, `name`, `brand_logo`) VALUES ('3', 'Vans', 'brand_vans.png');
+INSERT INTO `cinshopdb`.`brand` (`brand_id`, `name`, `brand_logo`) VALUES ('4', 'Fila', 'brand_fila.png');
+INSERT INTO `cinshopdb`.`brand` (`brand_id`, `name`, `brand_logo`) VALUES ('5', 'Converse', 'brand_converse');
