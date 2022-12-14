@@ -25,6 +25,9 @@ public class ProductController {
 
 	@Autowired
 	private ProductDetailService detailService;
+	
+	@Autowired
+	private ProductService productService;
 
 	@GetMapping("/")
 	public String viewProductPage(Model model) {
@@ -47,6 +50,7 @@ public class ProductController {
 		model.addAttribute("p", detail.getProducts());
 		model.addAttribute("detail", detail);
 		model.addAttribute("colors", findExistColors(detail.getProducts()));
+
 
 		return "product-detail";
 	}

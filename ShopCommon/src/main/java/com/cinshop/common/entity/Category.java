@@ -33,6 +33,10 @@ public class Category {
 
 	}
 
+	public Category(Integer catId) {
+		this.id = catId;
+	}
+
 	public Integer getId() {
 		return id;
 	}
