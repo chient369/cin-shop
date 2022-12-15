@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .loginPage("/login")
                 
                 //ログイン後の遷移する画面
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/about")
                 
                 //ログインエラー用のURL
                 .failureUrl("/login?error")
