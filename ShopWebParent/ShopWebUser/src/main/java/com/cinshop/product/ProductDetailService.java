@@ -1,7 +1,5 @@
 package com.cinshop.product;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Category;
 import com.cinshop.common.entity.Color;
-import com.cinshop.common.entity.Product;
 import com.cinshop.common.entity.ProductDetail;
 import com.cinshop.common.entity.Size;
 
@@ -39,12 +36,12 @@ public class ProductDetailService {
 		return detailRepository.findByWord(word, pageable);
 	}
 
-	public Page<ProductDetail> findByBrand(Brand brand, Pageable pageable){
-		return detailRepository.findByBrand(brand, pageable);
+	public Page<ProductDetail> findByBrand(Integer id, Pageable pageable){
+		return detailRepository.findByBrand(new Brand(id), pageable);
 	}
 
-	public Page<ProductDetail> findByCategory(Category category, Pageable pageable){
-		return detailRepository.findByCategory(category, pageable);
+	public Page<ProductDetail> findByCategory(Integer catId, Pageable pageable){
+		return detailRepository.findByCategory(new Category(catId), pageable);
 	}
 	
 	

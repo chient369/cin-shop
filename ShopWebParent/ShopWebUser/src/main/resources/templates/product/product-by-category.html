@@ -20,7 +20,7 @@
 		<div class="container">
 			<div class="p-b-10">
 				<h3 class="ltext-103 cl5">
-					商品一覧
+					[[${catname}]]商品
 				</h3>
 			</div>
 
@@ -72,7 +72,7 @@
 			<!--Load more -->
 			<div class="flex-c-m flex-w w-full p-t-38">
 				<th:block th:each="p:${#numbers.sequence(0,totalPages-1)}">
-					<a th:href="@{'/p/page/' + ${p +1}}" class="flex-c-m how-pagination1 trans-04 m-all-7 "
+					<a th:href="@{'/p/search/cat/' +${catId} +'/'+ ${p +1}}" class="flex-c-m how-pagination1 trans-04 m-all-7 "
 						th:classappend="${currentPage == p}?active-pagination1">
 						[[${p +1 }]] </a>
 				</th:block>
