@@ -17,11 +17,13 @@
 		<!-- breadcrumb -->
 		<div class="container">
 			<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-				<a href="index.html" class="stext-109 cl8 hov-cl1 trans-04"> ホーム <i
+				<a href="index.html" class="stext-109 cl8 hov-cl1 trans-04"> 繝帙�ｼ繝� <i
 						class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 				</a> <a href="product.html" class="stext-109 cl8 hov-cl1 trans-04">
-					メンズ <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+					繝｡繝ｳ繧ｺ <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+
 				</a> <span class="stext-109 cl4" th:text="${detail.name}"> Lightweight Jacket </span>
+
 			</div>
 		</div>
 
@@ -38,11 +40,15 @@
 								<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 								<!--left - gallery-->
 								<div class="slick3 gallery-lb">
-									<th:block th:each="img : ${detail.Images}">
+
+									<th:block th:each="img : ${detail.images}">
+
+		
 
 										<div class="item-slick3" th:data-thumb="${img.name}">
 											<div class="wrap-pic-w pos-relative">
 												<img th:src="${img.name}" alt="IMG-PRODUCT">
+
 
 												<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
 													th:href="${img.name}"> <i class="fa fa-expand"></i>
@@ -51,25 +57,6 @@
 										</div>
 									</th:block>
 
-									<!-- <div class="item-slick3" data-thumb="images/product-detail-02.jpg">
-										<div class="wrap-pic-w pos-relative">
-											<img src="images/product-detail-02.jpg" alt="IMG-PRODUCT">
-
-											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-												href="images/product-detail-02.jpg"> <i class="fa fa-expand"></i>
-											</a>
-										</div>
-									</div>
-
-									<div class="item-slick3" data-thumb="images/product-detail-03.jpg">
-										<div class="wrap-pic-w pos-relative">
-											<img src="images/product-detail-03.jpg" alt="IMG-PRODUCT">
-
-											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-												href="images/product-detail-03.jpg"> <i class="fa fa-expand"></i>
-											</a>
-										</div>
-									</div> -->
 								</div>
 								<!--left - gallery - end-->
 							</div>
@@ -89,40 +76,38 @@
 
 							<!--Custom-->
 							<div class="p-t-33">
+
+								<!--Colors-->
 								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-203 flex-c-m respon6">サイズ</div>
+
+									<div class="size-203 flex-c-m respon6">繧ｫ繝ｩ繝ｼ</div>
+
+									<div class="size-204 respon6-next">
+										<div class="rs1-select2 bor8 bg0">
+											
+											<select class="js-select2" name="color">
+												<option>驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+												<th:block th:each="color : ${colors}">
+													<option th:value = "${color.id}" th:text="${color.name}"></option>
+												</th:block>
+												
+
+									<div class="size-203 flex-c-m respon6">繧ｵ繧､繧ｺ</div>
+
 
 									<div class="size-204 respon6-next">
 										<div class="rs1-select2 bor8 bg0">
 											<select class="js-select2" name="time">
-												<option>選択してください</option>
-												<!-- <th:block th:each="size : ${p.sizes}">
+												<option>驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+												<th:block th:each="size : ${p.sizes}">
 													<option th:value="${size.id}" th:text="${p.size}">24</option>
-												</th:block> -->
+												</th:block>
 
 											</select>
 											<div class="dropDownSelect2"></div>
 										</div>
 									</div>
 								</div>
-
-								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-203 flex-c-m respon6">カラー</div>
-
-									<div class="size-204 respon6-next">
-										<div class="rs1-select2 bor8 bg0">
-											<select class="js-select2" name="time">
-												<option>選択してください</option>
-												<option>赤</option>
-												<option>青</option>
-												<option>白</option>
-
-											</select>
-											<div class="dropDownSelect2"></div>
-										</div>
-									</div>
-								</div>
-
 								<!--Add to cart-->
 								<div class="flex-w flex-r-m p-b-10">
 									<div class="size-204 flex-w flex-m respon6-next">
@@ -141,7 +126,7 @@
 
 										<button
 											class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-											カート追加</button>
+											繧ｫ繝ｼ繝郁ｿｽ蜉�</button>
 									</div>
 								</div>
 							</div>
@@ -173,13 +158,13 @@
 						<!-- Nav tabs -->
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item p-b-10"><a class="nav-link active" data-toggle="tab" href="#description"
-									role="tab">商品説明</a></li>
+									role="tab">蝠�蜩∬ｪｬ譏�</a></li>
 
 							<li class="nav-item p-b-10"><a class="nav-link" data-toggle="tab" href="#information"
-									role="tab">詳細</a></li>
+									role="tab">隧ｳ邏ｰ</a></li>
 
 							<li class="nav-item p-b-10"><a class="nav-link" data-toggle="tab" href="#reviews"
-									role="tab">評価 (1)</a></li>
+									role="tab">隧穂ｾ｡ (1)</a></li>
 						</ul>
 
 						<!-- Tab panes -->
@@ -188,8 +173,8 @@
 							<div class="tab-pane fade show active" id="description" role="tabpanel">
 								<div class="how-pos2 p-lr-15-md">
 									<p class="stext-102 cl6">JETS
-										ICON(ジェッツアイコン)はシンプルなアッパーにポイントとなるOFF THE WALL
-										LOGOを施した新定番。インソールには脱臭効果を兼ね備えた、衝撃を和らげる軽量なインソール搭載。</p>
+										ICON(繧ｸ繧ｧ繝�繝�繧｢繧､繧ｳ繝ｳ)縺ｯ繧ｷ繝ｳ繝励Ν縺ｪ繧｢繝�繝代�ｼ縺ｫ繝昴う繝ｳ繝医→縺ｪ繧軌FF THE WALL
+										LOGO繧呈命縺励◆譁ｰ螳夂分縲ゅう繝ｳ繧ｽ繝ｼ繝ｫ縺ｫ縺ｯ閼ｱ閾ｭ蜉ｹ譫懊ｒ蜈ｼ縺ｭ蛯吶∴縺溘�∬｡晄茶繧貞柱繧峨￡繧玖ｻｽ驥上↑繧､繝ｳ繧ｽ繝ｼ繝ｫ謳ｭ霈峨��</p>
 								</div>
 							</div>
 
@@ -243,21 +228,21 @@
 														</span>
 													</div>
 
-													<p class="stext-102 cl6">この値段で買えるのは嬉しい。
-														ただ、ロックがカギ式な点、キャスターがちゃっちい点は気になった。 でも、この値段を踏まえると、やっぱりお買い得だと思う。</p>
+													<p class="stext-102 cl6">縺薙�ｮ蛟､谿ｵ縺ｧ雋ｷ縺医ｋ縺ｮ縺ｯ螫峨＠縺�縲�
+														縺溘□縲√Ο繝�繧ｯ縺後き繧ｮ蠑上↑轤ｹ縲√く繝｣繧ｹ繧ｿ繝ｼ縺後■繧�縺｣縺｡縺�轤ｹ縺ｯ豌励↓縺ｪ縺｣縺溘�� 縺ｧ繧ゅ�√％縺ｮ蛟､谿ｵ繧定ｸ上∪縺医ｋ縺ｨ縲√ｄ縺｣縺ｱ繧翫♀雋ｷ縺�蠕励□縺ｨ諤昴≧縲�</p>
 												</div>
 											</div>
 
 											<p class="stext-102 cl6 p-tb-12">
-												<a href="#">ログインした上で、レビューする</a>
+												<a href="#">繝ｭ繧ｰ繧､繝ｳ縺励◆荳翫〒縲√Ξ繝薙Η繝ｼ縺吶ｋ</a>
 											</p>
 
 											<!-- Add review -->
 											<form class="w-full">
-												<h5 class="mtext-108 cl2 p-b-7">評価</h5>
+												<h5 class="mtext-108 cl2 p-b-7">隧穂ｾ｡</h5>
 
 												<div class="flex-w flex-m p-t-50 p-b-23">
-													<span class="stext-102 cl3 m-r-16"> 総合評価 </span> <span
+													<span class="stext-102 cl3 m-r-16"> 邱丞粋隧穂ｾ｡ </span> <span
 														class="wrap-rating fs-18 cl11 pointer"> <i
 															class="item-rating pointer zmdi zmdi-star-outline"></i> <i
 															class="item-rating pointer zmdi zmdi-star-outline"></i> <i
@@ -270,7 +255,7 @@
 
 												<div class="row p-b-25">
 													<div class="col-12 p-b-5">
-														<label class="stext-102 cl3" for="review">レビューを追加</label>
+														<label class="stext-102 cl3" for="review">繝ｬ繝薙Η繝ｼ繧定ｿｽ蜉�</label>
 														<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10"
 															id="review" name="review"></textarea>
 													</div>
@@ -313,7 +298,7 @@
 		<section class="sec-relate-product bg0 p-t-45 p-b-105">
 			<div class="container">
 				<div class="p-b-45">
-					<h3 class="ltext-106 cl5 txt-center">人気商品</h3>
+					<h3 class="ltext-106 cl5 txt-center">莠ｺ豌怜膚蜩�</h3>
 				</div>
 
 				<!-- Slide2 -->
@@ -347,9 +332,6 @@
 								</div>
 							</div>
 						</div>
-
-
-
 
 						<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 							<!-- Block2 -->
@@ -474,7 +456,6 @@
 				</div>
 			</div>
 		</footer>
-
 
 		<!-- Back to top -->
 		<div class="btn-back-to-top" id="myBtn">
@@ -630,7 +611,10 @@
 		</div>
 
 		<!--===============================================================================================-->
-		<div th:replace="fragments/js-common :: import-js"></div>
+
+
+		<div th:replace="~{fragments/js-common :: import-js}"></div>
+
 </body>
 
 </html>
