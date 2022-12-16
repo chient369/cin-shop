@@ -12,5 +12,7 @@
 +CartItemRepositoryクラス-完了
 +CartService クラス-完了
 +CartServiceTest クラス-完了
-＊C
+#2022/12/16
+- カテゴリーやブランドで検索機能を作成
+-検索した結果のページ分け機能
 

@@ -39,18 +39,12 @@ public class ProductController {
 
 	@GetMapping("/page/{pnum}")
 	public String viewPage(@PathVariable Integer pnum, Model model) {
-		Pageable pageable = PageRequest.of(pnum-1, ITEM_PER_PAGE);
+		Pageable pageable = PageRequest.of(pnum - 1, ITEM_PER_PAGE);
 		Page<ProductDetail> page = dService.finAll(pageable);
-		List<Color> colors = dService.findAllColors();
-		List<Brand> brands = dService.findAllBranchs();
-		List<Category> categories = dService.findAllCategories();
+
+		model = responeCommonData(model,page.getNumber(),page.getTotalPages());
 
 		model.addAttribute("products", page.getContent());
-		model.addAttribute("colors", colors);
-		model.addAttribute("brands", brands);
-		model.addAttribute("cats", categories);
-		model.addAttribute("totalPages", page.getTotalPages());
-		model.addAttribute("currentPage", page.getNumber());
 		return "product/product";
 	}
 
@@ -64,29 +58,47 @@ public class ProductController {
 
 		return "product/product-detail";
 	}
+
 	@GetMapping("/search/cat/{catId}")
 	public String searchByCatFirstPage(@PathVariable Integer catId, Model model) {
 		return searchByCategory(catId, 1, model);
 
 	}
+
 	@GetMapping("/search/cat/{catId}/{pNum}")
 	public String searchByCategory(@PathVariable Integer catId, @PathVariable Integer pNum, Model model) {
-		if(pNum == null) pNum=1;
+		if (pNum == null || pNum == 0)
+			pNum = 1;
 		Pageable pageable = PageRequest.of(pNum - 1, ITEM_PER_PAGE);
 		Page<ProductDetail> page = dService.findByCategory(catId, pageable);
-		List<Color> colors = dService.findAllColors();
-		List<Brand> brands = dService.findAllBranchs();
-		List<Category> categories = dService.findAllCategories();
 
+		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
 		model.addAttribute("products", page.getContent());
-		model.addAttribute("colors", colors);
-		model.addAttribute("brands", brands);
-		model.addAttribute("cats", categories);
-		model.addAttribute("totalPages", page.getTotalPages());
-		System.out.println("total "+page.getTotalPages());
-		model.addAttribute("currentPage", page.getNumber());
-		model.addAttribute("catId", catId);
-		return "product/product-by-category";
+		model.addAttribute("actionTag", "search");
+		model.addAttribute("searchTag", "cat");
+		model.addAttribute("tagId", catId);
+		return "product/product";
+	}
+
+	@GetMapping("/search/brand/{brandId}")
+	public String searchByBrandFirstPage(@PathVariable Integer brandId, Model model) {
+		return searchByBrand(brandId, 1, model);
+
+	}
+
+	@GetMapping("/search/brand/{brandId}/{pNum}")
+	public String searchByBrand(@PathVariable Integer brandId, @PathVariable Integer pNum, Model model) {
+		if (pNum == null || pNum == 0)
+			pNum = 1;
+		Pageable pageable = PageRequest.of(pNum - 1, ITEM_PER_PAGE);
+		Page<ProductDetail> page = dService.findByCategory(brandId, pageable);
+
+		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
+		model.addAttribute("products", page.getContent());
+		model.addAttribute("actionTag", "search");
+		model.addAttribute("searchTag", "brand");
+		model.addAttribute("tagId", brandId);
+		return "product/product";
 	}
 
 	private List<Color> findExistColors(List<Product> products) {
@@ -96,5 +108,18 @@ public class ProductController {
 			colors.add(it.next().getColor());
 		}
 		return colors;
+	}
+
+	private Model responeCommonData(Model model, Integer currentPage, Integer totalPages) {
+		List<Color> colors = dService.findAllColors();
+		List<Brand> brands = dService.findAllBranchs();
+		List<Category> categories = dService.findAllCategories();
+
+		model.addAttribute("totalPages", totalPages > 0 ? totalPages : 1);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("colors", colors);
+		model.addAttribute("brands", brands);
+		model.addAttribute("cats", categories);
+		return model;
 	}
 }

@@ -1,0 +1,62 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div th:fragment="pagination">
+		<div class="flex-c-m flex-w w-full p-t-38">
+			<th:block th:each="p:${#numbers.sequence(0,totalPages-1)}">
+
+				<!-- Search of pagination -->
+				<div th:if="${actionTag} == 'search'" th:remove="tag">
+
+					<!-- Search by category,brand,color of pagination -->
+					<div th:if="${searchTag}!=null" th:remove="tag">
+						<a
+							th:href="@{'/p/search/'+ ${searchTag} + '/' +${tagId} +'/'+ ${p +1}}"
+							class="flex-c-m how-pagination1 trans-04 m-all-7 "
+							th:classappend="${currentPage == p}?active-pagination1">
+							[[${p +1 }]] </a>
+					</div>
+					<!-- Search by word,price, -->
+					<div th:if="${searchTag}==null" th:remove="tag">
+						<a th:href="@{'/p/search/'+${searchTag}+'/'+ ${p +1}}"
+							class="flex-c-m how-pagination1 trans-04 m-all-7 "
+							th:classappend="${currentPage == p}?active-pagination1">
+							[[${p +1 }]] </a>
+					</div>
+				</div>
+
+				<!-- Sort of pagination -->
+				<div th:if="${actionTag} == 'sort'" th:remove="tag">
+					<div th:if="${sortBy} == 'price'" th:remove="tag">
+						<a th:href="@{'/p/sort/'+${sortBy}+'/' +${sortDir} +'/'+ ${p +1}}"
+							class="flex-c-m how-pagination1 trans-04 m-all-7 "
+							th:classappend="${currentPage == p}?active-pagination1">
+							[[${p +1 }]] </a>
+					</div>
+					<!-- Search by word,price, -->
+					<div th:if="${sortBy}=='popur'" th:remove="tag">
+						<a th:href="@{'/p/sort/'+${sortBy}+'/'+ ${p +1}}"
+							class="flex-c-m how-pagination1 trans-04 m-all-7 "
+							th:classappend="${currentPage == p}?active-pagination1">
+							[[${p +1 }]] </a>
+					</div>
+
+					<div th:if="${sortBy}=='latest'" th:remove="tag">
+						<a th:href="@{'/p/sort/'+${sortBy}+'/'+ ${p +1}}"
+							class="flex-c-m how-pagination1 trans-04 m-all-7 "
+							th:classappend="${currentPage == p}?active-pagination1">
+							[[${p +1 }]] </a>
+					</div>
+
+				</div>
+
+				<a th:href="@{'/p/page/'+ ${p +1}}"
+					class="flex-c-m how-pagination1 trans-04 m-all-7 "
+					th:classappend="${currentPage == p}?active-pagination1"> [[${p
+					+1 }]] </a>
+
+			</th:block>
+		</div>
+	</div>
+
+</body>
