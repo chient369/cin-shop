@@ -11,8 +11,8 @@ public class CustomerController {
 		return "login";
 	}
 	
-	@GetMapping("/about")
-	public String about() {	  
-		return "about";
+	@GetMapping("/testDebug")
+	public String testDebug() {	  
+		return "testDebug";
 	}
 }

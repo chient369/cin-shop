@@ -22,7 +22,7 @@ public class LoginUserRepository {
     private static final String SQL_FIND_BY_EMAIL = """
             SELECT
               email,
-              first_name AS user_name,
+              concat(first_name, last_name) AS user_name,
               password
             FROM customer WHERE email = :email
             """;
@@ -38,11 +38,12 @@ public class LoginUserRepository {
                 userName = rs.getString("user_name");
                 password = rs.getString("password");
             }
-            roleList.add("USER");
+            roleList.add("ROLE_USER");
         }
         if (email == null) {
             return null;
         }
+        System.out.println(email +  " " + userName +  " " + password + " " + roleList.get(0));
         return new LoginUser(email, userName, password, roleList);
     };
 

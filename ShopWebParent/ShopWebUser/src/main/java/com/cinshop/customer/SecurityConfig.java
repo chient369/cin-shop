@@ -8,9 +8,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
@@ -24,17 +24,16 @@ public class SecurityConfig {
                 .loginPage("/login")
                 
                 //ログイン後の遷移する画面
-                .defaultSuccessUrl("/about")
+                .defaultSuccessUrl("/testDebug", true)
                 
                 //ログインエラー用のURL
                 .failureUrl("/login?error")
-                
-                //ログイン画面は誰でもアクセス可能
-                .permitAll()
+
+                .permitAll(true)
         ).logout(logout -> logout
         		
         		//ログアウト後の遷移する画面
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/")
                 
         ).authorizeHttpRequests(authz -> authz
         		
@@ -42,14 +41,16 @@ public class SecurityConfig {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 
                 //ログイン無しでもアクセス可能
-                //.requestMatchers("/").permitAll()
+                .requestMatchers("/").permitAll()
                 
                 //権限ごとにアクセス可能なURL
-                .requestMatchers("/about").hasRole("USER")
+                .requestMatchers("/testDebug").hasRole("USER")
                 
                 //他のURLはログイン後のみアクセス可能
                 .anyRequest().authenticated()
         );
+        //.csrf().disable();
+       
         return http.build();
     }
 

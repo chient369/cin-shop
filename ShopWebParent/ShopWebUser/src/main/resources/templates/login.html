@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en"
-	  xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
 
-<head th:replace="~{fragments/page-header :: header('Home')}">
-	
+<head>
+	<title>新規登録</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.png" />
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<!--===============================================================================================-->
 </head>
 
 <body class="animsition">
@@ -282,17 +287,14 @@
 
 
 	<!-- Content page -->
+	<form method="post" th:action="@{/login}">
 	<section class="bg0 p-t-104 p-b-116">
 		<div class="container">
 			<div class="flex-w flex-c">
 				<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
-					<form method = "post"  th:action="@{/login}">
 						<h4 class="mtext-105 cl2 txt-center p-b-30">
 							ログイン
 						</h4>
-						<p th:if="${param.error}" class="error">
-      						ユーザー名またはパスワードが違います。
-    					</p>
 						<div class="flex-w flex-m m-b-10 p-b-13">
 							<div class="size-203">
 								<span class="stext-110 cl2">
@@ -315,22 +317,15 @@
 								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="password" name="password">
 							</div>
 						</div>
-
-
-
-
 						<button
 							class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer m-t-50">
 							ログイン
 						</button>
-					</form>
 				</div>
-
-
 			</div>
 		</div>
 	</section>
-
+	</form>
 
 	<!-- Map -->
 
@@ -478,7 +473,6 @@
 					-CIN &copy;
 					<script>document.write(new Date().getFullYear());</script>
 					Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
-
 				</p>>
 			</div>-->
 			</div>
