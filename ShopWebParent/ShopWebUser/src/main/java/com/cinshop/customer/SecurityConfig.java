@@ -49,8 +49,6 @@ public class SecurityConfig {
                 //他のURLはログイン後のみアクセス可能
                 .anyRequest().authenticated()
         );
-        //.csrf().disable();
-       
         return http.build();
     }
 

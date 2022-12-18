@@ -1,5 +1,7 @@
 package com.cinshop.customer;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cinshop.common.entity.Address;
@@ -22,7 +24,7 @@ public class CustomerService{
 		return AddrRepo.save(address);
 	}
 	
-	public Customer findCustomerByEmail(String email) {
+	public Optional<Customer> findCustomerByEmail(String email) {
 		return custRepo.findCustomerByEmail(email);
 	}
 } 

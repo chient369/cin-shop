@@ -1,6 +1,9 @@
 package com.cinshop;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -38,6 +41,7 @@ public class CustomerTest {
 		customer.setFirstName("山田");
 		customer.setLastName("太郎");
 		customer.setPassword("$2a$08$KAfQk5Ix8xCnIpYsAUT2yeCdKBe3Cnw9vU5VVEIQDR3x3n0F7Pntq");	//encode前の値は"admin"
+		customer.setRole("ROLE_USER");
 		customer.setSex(sex);
 		customer.setEnable((byte)1);
 		customer.setImage("img/xxx.jpg");
@@ -59,7 +63,7 @@ public class CustomerTest {
 	
 	@Test
 	public void findCustomer() {
-		Customer customer = service.findCustomerByEmail("値を変える@gmail.com");
+		Optional<Customer> customer = service.findCustomerByEmail("値を変える@gmail.com");
 		assertThat(customer).isNotNull();
 	}
 	

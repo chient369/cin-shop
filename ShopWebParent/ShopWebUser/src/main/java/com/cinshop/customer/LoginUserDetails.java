@@ -1,39 +1,45 @@
 package com.cinshop.customer;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.cinshop.common.entity.Customer;
+
 public class LoginUserDetails implements UserDetails{
-    private final LoginUser loginUser;
+	
+    private Optional<Customer> customer;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public LoginUserDetails(LoginUser loginUser) {
-        this.loginUser = loginUser;
-        this.authorities = loginUser.roleList()
+    public LoginUserDetails(Optional<Customer> customer, List<String> roleList) {
+        this.customer = customer;
+        this.authorities = roleList
            		.stream()
                 .map(role -> new SimpleGrantedAuthority(role))
                	.toList();
     }
 
-    public LoginUser getLoginUser() {
-        return loginUser;
+    public Optional<Customer> getCustomer() {
+        return this.customer;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return this.authorities;
     }
 
     @Override
     public String getPassword() {
-        return loginUser.password();
+        return this.customer.get().getPassword();
     }
 
     @Override
     public String getUsername() {
-        return loginUser.email();
+        return this.customer.get().getFirstName() + this.customer.get().getLastName();
     }
 
     @Override

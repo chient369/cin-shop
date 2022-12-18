@@ -1,25 +1,32 @@
 package com.cinshop.customer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import com.cinshop.common.entity.Customer;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LoginUserService implements UserDetailsService{
 	
-	public final LoginUserRepository loginRepo;
-	
-	public LoginUserService(LoginUserRepository loginRepo) {
-		this.loginRepo = loginRepo;
-	}
+	@Autowired
+	public CustomerRepository custRepo;
+	private List<Customer> roleCust;
+	private List<String> roleStr = new ArrayList<String>();
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		Optional<LoginUser> userOp = loginRepo.findCustomerByEmail(email);
-		return userOp.map(user -> new LoginUserDetails(user))
-		.orElseThrow(() -> new UsernameNotFoundException("not found"));
+		Optional<Customer> userOp = custRepo.findCustomerByEmail(email);
+		if (userOp != null) {
+			roleStr.add("ROLE_USER");
+			return new LoginUserDetails(userOp, roleStr);
+		} else {
+			throw new UsernameNotFoundException("not found");
+		}
 	}
 }

@@ -21,7 +21,7 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name = "email", length = 128, nullable = false, unique = true)
+	@Column(name = "e-mail", length = 128, nullable = false, unique = true)
 	private String email;
 
 	@Column(name = "first_name", length = 64, nullable = false)
@@ -32,6 +32,9 @@ public class Customer {
 	
 	@Column(name = "password", length = 100, nullable = false)
 	private String password;
+	
+	@Column(name = "role", length = 10, nullable = false)
+	private String role;
 
 	@OneToOne
 	@JoinColumn(name="sex_id")
@@ -54,12 +57,25 @@ public class Customer {
 	
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Order> order = new HashSet<>();
-
-	@Column(name = "name", length = 64)
-	private String name;
-
+	
 	public Customer() {
 
+	}
+	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public Set<Order> getOrder() {
+		return order;
+	}
+
+	public void setOrder(Set<Order> order) {
+		this.order = order;
 	}
 
 	public Customer(Integer id) {
