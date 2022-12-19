@@ -26,6 +26,10 @@ public class Color {
 
 	}
 
+	public Color(Integer id) {
+		this.id = id;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -49,6 +53,5 @@ public class Color {
 	public void setColorCode(String colorCode) {
 		this.colorCode = colorCode;
 	}
-
 
 }

@@ -24,11 +24,11 @@ public class ProductServiceTest {
 	@Autowired
 	private ProductService service;
 
-	@Test
-	public void findProductById() {
-		Product product = service.findProductById(1);
-		List<Color> colors = product.getColors();
-		colors.forEach(c -> System.out.println(c.getName()));
-		assertThat(product).isNotNull();
-	}
+//	@Test
+//	public void findProductById() {
+//		Product product = service.findProductById(1);
+//		List<Color> colors = product.getColors();
+//		colors.forEach(c -> System.out.println(c.getName()));
+//		assertThat(product).isNotNull();
+//	}
 }

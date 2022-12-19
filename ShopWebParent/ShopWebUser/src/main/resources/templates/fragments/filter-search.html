@@ -5,39 +5,44 @@
 	<div th:fragment="filter-search">
 		<div class="flex-w flex-sb-m p-b-52">
 			<div class="flex-w flex-l-m filter-tope-group m-tb-10" id="cat">
-				<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 " th:classappend = "${catId}==null?'how-active1':''" th:href="@{/}">
-					すべて
-				</a>
-				<th:block th:each = "cat : ${cats}">
-					<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 " th:classappend = "${catId}==${cat.id}?'how-active1':''" th:href="@{'/p/search/cat/' + ${cat.id}}">
-						[[${cat.name}]]
-					</a>
+				<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 "
+					th:classappend="${catId}==null?'how-active1':''" th:href="@{/p}">
+					すべて </a>
+				<th:block th:each="cat : ${cats}">
+					<a class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 "
+						th:classappend="${catId}==${cat.id}?'how-active1':''"
+						th:href="@{'/p/search/cat/' + ${cat.id}}"> [[${cat.name}]] </a>
 				</th:block>
 
 			</div>
 
+
 			<div class="flex-w flex-c-m m-tb-10">
-				<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
-					<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
-					<i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+				<div
+					class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+					<i
+						class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
+					<i
+						class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
 					フィルター
 				</div>
 
-				<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+				<div
+					class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
 					<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
-					<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+					<i
+						class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
 					検索
 				</div>
 			</div>
 
-
 			<div class="dis-none panel-search w-full p-t-10 p-b-15">
-				<form th:action="@{/p/search/word}" method="post">
+				<form th:action="@{/p/search/text}" method="get">
 					<div class="bor8 dis-flex p-l-15">
-						<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="src-txt"
-							placeholder="Search">
+						<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text"
+							name="src-txt" placeholder="Search">
 						<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
-							<i class="zmdi zmdi-search"></i>
+							<i class="zmdi zmdi-search fs-40 pl-10"></i>
 						</button>
 					</div>
 				</form>
@@ -45,100 +50,66 @@
 
 
 			<div class="dis-none panel-filter w-full p-t-10">
-				<div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm justify-content-around">
+				<div
+					class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm justify-content-around">
 					<div class="filter-col1 p-r-15 p-b-27">
-						<div class="mtext-102 cl2 p-b-15">
-							並び替え
-						</div>
+						<div class="mtext-102 cl2 p-b-15">並び替え</div>
 
 						<ul>
-							<li class="p-b-6">
-								<a href="#" class="filter-link stext-106 trans-04">
-									人気
-								</a>
-							</li>
+							<li class="p-b-6"><a href="#"
+								class="filter-link stext-106 trans-04"> 人気 </a></li>
 
-							<li class="p-b-6">
-								<a th:href="@{/p/sort/rank}" class="filter-link stext-106 trans-04">
-									評価
-								</a>
-							</li>
+							<li class="p-b-6"><a th:href="@{/p/sort/rank}"
+								class="filter-link stext-106 trans-04"> 評価 </a></li>
 
-							<li class="p-b-6">
-								<a th:href="@{/p/sort/crt-time}"
-									class="filter-link stext-106 trans-04 filter-link-active">
-									新着
-								</a>
-							</li>
+							<li class="p-b-6"><a th:href="@{/p/sort/crt-time}"
+								class="filter-link stext-106 trans-04 filter-link-active">
+									新着 </a></li>
 
-							<li class="p-b-6">
-								<a th:href="@{/p/sort/price/asc}" class="filter-link stext-106 trans-04">
-									価格昇順
-								</a>
-							</li>
+							<li class="p-b-6"><a th:href="@{/p/sort/price/asc}"
+								class="filter-link stext-106 trans-04"> 価格昇順 </a></li>
 
-							<li class="p-b-6">
-								<a th:href="@{/p/sort/price/desc}" class="filter-link stext-106 trans-04">
-									価格降順
-								</a>
-							</li>
+							<li class="p-b-6"><a th:href="@{/p/sort/price/desc}"
+								class="filter-link stext-106 trans-04"> 価格降順 </a></li>
 						</ul>
 					</div>
 
 					<div class="filter-col2 p-r-15 p-b-27">
-						<div class="mtext-102 cl2 p-b-15">
-							価格
-						</div>
+						<div class="mtext-102 cl2 p-b-15">価格</div>
 
 						<ul>
 
-							<li class="p-b-6">
-								<a th:href="@{/p/search/price?from=0&to=5000}" class="filter-link stext-106 trans-04">
-									￥0 - ￥5,000
-								</a>
-							</li>
+							<li class="p-b-6"><a
+								th:href="@{/p/search/price?from=0&to=5000}"
+								class="filter-link stext-106 trans-04"> ￥0 - ￥5,000 </a></li>
 
-							<li class="p-b-6">
-								<a th:href="@{/p/search/price?from=5000&to=10000}" class="filter-link stext-106 trans-04">
-									￥5,000 - ￥10,000
-								</a>
-							</li>
+							<li class="p-b-6"><a
+								th:href="@{/p/search/price?from=5000&to=10000}"
+								class="filter-link stext-106 trans-04"> ￥5,000 - ￥10,000 </a></li>
 
-							<li class="p-b-6">
-								<a th:href="@{/p/search/price?from=1000&to=15000}" class="filter-link stext-106 trans-04">
-									￥10,000 - ￥15,000
-								</a>
-							</li>
+							<li class="p-b-6"><a
+								th:href="@{/p/search/price?from=10000&to=15000}"
+								class="filter-link stext-106 trans-04"> ￥10,000 - ￥15,000 </a></li>
 
-							<li class="p-b-6">
-								<a th:href="@{/p/search/price?from=15000&to=2000}" class="filter-link stext-106 trans-04">
-									￥15,000 - ￥20,000
-								</a>
-							</li>
+							<li class="p-b-6"><a
+								th:href="@{/p/search/price?from=15000&to=20000}"
+								class="filter-link stext-106 trans-04"> ￥15,000 - ￥20,000 </a></li>
 
-							<li class="p-b-6">
-								<a th:href="@{/p/search/price?from=20000}" class=" filter-link stext-106 trans-04">
-									￥20,000+
-								</a>
-							</li>
+							<li class="p-b-6"><a
+								th:href="@{/p/search/price?from=20000&to=1000000}"
+								class=" filter-link stext-106 trans-04"> ￥20,000+ </a></li>
 						</ul>
 					</div>
 
 					<div class="filter-col3 p-r-15 p-b-27">
-						<div class="mtext-102 cl2 p-b-15">
-							カラー
-						</div>
+						<div class="mtext-102 cl2 p-b-15">カラー</div>
 						<ul id="sbc" class="d-flex flex-column flex-wrap h-50">
 							<th:block th:each="color : ${colors}">
-								<li class="p-b-6">
-									<span class="fs-25 lh-12 m-r-6" th:style="|color: ${color.colorCode};|">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-									<a th:href="@{'/p/search/color/' + ${color.id}}"
-										class="filter-link stext-106 trans-04">
-										[[${color.name}]]
-									</a>
+								<li class="p-b-6"><span class="fs-25 lh-12 m-r-6"
+									th:style="|color: ${color.colorCode};|"> <i
+										class="zmdi zmdi-circle"></i>
+								</span> <a th:href="@{'/p/search/color/' + ${color.id}}"
+									class="filter-link stext-106 trans-04"> [[${color.name}]] </a>
 								</li>
 							</th:block>
 
