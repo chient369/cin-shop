@@ -29,11 +29,15 @@ public class SecurityConfig {
                 //ログインエラー用のURL
                 .failureUrl("/login?error")
 
+                //ログインページは誰でも閲覧可能
                 .permitAll(true)
         ).logout(logout -> logout
         		
+        		//ログアウトするURL
+        		.logoutUrl("/logout")
+        		
         		//ログアウト後の遷移する画面
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/login")
                 
         ).authorizeHttpRequests(authz -> authz
         		
@@ -41,10 +45,13 @@ public class SecurityConfig {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 
                 //ログイン無しでもアクセス可能
-                .requestMatchers("/").permitAll()
+                .requestMatchers("/",
+                				 "/register",
+                				 "/fragments/**").permitAll()
                 
                 //権限ごとにアクセス可能なURL
-                .requestMatchers("/testDebug").hasRole("USER")
+                .requestMatchers("/testDebug", 
+                				 "/logout").hasRole("USER")
                 
                 //他のURLはログイン後のみアクセス可能
                 .anyRequest().authenticated()

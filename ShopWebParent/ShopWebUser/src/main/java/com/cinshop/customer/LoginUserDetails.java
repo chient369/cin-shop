@@ -39,7 +39,7 @@ public class LoginUserDetails implements UserDetails{
 
     @Override
     public String getUsername() {
-        return this.customer.get().getFirstName() + this.customer.get().getLastName();
+        return this.customer.get().getEmail();
     }
 
     @Override

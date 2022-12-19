@@ -22,7 +22,7 @@ public class LoginUserService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Optional<Customer> userOp = custRepo.findCustomerByEmail(email);
-		if (userOp != null) {
+		if (!userOp.isEmpty()) {
 			roleStr.add("ROLE_USER");
 			return new LoginUserDetails(userOp, roleStr);
 		} else {
