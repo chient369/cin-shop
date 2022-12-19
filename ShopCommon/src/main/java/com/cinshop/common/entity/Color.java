@@ -56,6 +56,7 @@ public class Color {
 		this.colorCode = colorCode;
 	}
 
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -73,5 +74,6 @@ public class Color {
 		return Objects.equals(id, other.id);
 	}
 	
+
 
 }

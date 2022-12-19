@@ -40,7 +40,9 @@ public class ProductController {
 		return viewPage(1, model);
 	}
 
+
 	/* ホームページ */
+
 	@GetMapping("/page/{pnum}")
 	public String viewPage(@PathVariable Integer pnum, Model model) {
 		Pageable pageable = PageRequest.of(pnum - 1, ITEM_PER_PAGE);
@@ -62,13 +64,19 @@ public class ProductController {
 		model.addAttribute("sizes", dService.findAllSizes());
 		return "product/product-detail";
 	}
-
+	
+	/*テキストであいまい検索する*/
+	@GetMapping("/search/text")
+	public String searchByTextFirstPage(@RequestParam("src-txt") String text, Model model) {
+		return searchByText(text, 1, model);
+}
 	/* テキストであいまい検索する */
 	@GetMapping("/search/text")
 	public String searchByTextFirstPage(@RequestParam("src-txt") String text, Model model) {
 		return searchByText(text, 1, model);
 
 	}
+
 
 	@GetMapping("/search/text/{pNum}")
 	public String searchByText(@RequestParam("src-txt") String text, @PathVariable Integer pNum, Model model) {
@@ -86,7 +94,9 @@ public class ProductController {
 		return "product/product";
 	}
 
+
 	/* カテゴリーで検索する */
+
 	@GetMapping("/search/cat/{catId}")
 	public String searchByCatFirstPage(@PathVariable Integer catId, Model model) {
 		return searchByCategory(catId, 1, model);
@@ -108,7 +118,9 @@ public class ProductController {
 		return "product/product";
 	}
 
+
 	/* ブランドで検索する */
+
 	@GetMapping("/search/brand/{brandId}")
 	public String searchByBrandFirstPage(@PathVariable Integer brandId, Model model) {
 		return searchByBrand(brandId, 1, model);
@@ -130,6 +142,12 @@ public class ProductController {
 		model.addAttribute("tagId", brandId);
 		return "product/product";
 	}
+	
+	/*カラーで検索する*/
+	@GetMapping("/search/color/{colorId}")
+	public String searchByColorFirstPage(@PathVariable Integer colorId, Model model) {
+		return searchByColor(colorId, 1, model);
+
 
 	/* カラーで検索する */
 	@GetMapping("/search/color/{colorId}")
@@ -137,6 +155,7 @@ public class ProductController {
 		return searchByColor(colorId, 1, model);
 
 	}
+
 
 	@GetMapping("/search/color/{colorId}/{pNum}")
 	public String searchByColor(@PathVariable Integer colorId, @PathVariable Integer pNum, Model model) {
@@ -154,16 +173,15 @@ public class ProductController {
 		return "product/product";
 	}
 
-	/* 値段で検索する */
+	
+	/*値段で検索する*/
 	@GetMapping("/search/price")
-	public String searchByPriceFirstPage(@RequestParam("from") Integer pFrom, @RequestParam("to") Integer pTo,
-			Model model) {
+	public String searchByPriceFirstPage(@RequestParam("from") Integer pFrom, @RequestParam("to") Integer pTo, Model model) {
 		return searchByPrice(pFrom, pTo, 1, model);
 	}
-
+	
 	@GetMapping("/search/price/{pNum}")
-	public String searchByPrice(@RequestParam("from") Integer pFrom, @RequestParam("to") Integer pTo, Integer pNum,
-			Model model) {
+	public String searchByPrice(@RequestParam("from") Integer pFrom, @RequestParam("to") Integer pTo, Integer pNum ,Model model) {
 		if (pNum == null || pNum == 0)
 			pNum = 1;
 		Pageable pageable = PageRequest.of(pNum - 1, ITEM_PER_PAGE);
@@ -177,6 +195,7 @@ public class ProductController {
 
 		return "product/product";
 	}
+
 
 	/* 値段で並び替えする */
 	@GetMapping("/sort/{sortBy}/{sortDir}")
@@ -192,6 +211,7 @@ public class ProductController {
 			pNum = 1;
 		Sort sort = initializeSort(sortBy, sortDir);
 		Pageable pageable = PageRequest.of(pNum - 1, ITEM_PER_PAGE, sort);
+
 		Page<ProductDetail> page = dService.finAll(pageable);
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
@@ -204,11 +224,13 @@ public class ProductController {
 		return "product/product";
 	}
 
+
 	private Sort initializeSort(String sortBy, String sortDir) {
 		if (sortDir.equals("asc")) {
 			return Sort.by(sortBy).ascending();
 		}
 		if (sortDir.equals("desc")) {
+
 			return Sort.by(sortBy).descending();
 		}
 		return null;

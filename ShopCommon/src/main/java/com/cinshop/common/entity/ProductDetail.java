@@ -152,6 +152,7 @@ public class ProductDetail {
 	public void setMainImage(String mainImage) {
 		this.mainImage = mainImage;
 	}
+
 	public Set<Product> getProducts() {
 		return products;
 	}
@@ -175,10 +176,12 @@ public class ProductDetail {
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
 	}
+
 	@Transient
 	public String getPriceCurrency() {
 		return "¥ "+this.price;
 	}
+
 
 	@Override
 	public int hashCode() {

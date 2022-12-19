@@ -19,6 +19,7 @@
 			<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
 				<a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">ホーム<i class="fa fa-angle-right m-l-9 m-r-10"
 						aria-hidden="true"></i>
+
 				</a> <a th:href="@{/p}" class="stext-109 cl8 hov-cl1 trans-04">
 					商品<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 
@@ -83,6 +84,7 @@
 									<div class="size-203 flex-c-m respon6">カラー</div>
 
 									<div class="size-204 respon6-next">
+
 										<input type="hidden" th:value="${detail.id}" id="detail-id">
 										<th:block th:each="color : ${colors}">
 											<input class="radio-custom" type="radio" th:id="${color.id}" name="color" th:value="${color.id}" />
@@ -103,6 +105,7 @@
 											</select>
 										</div>
 									</div> 
+
 								</div>
 								<!--Add to cart-->
 								<div class="flex-w flex-r-m p-b-10">
