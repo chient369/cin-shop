@@ -1,5 +1,7 @@
 package com.cinshop.common.entity;
 
+import java.util.Objects;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +18,7 @@ public class Size {
 	private Integer id;
 	
 	@Column(length = 45,nullable = false, unique = true)
-	private Float size;
+	private Float value;
 
 	public Size() {
 		
@@ -30,13 +32,32 @@ public class Size {
 		this.id = id;
 	}
 
-	public Float getSize() {
-		return size;
+	public Float getValue() {
+		return value;
 	}
 
-	public void setSize(Float size) {
-		this.size = size;
+	public void setValue(Float value) {
+		this.value = value;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, value);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Size other = (Size) obj;
+		return Objects.equals(id, other.id) && Objects.equals(value, other.value);
+	}
+
+	
 	
 	
 

@@ -2,6 +2,7 @@ package com.cinshop.product;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,5 +12,7 @@ import com.cinshop.common.entity.Product;
 public interface ProductRepository extends PagingAndSortingRepository<Product, Integer> {
 
 	List<Product> findById(Integer id);
+	
+	
 
 }

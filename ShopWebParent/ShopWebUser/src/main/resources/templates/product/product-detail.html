@@ -17,10 +17,10 @@
 		<!-- breadcrumb -->
 		<div class="container">
 			<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-				<a href="index.html" class="stext-109 cl8 hov-cl1 trans-04"> 繝帙�ｼ繝� <i
-						class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
-				</a> <a href="product.html" class="stext-109 cl8 hov-cl1 trans-04">
-					繝｡繝ｳ繧ｺ <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+				<a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">ホーム<i class="fa fa-angle-right m-l-9 m-r-10"
+						aria-hidden="true"></i>
+				</a> <a th:href="@{/p}" class="stext-109 cl8 hov-cl1 trans-04">
+					商品<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
 
 				</a> <span class="stext-109 cl4" th:text="${detail.name}"> Lightweight Jacket </span>
 
@@ -43,7 +43,7 @@
 
 									<th:block th:each="img : ${detail.images}">
 
-		
+
 
 										<div class="item-slick3" th:data-thumb="${img.name}">
 											<div class="wrap-pic-w pos-relative">
@@ -68,7 +68,7 @@
 							<!--Product name-->
 							<h4 class="mtext-105 cl2 js-name-detail p-b-14" th:text="${detail.name}"></h4>
 							<!--Product Price-->
-							<span class="mtext-106 cl2" th:text="${detail.price}"></span>
+							<span class="mtext-106 cl2" th:text="${detail.priceCurrency}"></span>
 							<!--Product description-->
 							<!-- <p class="stext-102 cl3 p-t-23">Nulla eget sem vitae eros
 								pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare
@@ -80,33 +80,29 @@
 								<!--Colors-->
 								<div class="flex-w flex-r-m p-b-10">
 
-									<div class="size-203 flex-c-m respon6">繧ｫ繝ｩ繝ｼ</div>
+									<div class="size-203 flex-c-m respon6">カラー</div>
 
 									<div class="size-204 respon6-next">
-										<div class="rs1-select2 bor8 bg0">
-											
-											<select class="js-select2" name="color">
-												<option>驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
-												<th:block th:each="color : ${colors}">
-													<option th:value = "${color.id}" th:text="${color.name}"></option>
-												</th:block>
-												
+										<input type="hidden" th:value="${detail.id}" id="detail-id">
+										<th:block th:each="color : ${colors}">
+											<input class="radio-custom" type="radio" th:id="${color.id}" name="color" th:value="${color.id}" />
+											<label class="radio-lable" th:for="${color.id}" th:style="|background :${color.colorCode}|"></label>
+										</th:block>
 
-									<div class="size-203 flex-c-m respon6">繧ｵ繧､繧ｺ</div>
-
-
-									<div class="size-204 respon6-next">
-										<div class="rs1-select2 bor8 bg0">
-											<select class="js-select2" name="time">
-												<option>驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
-												<th:block th:each="size : ${p.sizes}">
-													<option th:value="${size.id}" th:text="${p.size}">24</option>
-												</th:block>
-
-											</select>
-											<div class="dropDownSelect2"></div>
-										</div>
 									</div>
+									<div class="size-203 flex-c-m respon6">サイズ</div>
+
+
+									<div class="size-204 respon6-next">
+										<div class="rs1-select2 bor8 bg0">
+											<select name="size" id="select-size">
+												<option>サイズを選択する</option>		
+												<th:block th:each="size : ${sizes}">
+													<option th:id="${size.id}" th:value="${size.id}" th:text="${size.value}"></option>	
+												</th:block>										
+											</select>
+										</div>
+									</div> 
 								</div>
 								<!--Add to cart-->
 								<div class="flex-w flex-r-m p-b-10">
@@ -158,13 +154,13 @@
 						<!-- Nav tabs -->
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item p-b-10"><a class="nav-link active" data-toggle="tab" href="#description"
-									role="tab">蝠�蜩∬ｪｬ譏�</a></li>
+									role="tab">商品説明</a></li>
 
 							<li class="nav-item p-b-10"><a class="nav-link" data-toggle="tab" href="#information"
-									role="tab">隧ｳ邏ｰ</a></li>
+									role="tab">詳細情報</a></li>
 
 							<li class="nav-item p-b-10"><a class="nav-link" data-toggle="tab" href="#reviews"
-									role="tab">隧穂ｾ｡ (1)</a></li>
+									role="tab">評価</a></li>
 						</ul>
 
 						<!-- Tab panes -->
@@ -174,7 +170,8 @@
 								<div class="how-pos2 p-lr-15-md">
 									<p class="stext-102 cl6">JETS
 										ICON(繧ｸ繧ｧ繝�繝�繧｢繧､繧ｳ繝ｳ)縺ｯ繧ｷ繝ｳ繝励Ν縺ｪ繧｢繝�繝代�ｼ縺ｫ繝昴う繝ｳ繝医→縺ｪ繧軌FF THE WALL
-										LOGO繧呈命縺励◆譁ｰ螳夂分縲ゅう繝ｳ繧ｽ繝ｼ繝ｫ縺ｫ縺ｯ閼ｱ閾ｭ蜉ｹ譫懊ｒ蜈ｼ縺ｭ蛯吶∴縺溘�∬｡晄茶繧貞柱繧峨￡繧玖ｻｽ驥上↑繧､繝ｳ繧ｽ繝ｼ繝ｫ謳ｭ霈峨��</p>
+										LOGO繧呈命縺励◆譁ｰ螳夂分縲ゅう繝ｳ繧ｽ繝ｼ繝ｫ縺ｫ縺ｯ閼ｱ閾ｭ蜉ｹ譫懊ｒ蜈ｼ縺ｭ蛯吶∴縺溘�∬｡晄茶繧貞柱繧峨￡繧玖ｻｽ驥上↑繧､繝ｳ繧ｽ繝ｼ繝ｫ謳ｭ霈峨��
+									</p>
 								</div>
 							</div>
 
@@ -229,7 +226,8 @@
 													</div>
 
 													<p class="stext-102 cl6">縺薙�ｮ蛟､谿ｵ縺ｧ雋ｷ縺医ｋ縺ｮ縺ｯ螫峨＠縺�縲�
-														縺溘□縲√Ο繝�繧ｯ縺後き繧ｮ蠑上↑轤ｹ縲√く繝｣繧ｹ繧ｿ繝ｼ縺後■繧�縺｣縺｡縺�轤ｹ縺ｯ豌励↓縺ｪ縺｣縺溘�� 縺ｧ繧ゅ�√％縺ｮ蛟､谿ｵ繧定ｸ上∪縺医ｋ縺ｨ縲√ｄ縺｣縺ｱ繧翫♀雋ｷ縺�蠕励□縺ｨ諤昴≧縲�</p>
+														縺溘□縲√Ο繝�繧ｯ縺後き繧ｮ蠑上↑轤ｹ縲√く繝｣繧ｹ繧ｿ繝ｼ縺後■繧�縺｣縺｡縺�轤ｹ縺ｯ豌励↓縺ｪ縺｣縺溘��
+														縺ｧ繧ゅ�√％縺ｮ蛟､谿ｵ繧定ｸ上∪縺医ｋ縺ｨ縲√ｄ縺｣縺ｱ繧翫♀雋ｷ縺�蠕励□縺ｨ諤昴≧縲�</p>
 												</div>
 											</div>
 

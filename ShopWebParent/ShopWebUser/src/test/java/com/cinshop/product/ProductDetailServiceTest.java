@@ -12,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 
-import com.cinshop.common.entity.Brand;
-import com.cinshop.common.entity.Category;
 import com.cinshop.common.entity.ProductDetail;
 
 @DataJpaTest
@@ -40,20 +38,27 @@ public class ProductDetailServiceTest {
 	
 	@Test
 	public void findProductDetailByBrandTest() {
-		Brand brand = new Brand();
-		brand.setId(1);
+
 		Pageable pageable =PageRequest.of(1, 10);
-		Page<ProductDetail> details = service.findByBrand(brand, pageable);
+		Page<ProductDetail> details = service.findByBrand(1, pageable);
 		assertThat(details.getSize()).isGreaterThan(0);
 	}
 	@Test
 	public void findProductDetailByCategoryTest() {
-		Category cat  = new Category();
-		cat.setId(1);
+
 		Pageable pageable =PageRequest.of(1, 10);
-		Page<ProductDetail> details = service.findByCategory(cat, pageable);
+		Page<ProductDetail> details = service.findByCategory(1, pageable);
 		assertThat(details.getSize()).isGreaterThan(0);
 	}
+	@Test
+	public void findProductDetailByColorTest() {
+
+		Pageable pageable =PageRequest.of(1, 10);
+		Page<ProductDetail> details = service.findByColor(1, pageable);
+		System.out.println(details.getTotalElements());
+		assertThat(details.getSize() == 1);
+	}
+	
 	@Test
 	public void findProductByPriceTest() {
 		Pageable pageable =PageRequest.of(1, 10);
@@ -64,7 +69,14 @@ public class ProductDetailServiceTest {
 	@Test
 	public void findProductByWordTest() {
 		Pageable pageable =PageRequest.of(1, 10);
-		Page<ProductDetail> details = service.findByWord("nik", pageable);
+		Page<ProductDetail> details = service.findByText("nik", pageable);
 		assertThat(details.getSize()).isGreaterThan(0);
 	}
+	
+//	@Test
+//	public void findAllWithRankASCTest() {
+//		Pageable pageable =PageRequest.of(1, 10);
+//		Page<ProductDetail> details = service.findAllWithRankASC(pageable);
+//		assertThat(details.getSize()).isGreaterThan(0);
+//	}
 }

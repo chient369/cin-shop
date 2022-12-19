@@ -1916,7 +1916,23 @@ input.num-product::-webkit-inner-spin-button {
   visibility: visible;
   opacity: 1;
 }
+/*//////////////////////////////////////////////////////////////////
+[ Radio custom ]*/
+.radio-custom{
+ display: none;
+}
+.radio-lable{
+  padding: 1em;
+  display: inline-block;
+  border: 1px solid #999;
+  border-radius: 50%;
+  cursor: pointer;
 
+}
+input[type="radio"]:checked + label {
+  border: 1.2px solid rgb(27, 243, 42);
+  padding: 1.1em;
+}
 
 /*//////////////////////////////////////////////////////////////////
 [ Modal1 ]*/

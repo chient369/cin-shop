@@ -82,7 +82,7 @@ public class ProductUtility {
 			public Size mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Size size = new Size();
 				size.setId(rs.getInt("size_id"));
-				size.setSize(rs.getFloat("size"));
+				size.setValue(rs.getFloat("value"));
 				return size;
 			}
 

@@ -94,7 +94,7 @@ public class Product {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(color, productDetail, size);
 	}
 
 	@Override
@@ -106,7 +106,11 @@ public class Product {
 		if (getClass() != obj.getClass())
 			return false;
 		Product other = (Product) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(color, other.color) && Objects.equals(productDetail, other.productDetail)
+				&& Objects.equals(size, other.size);
 	}
+
+	
+	
 
 }

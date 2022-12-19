@@ -1,14 +1,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+
+<!--* actionTag : ユーザのアクション（検索、並び替え）
+	* searchTag : ブランド、カテゴリーやカラーなど
+	* tagId : searchTagのID
+	* sortBy　：検索標準
+	*　sortDir : 降順、昇順 -->
 <body>
 	<div th:fragment="pagination">
 		<div class="flex-c-m flex-w w-full p-t-38">
 			<th:block th:each="p:${#numbers.sequence(0,totalPages-1)}">
 
-				<!-- Search of pagination -->
+				<!-- 検索するときのページ分け -->
 				<div th:if="${actionTag} == 'search'" th:remove="tag">
 
-					<!-- Search by category,brand,color of pagination -->
+					<!-- カテゴリー、ブランド、カラーで検索する 場合-->
 					<div th:if="${searchTag}!=null" th:remove="tag">
 						<a
 							th:href="@{'/p/search/'+ ${searchTag} + '/' +${tagId} +'/'+ ${p +1}}"
@@ -16,7 +22,7 @@
 							th:classappend="${currentPage == p}?active-pagination1">
 							[[${p +1 }]] </a>
 					</div>
-					<!-- Search by word,price, -->
+					<!-- 文字検索、値段検索する場合 -->
 					<div th:if="${searchTag}==null" th:remove="tag">
 						<a th:href="@{'/p/search/'+${searchTag}+'/'+ ${p +1}}"
 							class="flex-c-m how-pagination1 trans-04 m-all-7 "
@@ -25,7 +31,7 @@
 					</div>
 				</div>
 
-				<!-- Sort of pagination -->
+				<!--並び替えのページ分け -->
 				<div th:if="${actionTag} == 'sort'" th:remove="tag">
 					<div th:if="${sortBy} == 'price'" th:remove="tag">
 						<a th:href="@{'/p/sort/'+${sortBy}+'/' +${sortDir} +'/'+ ${p +1}}"
@@ -33,14 +39,14 @@
 							th:classappend="${currentPage == p}?active-pagination1">
 							[[${p +1 }]] </a>
 					</div>
-					<!-- Search by word,price, -->
+					<!-- 評価順で検索する場合 -->
 					<div th:if="${sortBy}=='popur'" th:remove="tag">
 						<a th:href="@{'/p/sort/'+${sortBy}+'/'+ ${p +1}}"
 							class="flex-c-m how-pagination1 trans-04 m-all-7 "
 							th:classappend="${currentPage == p}?active-pagination1">
 							[[${p +1 }]] </a>
 					</div>
-
+					<!-- 最新販売で検索する場合 -->
 					<div th:if="${sortBy}=='latest'" th:remove="tag">
 						<a th:href="@{'/p/sort/'+${sortBy}+'/'+ ${p +1}}"
 							class="flex-c-m how-pagination1 trans-04 m-all-7 "
@@ -50,11 +56,12 @@
 
 				</div>
 
+			<div th:if="${actionTag} == null" th:remove="tag">
 				<a th:href="@{'/p/page/'+ ${p +1}}"
 					class="flex-c-m how-pagination1 trans-04 m-all-7 "
 					th:classappend="${currentPage == p}?active-pagination1"> [[${p
 					+1 }]] </a>
-
+			</div>
 			</th:block>
 		</div>
 	</div>

@@ -19,8 +19,8 @@ public interface ProductDetailRepository extends PagingAndSortingRepository<Prod
 
 	Page<ProductDetail> findAll(Pageable pageable);
 
-	@Query("select p from ProductDetail p where p.name like ?1")
-	Page<ProductDetail> findByWord(String word, Pageable pageable);
+	@Query("select p from ProductDetail p where p.name like %?1%")
+	Page<ProductDetail> findByText(String word, Pageable pageable);
 
 	Page<ProductDetail> findByBrand(Brand brand, Pageable pageable);
 
@@ -28,4 +28,14 @@ public interface ProductDetailRepository extends PagingAndSortingRepository<Prod
 
 	@Query("select p from ProductDetail p WHERE p.price between ?1 and ?2")
 	Page<ProductDetail> findByPrice(Integer pFrom, Integer pTo, Pageable pageale);
+	
+	@Query("select distinct d from ProductDetail d  "
+			+ "inner join d.products p "
+			+ "where p.color.id = ?1")
+	Page<ProductDetail> findByColor(Integer colorId, Pageable pageable); 
+	
+//	@Query("select distinct d from ProductDetail d  "
+//			+ "inner join d.reviews r "
+//			+ "order by r.vote asc")
+//	Page<ProductDetail> findAllWithRankASC(Pageable pageable); 
 }
