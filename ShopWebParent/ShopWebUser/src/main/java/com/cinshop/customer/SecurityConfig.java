@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .failureUrl("/login?error")
 
                 //ログインページは誰でも閲覧可能
-                .permitAll(true)
+                .permitAll()
         ).logout(logout -> logout
         		
         		//ログアウトするURL
@@ -45,9 +45,7 @@ public class SecurityConfig {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 
                 //ログイン無しでもアクセス可能
-                .requestMatchers("/",
-                				 "/register",
-                				 "/fragments/**").permitAll()
+                .requestMatchers("/fragment/**", "/", "/register", "/create").permitAll()
                 
                 //権限ごとにアクセス可能なURL
                 .requestMatchers("/testDebug", 
