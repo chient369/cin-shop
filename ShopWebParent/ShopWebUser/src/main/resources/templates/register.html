@@ -20,7 +20,6 @@
 		</h2>
 	</section>
 
-
 	<!-- Content page -->
 	<section class="bg0 p-t-104 p-b-116">
 		<div class="container">
@@ -38,7 +37,7 @@
 							</div>
 
 							<div class="size-204">
-								<input type="text" id="email" th:field="*{email}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10">
+								<input type="text" id="email" th:field="*{email}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" oninput="nullCheck()">
 							</div>
 						</div>
 						<div class="flex-w flex-m m-b-10 p-b-13">
@@ -49,7 +48,7 @@
 							</div>
 
 							<div class="size-204">
-								<input type="password" id="password" name="password" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" oninput="confirmPassword()">
+								<input type="password" id="password" name="password" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" oninput="confirmPassword(); nullCheck();">
 							</div>
 						</div>
 						<b id = "error_msg"></b>
@@ -62,7 +61,7 @@
 							</div>
 
 							<div class="size-204">
-								<input type="password" id="rePassword" name="rePassword" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" oninput="confirmPassword()">
+								<input type="password" id="rePassword" name="rePassword" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" oninput="confirmPassword(); nullCheck();">
 							</div>
 						</div>
 						<div class="flex-w flex-m m-b-10 p-b-13">
@@ -73,7 +72,7 @@
 							</div>
 
 							<div class="size-204">
-								<input type="text" id="firstName" th:field="*{firstName}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" placeholder="フリガナ">
+								<input type="text" id="firstName" th:field="*{firstName}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" placeholder="フリガナ" oninput="nullCheck()">
 							</div>
 						</div>
 						<div class="flex-w flex-m m-b-10 p-b-13">
@@ -84,7 +83,7 @@
 							</div>
 
 							<div class="size-204">
-								<input type="text" id="lastName" th:field="*{lastName}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" placeholder="フリガナ">	
+								<input type="text" id="lastName" th:field="*{lastName}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" placeholder="フリガナ" oninput="nullCheck()">	
 							</div>
 						</div>
 						<div class="flex-w flex-m m-b-10 p-b-13">
@@ -114,7 +113,7 @@
 							</div>
 
 							<div class="size-204">
-								<input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" placeholder="000-0000-0000">	
+								<input type="text" id="phoneNumber" th:field="*{phoneNumber}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" placeholder="000-0000-0000" oninput="nullCheck()">	
 							</div>
 						</div>
 						<div class="flex-w flex-m m-b-10 p-b-13">
@@ -125,7 +124,7 @@
 							</div>
 
 							<div class="size-204">
-								<input type="text" id="postCode" th:field="*{Address.postCode}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" placeholder="123-4567">	
+								<input type="text" id="postCode" th:field="*{Address.postCode}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" placeholder="123-4567" oninput="nullCheck()">	
 							</div>
 						</div>
 						<div class="flex-w flex-m m-b-10 p-b-13">
@@ -136,7 +135,7 @@
 							</div>
 
 							<div class="size-204">
-								<input type="text" id="firstAddress" th:field="*{Address.firstAddress}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" placeholder="市区町">
+								<input type="text" id="firstAddress" th:field="*{Address.firstAddress}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" placeholder="市区町" oninput="nullCheck()">
 							</div>
 						</div>
 						<div class="flex-w flex-m m-b-10 p-b-13">
@@ -147,14 +146,13 @@
 							</div>
 
 							<div class="size-204">
-								<input type="text" id="lastAddress" th:field="*{Address.lastAddress}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" placeholder="番地,マンション名">	
+								<input type="text" id="lastAddress" th:field="*{Address.lastAddress}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" placeholder="番地,マンション名" oninput="nullCheck()">	
 							</div>
 						</div>
 
-						
+						<b id = "error_msgNull"></b>
 						<div>
-							<b id = "error_msgNull"></b>
-							<button id="button" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer m-t-50">登録</button>
+							<button id="button_" disabled class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer m-t-50" onclick="nullCheckOnClick()">登録</button>
 						</div>
 					</form>
 				</div>
@@ -384,25 +382,52 @@
     </script>
     <!--====================================ここから必須項目のNULLチェック=====================================-->
     <script>
-		const email = document.getElementById('email').value;
-		const password = document.getElementById('password').value;
-		const rePassword = document.getElementById('rePassword').value;
-		const firstName = document.getElementById('firstName').value;
-		const lastName = document.getElementById('lastName').value;
-		const phoneNumber = document.getElementById('phoneNumber').value;
-		const postCode = document.getElementById('postCode').value;
-		const firstAddress = document.getElementById('firstAddress').value;
-		const lastAddress = document.getElementById('lastAddress').value;
-		const error_msgNull = document.getElementById('error_msgNull').value;
-		
-		document.querySelector("#button").addEventListener('click', function(event){
-			if (email == "" || password == "" || rePassword == "" || firstName == "" || lastName == "" || 
-  			    			   phoneNumber == "" || postCode == "" || firstAddress == "" || lastAddress == "") {
-				error_msgNull.innerText = "性別以外の項目は入力必須です。";
-				error_msgNull.style.color = "red";
-				event.stopPropagation();
+		function nullCheck() {
+			
+			const email = document.getElementById('email').value;
+			const password = document.getElementById('password').value;
+			const rePassword = document.getElementById('rePassword').value;
+			const firstName = document.getElementById('firstName').value;
+			const lastName = document.getElementById('lastName').value;
+			const phoneNumber = document.getElementById('phoneNumber').value;
+			const postCode = document.getElementById('postCode').value;
+			const firstAddress = document.getElementById('firstAddress').value;
+			const lastAddress = document.getElementById('lastAddress').value;
+			const button = document.getElementById("button_");
+			const error_msgNull = document.getElementById("error_msgNull");
+			
+			if(!email == "" && !password == "" && !rePassword == "" && !firstName == "" && !lastName == "" && 
+              				  !phoneNumber == "" && !postCode == "" && !firstAddress == "" && !lastAddress == "") {
+				  button.disabled = null;
+				  
 			}
+		}
+		
+		window.addEventListener('load', (event) => {
+			const button = document.getElementById("button_");
+  			button.style.backgroundColor = "gray";
 		});
+			
+		function nullCheckOnClick() {
+			
+			const email = document.getElementById('email').value;
+			const password = document.getElementById('password').value;
+			const rePassword = document.getElementById('rePassword').value;
+			const firstName = document.getElementById('firstName').value;
+			const lastName = document.getElementById('lastName').value;
+			const phoneNumber = document.getElementById('phoneNumber').value;
+			const postCode = document.getElementById('postCode').value;
+			const firstAddress = document.getElementById('firstAddress').value;
+			const lastAddress = document.getElementById('lastAddress').value;
+			const button = document.getElementById("button_");
+			const error_msgNull = document.getElementById("error_msgNull");
+			
+			if(email == "" || password == "" || rePassword == "" || firstName == "" || lastName == "" || 
+		                      phoneNumber == "" || postCode == "" || firstAddress == "" || lastAddress == "") {
+				error_msgNull.innerText = "性別以外は必須項目です。";
+				error_msgNull.style.color = "red";
+			}
+		}
 	</script>
     <!--===============================================================================================-->
 
