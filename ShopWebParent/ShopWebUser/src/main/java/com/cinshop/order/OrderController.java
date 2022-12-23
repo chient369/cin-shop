@@ -36,13 +36,13 @@ public class OrderController {
 		String email = Utility.getEmailAuthenticatedCustomer(request);
 		List<CartItem> cartItems;
 		if (email != null) {
-			Customer customer = customerService.findCustomerByEmail(email);
+			Customer customer = customerService.findCustomerByEmail(email).get();
 			cartItems = cartService.findCartItemsByCustomerId(customer.getId());
 			model.addAttribute("cust", customer);
 			model.addAttribute("cartItems", cartItems);
 			return "check-out";
 		}
-		model.addAttribute("customer", new Customer());
+		
 		return "guest-form-order";
 
 	}
@@ -52,7 +52,7 @@ public class OrderController {
 		String email = Utility.getEmailAuthenticatedCustomer(request);
 		List<CartItem> cartItems;
 		if (email != null) {
-			Customer customer = customerService.findCustomerByEmail(email);
+			Customer customer = customerService.findCustomerByEmail(email).get();
 			cartItems = cartService.findCartItemsByCustomerId(customer.getId());
 			model.addAttribute("cust", customer);
 			model.addAttribute("cartItems", cartItems);

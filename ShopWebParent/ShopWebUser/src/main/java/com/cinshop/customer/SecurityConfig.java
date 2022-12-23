@@ -42,10 +42,12 @@ public class SecurityConfig {
         ).authorizeHttpRequests(authz -> authz
         		
         		//静的ファイルはログイン無しでもアクセス可能
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                .requestMatchers("/css/**","/js/**","/vendor/**","/fonts/**","/images/**")
+               
+                .permitAll()
                 
                 //ログイン無しでもアクセス可能
-                .requestMatchers("/fragment/**", "/", "/register", "/create").permitAll()
+                .requestMatchers("/", "/register", "/create","/p/**","/cart/**","/api/**","/checkout/**").permitAll()
                 
                 //権限ごとにアクセス可能なURL
                 .requestMatchers("/testDebug", 

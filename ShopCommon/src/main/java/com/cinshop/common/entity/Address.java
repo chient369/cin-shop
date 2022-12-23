@@ -12,26 +12,26 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "address")
 public class Address {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	@OneToOne
-	@JoinColumn(name="customer_id", nullable = false)
+	@JoinColumn(name = "customer_id", nullable = false)
 	private Customer customer;
-	
+
 	@Column(name = "post_code", length = 20, nullable = false)
 	private String postCode;
-	
+
 	@Column(name = "first_address", length = 45, nullable = false)
 	private String firstAddress;
-	
+
 	@Column(name = "last_address", length = 45, nullable = false)
 	private String lastAddress;
-	
+
 	public Address() {
-		
+
 	}
 
 	public Integer getId() {

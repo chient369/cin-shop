@@ -40,7 +40,7 @@ public class CartController {
 		try {
 			String email = Utility.getEmailAuthenticatedCustomer(request);
 			if (email != null) {
-				Customer customer = service.findCustomerByEmail(email);
+				Customer customer = service.findCustomerByEmail(email).get();
 				cartItems = cartService.findCartItemsByCustomerId(customer.getId());
 			} else {
 				HttpSession session = request.getSession();
@@ -65,7 +65,7 @@ public class CartController {
 			// 会員の場合
 			String email = Utility.getEmailAuthenticatedCustomer(request);
 			if (email != null) {
-				Customer customer = service.findCustomerByEmail(email);
+				Customer customer = service.findCustomerByEmail(email).get();
 				cartService.saveCartItem(customer.getId(), product.getId(), quantity);
 			} else {
 				// ゲストの場合
@@ -102,7 +102,7 @@ public class CartController {
 			// 会員の場合
 			String email = Utility.getEmailAuthenticatedCustomer(request);
 			if (email != null) {
-				Customer customer = service.findCustomerByEmail(email);
+				Customer customer = service.findCustomerByEmail(email).get();
 				for (int i = 0; i < productId.length; i++) {
 					cartService.saveCartItem(1, Integer.parseInt(productId[i]), Integer.parseInt(quantity[i]));
 				}
