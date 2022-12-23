@@ -13,7 +13,6 @@ import org.springframework.test.annotation.Rollback;
 
 import com.cinshop.cart.CartService;
 import com.cinshop.common.entity.CartItem;
-import com.cinshop.dto.CartItemDTO;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -32,7 +31,7 @@ public class CartServiceTest {
 
 	@Test
 	public void findCartItemsByCustomerTest() {
-		List<CartItemDTO> cartItems = service.findCartItemsByCustomerId(1);
+		List<CartItem> cartItems = service.findCartItemsByCustomerId(1);
 		cartItems.forEach(crt -> System.err.println(crt));
 		assertThat(cartItems.size()).isGreaterThan(0);
 	}

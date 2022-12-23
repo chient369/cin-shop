@@ -192,27 +192,23 @@
 
 
 
-
+	$("#add-cart-alert").hide();
 	/*==================================================================
 	[ Cart ]*/
-	$('.js-show-cart').on('click', function() {
-		$('.js-panel-cart').addClass('show-header-cart');
-	});
+	$(".add-cart-btn").on('click', (e) => {
+		let color = $("input[name ='color']").val();
+		let size = $("#select-size").val()
 
-	$('.js-hide-cart').on('click', function() {
-		$('.js-panel-cart').removeClass('show-header-cart');
+		if (size == 0 || color <= 0) {
+			$("#add-cart-alert").toggle();
+			e.preventDefault();
+			return;
+		}
+		$(".add-cart-btn").submit()
+	})
+	$(".close").click(function() {
+		$("#add-cart-alert").toggle();
 	});
-
-	/*==================================================================
-	[ Cart ]*/
-	$('.js-show-sidebar').on('click', function() {
-		$('.js-sidebar').addClass('show-sidebar');
-	});
-
-	$('.js-hide-sidebar').on('click', function() {
-		$('.js-sidebar').removeClass('show-sidebar');
-	});
-
 	/*==================================================================
 	[ +/- num product ]*/
 	$('.btn-num-product-down').on('click', function() {
@@ -286,11 +282,10 @@
 	/*==================================================================
    [ Render all size of product  ]*/
 	$('.radio-custom').on('click', () => {
-		
+
 		let colorId = $("input[name = 'color']:checked").val();
 		let detailId = $("#detail-id").val();
 		let URL = "http://localhost:8085/cinshop/api/p/gs?cId=" + colorId + "&dId=" + detailId;
-
 		$.ajax({
 			url: URL,
 			success: function(data) {
@@ -300,32 +295,19 @@
 				console.log("Error in get size")
 			}
 		})
-		
+
 	})
 	function renderSizes(data) {
-		let sizes = $("#select-size option");
-
-		for (let i = 0; i < sizes.length; i++) {
-			for (let sz of data) {
-				if (sizes[i].id != sz.id) {
-				console.log("renderId : "+sz.id+" exist Id : "+ sizes[i].id +": " +sizes[i].id != sz.id)
-					let tag = "#select-size #" + sz.id;
-					$(tag).attr("disabled",true);
-				}
-
-			}
-		}
-	}
-	function resetSelectSizes(data) {
+		$("#select-size").empty();
+		$("#select-size").append(
+			`<option>サイズを選択する</option>	`
+		)
 		for (let sz of data) {
-			let tag = "#select-size #" + sz.id;
-			$(tag).prop("disabled", true);
+			$("#select-size").append(`
+					<option value="${sz.id}">${sz.value}</option>
+					`)
 		}
 	}
-
-
-
-
 
 
 })(jQuery);

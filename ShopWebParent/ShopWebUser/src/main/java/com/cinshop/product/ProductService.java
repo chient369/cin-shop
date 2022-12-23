@@ -8,13 +8,15 @@ import com.cinshop.common.entity.Product;
 @Service
 public class ProductService {
 
-	
 	@Autowired
 	private ProductRepository repository;
-	
+
 	public Product findProductById(Integer id) {
 		return repository.findById(id).get(0);
 	}
-	
-	
+
+	public Product findByDetailIdAndColorIdAndSizeId(Integer detailId, Integer colorId, Integer sizeId) {
+		return repository.findByDetailIdAndColorIdAndSizeId(detailId, colorId, sizeId);
+	}
+
 }

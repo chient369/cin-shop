@@ -16,7 +16,7 @@ public class OrderUtility {
 	@Autowired
 	private  JdbcTemplate template;
 
-	public   Tax getCurrentTax() {
+	public  Tax getCurrentTax() {
 		String sql = "select * from tax order by effective_date asc limit 1";
 		Tax tax = template.queryForObject(sql, new RowMapper<Tax>() {
 

@@ -1,44 +1,39 @@
 package com.cinshop.dto;
 
 import com.cinshop.common.entity.CartItem;
-import com.cinshop.common.entity.Product;
 
 public class CartItemDTO {
 	private Integer customerId;
 	private Integer productId;
-	private String productImage;
+	private String image;
 	private String productName;
 	private Integer quantity;
+	private Integer price;
 
 	public CartItemDTO() {
-		
-	}
 
-	public void convertTo(CartItem cartItem) {
-		this.productId= cartItem.getProduct().getId();
-		this.productImage = cartItem.getProduct().getProductDetail().getMainImage();
+	}
+	public CartItemDTO(CartItem cartItem) {
+		this.productId = cartItem.getProduct().getId();
+		this.image = cartItem.getProduct().getProductDetail().getMainImage();
 		this.productName = cartItem.getProduct().getProductDetail().getName();
 		this.quantity = cartItem.getQuantity();
+		this.price = cartItem.getProduct().getProductDetail().getPrice();
 	}
-	
-	
+
+	public void convertToDto(CartItem cartItem) {
+		this.productId = cartItem.getProduct().getId();
+		this.image = cartItem.getProduct().getProductDetail().getMainImage();
+		this.productName = cartItem.getProduct().getProductDetail().getName();
+		this.quantity = cartItem.getQuantity();
+		this.price = cartItem.getProduct().getProductDetail().getPrice();
+	}
+
 	public CartItemDTO(Integer customerId, Integer productId) {
 		super();
 		this.customerId = customerId;
 		this.productId = productId;
 	}
-
-	public CartItemDTO(Integer customerId, Integer productId, String productImage, String productName,
-			Integer quantity) {
-		super();
-		this.customerId = customerId;
-		this.productId = productId;
-		this.productImage = productImage;
-		this.productName = productName;
-		this.quantity = quantity;
-	}
-
-
 
 	public Integer getCustomerId() {
 		return customerId;
@@ -56,14 +51,6 @@ public class CartItemDTO {
 		this.productId = productId;
 	}
 
-	public String getProductImage() {
-		return productImage;
-	}
-
-	public void setProductImage(String productImage) {
-		this.productImage = productImage;
-	}
-
 	public String getProductName() {
 		return productName;
 	}
@@ -79,5 +66,28 @@ public class CartItemDTO {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+
+	@Override
+	public String toString() {
+		return "CartItemDTO [customerId=" + customerId + ", productId=" + productId + ", image=" + image
+				+ ", productName=" + productName + ", quantity=" + quantity + ", price=" + price + "]";
+	}
 	
+
 }

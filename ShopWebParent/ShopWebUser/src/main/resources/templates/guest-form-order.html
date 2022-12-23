@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/page-header :: header('注文-情報入力')}">
+
+</head>
+
+<body class="animsition">
+
+	<!-- Header -->
+	<div th:replace="~{fragments/nav-header :: nav-header}"></div>
+
+
+
+	<!-- Cart -->
+	<!-- Title page -->
+	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('images/bg-01.jpg');">
+		<h2 class="ltext-105 cl0 txt-center">
+			注文情報 </h2>
+	</section>
+
+	<!-- breadcrumb -->
+	<div class="container">
+		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+			<a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">ホーム<i class="fa fa-angle-right m-l-9 m-r-10"
+					aria-hidden="true"></i>
+
+			</a> <a th:href="@{/cart}" class="stext-109 cl8 hov-cl1 trans-04">
+				ショッピングカート<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+
+			</a> <span class="stext-109 cl4"> 注文手続き </span>
+
+		</div>
+	</div>
+	<!-- Content page -->
+	<section class="bg0 p-t-50 p-b-116">
+		<div class="container">
+			<div class="flex-w flex-c">
+				<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
+					<form　th:action = "@{/checkout/guest}" method="POST" th:object = "${customer}">
+						<h4 class="mtext-105 cl2 txt-center p-b-30">
+							注文情報
+						</h4>
+						<div class="flex-w flex-m m-b-10 p-b-13">
+							<div class="size-203">
+								<span class="stext-110 cl2">
+									E-Mail
+								</span>
+							</div>
+
+							<div class="size-204">
+								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="email"
+								th:field = "*{cutomer.email}" placeholder="cin@gmail.com" required>
+							</div>
+						</div>
+
+						<div class="flex-w flex-m m-b-10 p-b-13">
+							<div class="size-203">
+								<span class="stext-110 cl2">
+									性
+								</span>
+							</div>
+
+							<div class="size-204">
+								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="firstName"
+								th:field = "*{cutomer.firstName}" 	placeholder="フリガナ" required>
+							</div>
+						</div>
+						<div class="flex-w flex-m m-b-10 p-b-13">
+							<div class="size-203">
+								<span class="stext-110 cl2">
+									名
+								</span>
+							</div>
+
+							<div class="size-204">
+								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="lastName"
+								th:field = "*{cutomer.lastName}" 	placeholder="フリガナ" required>
+							</div>
+						</div>
+						<div class="flex-w flex-m m-b-10 p-b-13">
+							<div class="size-203">
+								<span class="stext-110 cl2">
+									性別
+								</span>
+							</div>
+
+							<div class="size-204">
+								<div class="flex-w flex-sa-m">
+									<span class="flex-w"><input class="stext-111 p-lr-10" type="radio" name="sex"
+											value="Male">男性</span>
+									<span class="flex-w"><input class="stext-111" type="radio" name="sex"
+											value="Male">女性</span>
+								</div>
+
+							</div>
+						</div>
+						<div class="flex-w flex-m m-b-10 p-b-13">
+							<div class="size-203">
+								<span class="stext-110 cl2">
+									電話番号
+								</span>
+							</div>
+
+							<div class="size-204">
+								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="phoneNumber"
+								th:field = "*{cutomer.phoneNumber}" placeholder="000-0000-0000" required>
+							</div>
+						</div>
+						
+						<div class="flex-w flex-m m-b-10 p-b-13">
+							<div class="size-203">
+								<span class="stext-110 cl2">
+									郵便番号
+								</span>
+							</div>
+
+							<div class="size-204">
+								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="postCode"
+								 th:field = "*{cutomer.address.postCode}" placeholder="123-4567" required>
+							</div>
+						</div>
+						<div class="flex-w flex-m m-b-10 p-b-13">
+							<div class="size-203">
+								<span class="stext-110 cl2">
+									住所 1
+								</span>
+							</div>
+
+							<div class="size-204">
+								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="firstAddress"
+								th:field = "*{cutomer.address.address1}"	placeholder="市区町" required>
+							</div>
+						</div>
+						<div class="flex-w flex-m m-b-10 p-b-13">
+							<div class="size-203">
+								<span class="stext-110 cl2">
+									住所 2
+								</span>
+							</div>
+
+							<div class="size-204">
+								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="lastAddress"
+									th:field = "*{cutomer.address.address2}" placeholder="番地,マンション名" required>
+							</div>
+						</div>
+
+
+
+						<button
+							class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer m-t-50">
+							登録
+						</button>
+					</form>
+				</div>
+
+
+			</div>
+		</div>
+	</section>
+
+
+	<!-- Map -->
+
+
+
+
+	<!-- Footer -->
+	<div th:replace="~{fragments/footer :: footer}"></div>
+
+	<!-- Back to top -->
+	<div class="btn-back-to-top" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="zmdi zmdi-chevron-up"></i>
+		</span>
+	</div>
+
+	<!--===============================================================================================-->
+	<script th:src="@{vendor/jquery/jquery-3.2.1.min.js}"></script>
+	<!--===============================================================================================-->
+	<script th:src="@{vendor/animsition/js/animsition.min.js}"></script>
+	<!--===============================================================================================-->
+	<script th:src="@{vendor/bootstrap/js/popper.js}"></script>
+	<script th:src="@{vendor/bootstrap/js/bootstrap.min.js}"></script>
+	<!--===============================================================================================-->
+	<script th:src="@{vendor/select2/select2.min.js}"></script>
+	<script>
+		$(".js-select2").each(function () {
+			$(this).select2({
+				minimumResultsForSearch: 20,
+				dropdownParent: $(this).next('.dropDownSelect2')
+			});
+		})
+	</script>
+	<!--===============================================================================================-->
+	<script th:src="@{vendor/MagnificPopup/jquery.magnific-popup.min.js}"></script>
+	<!--===============================================================================================-->
+	<script th:src="@{vendor/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
+	<script>
+		$('.js-pscroll').each(function () {
+			$(this).css('position', 'relative');
+			$(this).css('overflow', 'hidden');
+			var ps = new PerfectScrollbar(this, {
+				wheelSpeed: 1,
+				scrollingThreshold: 1000,
+				wheelPropagation: false,
+			});
+
+			$(window).on('resize', function () {
+				ps.update();
+			})
+		});
+	</script>
+	<!--===============================================================================================-->
+	<script th:src="@{https://maps.googleapis.com/maps/api/js?key=AIzaSyAKFWBqlKAGCeS1rMVoaNlwyayu0e0YRes}"></script>
+	<script th:src="@{js/map-custom.js}"></script>
+	<!--===============================================================================================-->
+	<script th:src="@{js/main.js}"></script>
+
+</body>
+
+</html>

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head th:replace="~{fragments/page-header :: header('Home')}">
 
 </head>
@@ -10,6 +9,7 @@
 
 	<!-- Header -->
 	<div th:replace="~{fragments/nav-header :: nav-header}"></div>
+
 	<!-- breadcrumb -->
 	<div class="container">
 		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
@@ -19,17 +19,17 @@
 			</a>
 
 			<span class="stext-109 cl4">
-				注文
+				ショッピングカート
 			</span>
 		</div>
 	</div>
 
 
 	<!-- Shoping Cart -->
-	<form class="bg0 p-t-75 p-b-85">
+	<form class="bg0 p-t-75 p-b-85" th:action="@{/cart/update}" method="post">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
+				<div class="col-lg-12 col-xl-7 m-lr-auto m-b-50">
 					<div class="m-l-25 m-r--38 m-lr-0-xl">
 						<div class="wrap-table-shopping-cart">
 							<table class="table-shopping-cart">
@@ -42,6 +42,7 @@
 								</tr>
 								<th:block th:each="item : ${cartItems}">
 									<tr class="table_row">
+										<input type="hidden" th:name="productId" th:value="${item.product.id}">
 										<th:block th:with="detail = ${item.product.productDetail}">
 											<td class="column-1">
 												<div class="how-itemcart1">
@@ -57,8 +58,18 @@
 											</td>
 											<td class="column-3" th:text="'¥ ' + ${detail.price}"></td>
 											<td class="column-4">
-												<div class=" fs-20" th:text="${item.quantity}"></div>
+												<div class="wrap-num-product flex-w m-l-auto m-r-0">
+													<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+														<i class="fs-16 zmdi zmdi-minus"></i>
+													</div>
 
+													<input class="mtext-104 cl3 txt-center num-product" type="number"
+														th:name="quantity" th:value="${item.quantity}">
+
+													<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+														<i class="fs-16 zmdi zmdi-plus"></i>
+													</div>
+												</div>
 											</td>
 											<td class="column-5" th:text="'¥ '+${detail.price} * ${item.quantity}">
 											</td>
@@ -68,112 +79,28 @@
 
 
 							</table>
-						</div>
 
+						</div>
+						<div  class="flex-w flex-sa-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
+							<button class="flex-w flex-m m-r-20 m-tb-5">
+								<div
+									class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
+									カート更新
+								</div>
+							</button>
+
+							<a class="flex-w flex-c p-t-18 p-b-15 p-lr-40 p-lr-15-sm" th:href="@{/checkout}">
+								<div
+									class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
+									支払いに進む
+								</div>
+							</a>
+						</div>
 					</div>
-				</div>
 
-				<div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50">
-					<div class="bor10 p-lr-10 p-t-30 p-b-40 m-l-63 m-r-30 m-lr-0-xl p-lr-15-sm">
-						<h4 class="mtext-109 cl2 p-b-30 txt-center">
-							注文手続き
-						</h4>
-
-						<div class="flex-w flex-t bor12 p-b-13">
-							<div class="size-208">
-								<span class="stext-110 cl2">
-									合計
-								</span>
-							</div>
-
-							<div class="size-209">
-								<span class="mtext-110 cl2" th:text="'¥ '+${total}">
-									
-								</span>
-							</div>
-						</div>
-
-						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
-							<div class="size-208 w-full-ssm">
-								<span class="stext-110 cl2">
-									お届け先住所
-								</span>
-							</div>
-
-							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
-
-								<div class="bor8 bg0 m-b-22">
-									<input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="postcode"
-										placeholder="郵便番号" required>
-								</div>
-								<div class="bor8 bg0 m-b-12">
-									<input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="address1"
-										placeholder="郡市区町名" required>
-								</div>
-
-								<div class="bor8 bg0 m-b-22">
-									<input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="address2"
-										placeholder="番地-マンション名" required>
-								</div>
-
-							</div>
-						</div>
-
-						<div class="flex-w flex-t bor12 p-tb-13">
-							<div class="size-208">
-								<span class="stext-110 cl2">
-									配送料
-								</span>
-							</div>
-
-							<div class="size-209">
-								<span class="mtext-110 cl2">
-									¥ 500
-								</span>
-							</div>
-						</div>
-						<div class="flex-w flex-t bor12 p-t-15 p-b-15">
-							<div class="size-208 w-full-ssm">
-								<span class="stext-110 cl2">
-									支払い方法
-								</span>
-							</div>
-
-							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
-
-								<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 ">
-									<select class="js-select2" name="paymentMethod">
-										<option>お支払い方法</option>
-										<option>振込</option>
-										<option>クレジットカード</option>
-										<option>コンビニ</option>
-									</select>
-									<div class="dropDownSelect2"></div>
-								</div>
-
-							</div>
-						</div>
-
-						<div class="flex-w flex-t p-t-27 p-b-33">
-							<div class="size-208">
-								<span class="mtext-101 cl2">
-									合計
-								</span>
-							</div>
-
-							<div class="size-209 p-t-1">
-								<span class="mtext-110 cl2">
-									$79.65
-								</span>
-							</div>
-						</div>
-
-						<button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-							Proceed to Checkout
-						</button>
-					</div>
 				</div>
 			</div>
+
 		</div>
 	</form>
 
@@ -183,7 +110,6 @@
 	<!-- Footer -->
 	<div th:replace="~{fragments/footer :: footer}"></div>
 
-
 	<!-- Back to top -->
 	<div class="btn-back-to-top" id="myBtn">
 		<span class="symbol-btn-back-to-top">
@@ -192,14 +118,14 @@
 	</div>
 
 	<!--===============================================================================================-->
-	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script th:src="@{vendor/jquery/jquery-3.2.1.min.js}"></script>
 	<!--===============================================================================================-->
-	<script src="vendor/animsition/js/animsition.min.js"></script>
+	<script th:src="@{vendor/animsition/js/animsition.min.js}"></script>
 	<!--===============================================================================================-->
-	<script src="vendor/bootstrap/js/popper.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script th:src="@{vendor/bootstrap/js/popper.js}"></script>
+	<script th:src="@{vendor/bootstrap/js/bootstrap.min.js}"></script>
 	<!--===============================================================================================-->
-	<script src="vendor/select2/select2.min.js"></script>
+	<script th:src="@{vendor/select2/select2.min.js}"></script>
 	<script>
 		$(".js-select2").each(function () {
 			$(this).select2({
@@ -209,9 +135,9 @@
 		})
 	</script>
 	<!--===============================================================================================-->
-	<script src="vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
+	<script th:src="@{vendor/MagnificPopup/jquery.magnific-popup.min.js}"></script>
 	<!--===============================================================================================-->
-	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+	<script th:src="@{vendor/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
 	<script>
 		$('.js-pscroll').each(function () {
 			$(this).css('position', 'relative');
@@ -228,7 +154,7 @@
 		});
 	</script>
 	<!--===============================================================================================-->
-	<script src="js/main.js"></script>
+	<script th:src="@{js/main.js}"></script>
 
 </body>
 

@@ -13,6 +13,9 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
 
 	List<Product> findById(Integer id);
 	
+	@Query("select p from Product p where p.productDetail.id = ?1 and p.color.id = ?2 and p.size.id = ?3")
+	Product findByDetailIdAndColorIdAndSizeId(Integer detailId, Integer colorId,Integer sizeId);
+	
 	
 
 }

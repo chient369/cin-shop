@@ -9,10 +9,6 @@
 	<!-- Header -->
 
 	<head th:replace="~{fragments/nav-header :: nav-header}">
-		<!-- Cart -->
-		<div class="wrap-header-cart js-panel-cart" th:replace="~{fragments/page-header :: cart}"></div>
-
-
 
 		<!-- breadcrumb -->
 		<div class="container">
@@ -77,57 +73,62 @@
 
 							<!--Custom-->
 							<div class="p-t-33">
+								<form th:action="@{/cart/a}" method="post">
+									<!--Colors-->
+									<input type="hidden" th:value="${detail.id}" name="detailId" id="detail-id">
+									<div class="flex-w flex-r-m p-b-10">
+										<div class="size-203 flex-c-m respon6">カラー</div>
 
-								<!--Colors-->
-								<div class="flex-w flex-r-m p-b-10">
+										<div class="size-204 respon6-next">
 
-									<div class="size-203 flex-c-m respon6">カラー</div>
+											<th:block th:each="color : ${colors}">
+												<input class="radio-custom" type="radio" th:id="${color.id}"
+													name="color" th:value="${color.id}" />
+												<label class="radio-lable" th:for="${color.id}"
+													th:style="|background :${color.colorCode}|"></label>
+											</th:block>
 
-									<div class="size-204 respon6-next">
-
-										<input type="hidden" th:value="${detail.id}" id="detail-id">
-										<th:block th:each="color : ${colors}">
-											<input class="radio-custom" type="radio" th:id="${color.id}" name="color" th:value="${color.id}" />
-											<label class="radio-lable" th:for="${color.id}" th:style="|background :${color.colorCode}|"></label>
-										</th:block>
-
-									</div>
-									<div class="size-203 flex-c-m respon6">サイズ</div>
-
-
-									<div class="size-204 respon6-next">
-										<div class="rs1-select2 bor8 bg0">
-											<select name="size" id="select-size">
-												<option>サイズを選択する</option>		
-												<th:block th:each="size : ${sizes}">
-													<option th:id="${size.id}" th:value="${size.id}" th:text="${size.value}"></option>	
-												</th:block>										
-											</select>
 										</div>
-									</div> 
+										<div class="size-203 flex-c-m respon6">サイズ</div>
 
-								</div>
-								<!--Add to cart-->
-								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-204 flex-w flex-m respon6-next">
-										<div class="wrap-num-product flex-w m-r-20 m-tb-10">
-											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-												<i class="fs-16 zmdi zmdi-minus"></i>
+
+										<div class="size-204 respon6-next">
+											<div class="rs1-select2 bor8 bg0">
+												<select class="js-select2" name="size" id="select-size" required>
+													<option value="0">サイズを選択する</option>
+												</select>
+												<div class="dropDownSelect2"></div>
+											</div>
+											<br>
+										</div>
+										<div class="alert alert-danger" id="add-cart-alert">
+											<a class="close" style="cursor: pointer;" aria-label="close" >&times;</a>
+											<strong>注意!</strong>サイズとカラーを選択してください
+										  </div>
+										<div class="fs-12 p-r-10">*在庫ありのサイズだけ表示されている</div>
+									</div>
+									<!--Add to cart-->
+									<div class="flex-w flex-r-m p-b-10">
+										<div class="size-204 flex-w flex-m respon6-next">
+											<div class="wrap-num-product flex-w m-r-20 m-tb-10">
+												<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+													<i class="fs-16 zmdi zmdi-minus"></i>
+												</div>
+
+												<input class="mtext-104 cl3 txt-center num-product" type="number"
+													name="quantity" value="1">
+
+												<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+													<i class="fs-16 zmdi zmdi-plus"></i>
+												</div>
 											</div>
 
-											<input class="mtext-104 cl3 txt-center num-product" type="number"
-												name="num-product" value="1">
-
-											<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-												<i class="fs-16 zmdi zmdi-plus"></i>
-											</div>
+											<button
+												class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 add-cart-btn">
+												カートに追加</button>
 										</div>
-
-										<button
-											class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-											繧ｫ繝ｼ繝郁ｿｽ蜉�</button>
 									</div>
-								</div>
+								</form>
 							</div>
 
 							<!--add to wishlist-->

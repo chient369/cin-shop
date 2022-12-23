@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/page-header :: header('Home')}">
+
+</head>
+
+<body class="animsition">
+
+	<!-- Header -->
+	<div th:replace="~{fragments/nav-header :: nav-header}"></div>
+
+	<!-- Slider -->
+	<div>Errors</div>
+
+
+	<!--Footer -->
+
+	<div th:replace="~{fragments/footer :: footer}"></div>
+
+	<!--Back to top -->
+	<div class="btn-back-to-top" id="myBtn">
+		<span class="symbol-btn-back-to-top"> <i
+			class="zmdi zmdi-chevron-up"></i>
+		</span>
+	</div>
+
+	<!--Modal1 -->
+	<!---===============================================================================================-->
+	<div th:replace="~{fragments/js-common :: import-js}"></div>
+
+	</script>
+</body>
+
+</html>

@@ -1,5 +1,7 @@
 package com.cinshop.common.entity;
 
+import java.util.Objects;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -83,5 +85,24 @@ public class CartItem {
 		return "CartItem [id=" + id + ", customer=" + customer + ", product=" + product + ", quantity=" + quantity
 				+ "]";
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(customer, id, product);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CartItem other = (CartItem) obj;
+		return Objects.equals(customer, other.customer) && Objects.equals(id, other.id)
+				&& Objects.equals(product, other.product);
+	}
+	
 
 }

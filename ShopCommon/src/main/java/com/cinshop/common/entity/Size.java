@@ -16,12 +16,12 @@ public class Size {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "size_id")
 	private Integer id;
-	
-	@Column(length = 45,nullable = false, unique = true)
+
+	@Column(length = 45, nullable = false, unique = true)
 	private Float value;
 
 	public Size() {
-		
+
 	}
 
 	public Integer getId() {
@@ -56,9 +56,5 @@ public class Size {
 		Size other = (Size) obj;
 		return Objects.equals(id, other.id) && Objects.equals(value, other.value);
 	}
-
-	
-	
-	
 
 }
