@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 
                 //ログイン無しでもアクセス可能
-                .requestMatchers("/fragment/**", "/", "/register", "/create").permitAll()
+                .requestMatchers("/fragment/**", "/", "/register", "/checkAcc").permitAll()
                 
                 //権限ごとにアクセス可能なURL
                 .requestMatchers("/testDebug", 
