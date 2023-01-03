@@ -16,7 +16,7 @@ public class Sex {
 	@Id
 	@Column(name = "sex_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer sexId;
+	private Integer id;
 	
 	@Column(name = "sex_name", length = 15, nullable = false)
 	private String sexName;
@@ -27,14 +27,24 @@ public class Sex {
 	public Sex() {
 		
 	}
-
-	public Integer getSex_id() {
-		return sexId;
+	public Sex(Integer id) {
+		super();
+		this.id = id;
 	}
 
-	public void setSex_id(Integer sexId) {
-		this.sexId = sexId;
+
+
+	public Integer getId() {
+		return id;
 	}
+
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
 
 	public String getSexName() {
 		return sexName;

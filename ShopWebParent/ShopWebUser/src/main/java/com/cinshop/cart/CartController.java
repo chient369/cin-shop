@@ -1,8 +1,6 @@
 package com.cinshop.cart;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,24 +30,19 @@ public class CartController {
 	private ProductService productService;
 
 	@Autowired
-	private CartService cartService;
+	private CartServiceFactory factory;
 
 	@GetMapping("")
 	public String viewCart(Model model, HttpServletRequest request) {
-		List<CartItem> cartItems = null;
-		try {
-			String email = Utility.getEmailAuthenticatedCustomer(request);
-			if (email != null) {
-				Customer customer = service.findCustomerByEmail(email).get();
-				cartItems = cartService.findCartItemsByCustomerId(customer.getId());
-			} else {
-				HttpSession session = request.getSession();
-				cartItems = (List<CartItem>) session.getAttribute("cart");
-			}
-		} catch (Exception e) {
 
-			return "404";
-		}
+		Customer customer = getAuthenticatedCustomer(request);
+		HttpSession session = request.getSession();
+
+		AbstractCartService cartService = factory.getCartService(customer, session);
+		List<CartItem> cartItems = cartService.findCartItems();
+
+		/* session期限内使えるようにする */
+		session.setAttribute("cart", cartItems);
 		model.addAttribute("cartItems", cartItems);
 		return "shopping-cart";
 	}
@@ -59,34 +52,20 @@ public class CartController {
 			HttpServletRequest request) {
 		Product product = productService.findByDetailIdAndColorIdAndSizeId(detailId, color, size);
 		if (product == null)
+			// 商品が存在しない場合、エラーページに移行
 			return "404";
 
 		try {
-			// 会員の場合
-			String email = Utility.getEmailAuthenticatedCustomer(request);
-			if (email != null) {
-				Customer customer = service.findCustomerByEmail(email).get();
-				cartService.saveCartItem(customer.getId(), product.getId(), quantity);
-			} else {
-				// ゲストの場合
-				HttpSession session = request.getSession();
-				CartItem cartItem = new CartItem(null, product, quantity);
-				if (session.getAttribute("cart") == null) {
-					List<CartItem> cartItems = new ArrayList<>();
-					cartItems.add(cartItem);
-					session.setAttribute("cart", cartItems);
-				} else {
-					List<CartItem> cartItems = (List<CartItem>) session.getAttribute("cart");
-					if (cartItems.contains(cartItem)) {
-						Integer existItemOfIndex = cartItems.indexOf(cartItem);
-						cartItem.setQuantity(cartItems.get(existItemOfIndex).getQuantity() + quantity);
-						cartItems.remove(cartItem);
-					}
-					cartItems.add(cartItem);
-					session.setAttribute("cart", cartItems);
-				}
-			}
+			Customer customer = getAuthenticatedCustomer(request);
+			HttpSession session = request.getSession();
+
+			AbstractCartService cartService = factory.getCartService(customer, session);
+			List<CartItem> cartItems = cartService.addCartItem(product, quantity);
+
+			session.setAttribute("cart", cartItems);
+
 		} catch (Exception e) {
+			e.printStackTrace();
 			return "404";
 		}
 		return "redirect:/cart";
@@ -95,33 +74,27 @@ public class CartController {
 	@PostMapping("/update")
 	public String updateCartItem(HttpServletRequest request) {
 
-		Map<String, String[]> param = request.getParameterMap();
-		String[] productId = param.get("productId");
-		String[] quantity = param.get("quantity");
 		try {
-			// 会員の場合
-			String email = Utility.getEmailAuthenticatedCustomer(request);
-			if (email != null) {
-				Customer customer = service.findCustomerByEmail(email).get();
-				for (int i = 0; i < productId.length; i++) {
-					cartService.saveCartItem(1, Integer.parseInt(productId[i]), Integer.parseInt(quantity[i]));
-				}
-			} else {
-				// ゲストの場合
-				HttpSession session = request.getSession();
-				List<CartItem> cartItems = (List<CartItem>) session.getAttribute("cart");
-				for (int i = 0; i < cartItems.size(); i++) {
-					cartItems.get(i).setQuantity(Integer.parseInt(quantity[i]));
-				}
-				cartItems.removeIf(item -> item.getQuantity() ==0);
-				session.setAttribute("cart", cartItems);
-			}
-		} catch (
+			Customer customer = getAuthenticatedCustomer(request);
+			HttpSession session = request.getSession();
 
-		Exception e) {
+			AbstractCartService cartService = factory.getCartService(customer, session);
+			List<CartItem> cartItems = cartService.updateCartItem(request);
+			
+			session.setAttribute("cart", cartItems);
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			return "404";
 		}
 		return "redirect:/cart";
+	}
+
+	private Customer getAuthenticatedCustomer(HttpServletRequest request) {
+		String email = Utility.getEmailAuthenticatedCustomer(request);
+		Customer customer = null;
+		if (email != null)
+			customer = service.findCustomerByEmail(email).get();
+		return customer;
 	}
 }

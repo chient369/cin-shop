@@ -17,7 +17,7 @@ public class Tax {
 	private Integer id;
 	
 	private Integer tax;
-	private Date effective_date;
+	private Date effectiveDate;
 	public Tax() {
 		
 	}
@@ -25,7 +25,7 @@ public class Tax {
 		super();
 		this.id = id;
 		this.tax = tax;
-		this.effective_date = effective_date;
+		this.effectiveDate = effective_date;
 	}
 	public Integer getId() {
 		return id;
@@ -40,10 +40,10 @@ public class Tax {
 		this.tax = tax;
 	}
 	public Date getEffective_date() {
-		return effective_date;
+		return effectiveDate;
 	}
 	public void setEffective_date(Date effective_date) {
-		this.effective_date = effective_date;
+		this.effectiveDate = effective_date;
 	}
 	
 	

@@ -33,7 +33,7 @@ public class CustomerTest {
 		//性別		
 		//insert into sex values(1, "男");登録してから実行
 		//insert into sex values(2, "女");登録してから実行
-		sex.setSex_id(1);
+		sex.setId(1);
 		sex.setSexName("男");
 		
 		//顧客登録
@@ -52,7 +52,7 @@ public class CustomerTest {
 		assertThat(savedCust).isNotNull();
 		
 		//住所登録
-		address.setCustomer(customer);
+		//address.setCustomer(customer);
 		address.setPostCode("xxx-xxxxx");
 		address.setFirstAddress("hoge県");
 		address.setLastAddress("hoge市hogex-x-x");

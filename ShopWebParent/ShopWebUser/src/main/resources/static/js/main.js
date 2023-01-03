@@ -1,5 +1,5 @@
+$(document).ready(function() {
 
-(function($) {
 	"use strict";
 
 	/*[ Load page ]
@@ -7,8 +7,8 @@
 	$(".animsition").animsition({
 		inClass: 'fade-in',
 		outClass: 'fade-out',
-		inDuration: 1500,
-		outDuration: 800,
+		inDuration: 1000,
+		outDuration: 700,
 		linkElement: '.animsition-link',
 		loading: true,
 		loadingParentElement: 'html',
@@ -211,15 +211,23 @@
 	});
 	/*==================================================================
 	[ +/- num product ]*/
+	$(".u-cart-alert").hide();
 	$('.btn-num-product-down').on('click', function() {
 		var numProduct = Number($(this).next().val());
 		if (numProduct > 0) $(this).next().val(numProduct - 1);
+		$(".u-cart-alert").show();
 	});
 
 	$('.btn-num-product-up').on('click', function() {
 		var numProduct = Number($(this).prev().val());
 		$(this).prev().val(numProduct + 1);
+		$(".u-cart-alert").show();
 	});
+
+
+
+
+
 
 	/*==================================================================
 	[ Rating ]*/
@@ -265,15 +273,20 @@
 
 	/*==================================================================
 	[ Show modal1 ]*/
-	$('.js-show-modal1').on('click', function(e) {
-		e.preventDefault();
-		/*getapi */
-		$.ajax({
-			url: window.location.protocol + "/" + window.location.port + $(this).attr("value"),
+	$(".paymentMethodErr").hide();
+	$('.js-select2').on('change', function(e) {
+		let id = $(selector).attr('id');
 
-		})
-		$('.js-modal1').addClass('show-modal1');
+		if (id == "CREDIT") {
+
+			$('.credit-modal').show("linear");
+			$("input").prop('required', true);
+		} else {
+			$("input").prop('required', false);
+			$('.credit-modal').hide("linear");
+		}
 	});
+
 
 	$('.js-hide-modal1').on('click', function() {
 		$('.js-modal1').removeClass('show-modal1');
@@ -285,7 +298,10 @@
 
 		let colorId = $("input[name = 'color']:checked").val();
 		let detailId = $("#detail-id").val();
-		let URL = "http://localhost:8085/cinshop/api/p/gs?cId=" + colorId + "&dId=" + detailId;
+		//let URL = "http://localhost:8085/cinshop/api/p/gs?cId=" + colorId + "&dId=" + detailId;
+		/*公開する時に使うリンク */
+		let path = window.location.protocol + "//" +window.location.hostname;
+		let URL =path+ "/cinshop/api/p/gs?cId="  + colorId + "&dId=" + detailId;
 		$.ajax({
 			url: URL,
 			success: function(data) {
@@ -300,7 +316,7 @@
 	function renderSizes(data) {
 		$("#select-size").empty();
 		$("#select-size").append(
-			`<option>サイズを選択する</option>	`
+			`<option value = 0>サイズを選択する</option>	`
 		)
 		for (let sz of data) {
 			$("#select-size").append(`
@@ -310,4 +326,5 @@
 	}
 
 
-})(jQuery);
+
+})

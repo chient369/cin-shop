@@ -43,6 +43,12 @@ public class CartItem {
 		this.quantity = quantity;
 	}
 
+	public CartItem(Product product, Integer quantity) {
+		super();
+		this.product = product;
+		this.quantity = quantity;
+	}
+
 	public CartItem(Customer customer, Product product) {
 		this.customer = customer;
 		this.product = product;
@@ -103,6 +109,5 @@ public class CartItem {
 		return Objects.equals(customer, other.customer) && Objects.equals(id, other.id)
 				&& Objects.equals(product, other.product);
 	}
-	
 
 }

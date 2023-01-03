@@ -30,17 +30,5 @@ public class OrderDetailServiceTest {
 		
 	}
 	
-	@Test
-	public void saveOrderDetailTest() {
-		OrderDetail o1 = new OrderDetail();
-		o1.addProduct(new Product(1));
-		o1.setOrder(new Order(1));
-		o1.setQuantity(5);
-		o1.setSubTotal(5000);
-		
-		OrderDetail detail = service.saveOrderDetail(o1);
-		
-		assertThat(detail).isNotNull();
 	
-	}
 }

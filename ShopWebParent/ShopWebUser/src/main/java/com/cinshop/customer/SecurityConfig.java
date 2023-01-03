@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .loginPage("/login")
                 
                 //ログイン後の遷移する画面
-                .defaultSuccessUrl("/testDebug", true)
+                .defaultSuccessUrl("/", true)
                 
                 //ログインエラー用のURL
                 .failureUrl("/login?error")
@@ -47,15 +47,16 @@ public class SecurityConfig {
                 .permitAll()
                 
                 //ログイン無しでもアクセス可能
-                .requestMatchers("/", "/register", "/create","/p/**","/cart/**","/api/**","/checkout/**").permitAll()
+                .requestMatchers("/","/login", "/register", "/create","/p/**","/cart/**","/api/**","/order/**").permitAll()
                 
                 //権限ごとにアクセス可能なURL
-                .requestMatchers("/testDebug", 
+                .requestMatchers("/c/**", 
                 				 "/logout").hasRole("USER")
                 
                 //他のURLはログイン後のみアクセス可能
                 .anyRequest().authenticated()
-        );
+        ).csrf()
+        .disable();
         return http.build();
     }
 

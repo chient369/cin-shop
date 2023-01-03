@@ -1,11 +1,11 @@
 package com.cinshop.common.entity;
 
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -15,11 +15,8 @@ public class Address {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "address_id")
 	private Integer id;
-
-	@OneToOne
-	@JoinColumn(name = "customer_id", nullable = false)
-	private Customer customer;
 
 	@Column(name = "post_code", length = 20, nullable = false)
 	private String postCode;
@@ -33,6 +30,15 @@ public class Address {
 	public Address() {
 
 	}
+	
+
+	public Address(String postCode, String firstAddress, String lastAddress) {
+		super();
+		this.postCode = postCode;
+		this.firstAddress = firstAddress;
+		this.lastAddress = lastAddress;
+	}
+
 
 	public Integer getId() {
 		return id;
@@ -40,14 +46,6 @@ public class Address {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
 	}
 
 	public String getPostCode() {
@@ -73,4 +71,15 @@ public class Address {
 	public void setLastAddress(String lastAddress) {
 		this.lastAddress = lastAddress;
 	}
+
+	public String getFullAddress() {
+		return "〒"+this.postCode + " " +this.firstAddress + " " + this.lastAddress;
+	}
+
+	@Override
+	public String toString() {
+		return "Address [postCode=" + postCode + ", firstAddress=" + firstAddress + ", lastAddress=" + lastAddress
+				+ "]";
+	}
+	
 }

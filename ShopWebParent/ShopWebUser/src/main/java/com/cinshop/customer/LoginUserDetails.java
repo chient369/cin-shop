@@ -12,7 +12,8 @@ import com.cinshop.common.entity.Customer;
 
 public class LoginUserDetails implements UserDetails{
 	
-    private Optional<Customer> customer;
+	private static final long serialVersionUID = 1L;
+	private Optional<Customer> customer;
     private final Collection<? extends GrantedAuthority> authorities;
 
     public LoginUserDetails(Optional<Customer> customer, List<String> roleList) {
@@ -60,5 +61,8 @@ public class LoginUserDetails implements UserDetails{
     @Override
     public boolean isEnabled() {
         return true;
+    }
+    public String getFullName() {
+    	return customer.get().getFullName();
     }
 }

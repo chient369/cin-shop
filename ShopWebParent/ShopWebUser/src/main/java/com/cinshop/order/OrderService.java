@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.Order;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class OrderService {
 
@@ -17,6 +19,7 @@ public class OrderService {
 	public List<Order> findOrderByCustomerId(Integer id) {
 		return repository.findByCustomer(new Customer(id));
 	}
+	
 	public Order saveOrder(Order order) {
 		return repository.save(order);
 	}

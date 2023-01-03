@@ -33,11 +33,11 @@ public class OrderServiceTest {
 	public void saveOrderTest() {
 		Order order = new Order();
 		OrderDetail o1 = new OrderDetail();
-		o1.addProduct(new Product(1));
-		o1.addProduct(new Product(2));
+		o1.setProduct(new Product(1));
+		o1.setProduct(new Product(2));
 		OrderDetail o2 = new OrderDetail();
-		o2.addProduct(new Product(1));
-		o2.addProduct(new Product(2));
+		o2.setProduct(new Product(1));
+		o2.setProduct(new Product(2));
 		order.addOrderDetail(o1);
 		order.addOrderDetail(o2);
 		order.setCustomer(new Customer(1));

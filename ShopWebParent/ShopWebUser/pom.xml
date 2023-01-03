@@ -6,7 +6,6 @@
 		<artifactId>ShopWebParent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-
 	<artifactId>ShopWebUser</artifactId>
 	<name>ShopWebUser</name>
 	<description>shop web for user</description>
@@ -14,14 +13,12 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-
-	<dependency>
-		<groupId>com.cinshop</groupId>
-		<artifactId>ShopCommon</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</dependency>
+		<dependency>
+			<groupId>com.cinshop</groupId>
+			<artifactId>ShopCommon</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -30,5 +27,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

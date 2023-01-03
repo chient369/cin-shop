@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
-import com.cinshop.cart.CartService;
+import com.cinshop.cart.CartServiceImpl;
 import com.cinshop.common.entity.CartItem;
 
 @DataJpaTest
@@ -20,7 +20,7 @@ import com.cinshop.common.entity.CartItem;
 public class CartServiceTest {
 
 	@Autowired
-	private CartService service;
+	private CartServiceImpl service;
 
 	@Test
 	public void addItemTest() {

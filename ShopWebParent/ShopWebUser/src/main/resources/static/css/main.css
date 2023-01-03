@@ -622,6 +622,11 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   }
 }
 
+/*Credit modal*/
+.credit-modal{
+  display: none;
+}
+
 
 /*==================================================================
 [ Fixed menu desktop ]*/
@@ -2246,6 +2251,9 @@ input[type="radio"]:checked + label {
 
 .cl12 {
   color: #ccc;
+}
+.cl13 {
+  color: #ef4227;
 }
 
 /*//////////////////////////////////////////////////////////////////

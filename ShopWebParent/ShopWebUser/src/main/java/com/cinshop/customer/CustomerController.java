@@ -2,18 +2,16 @@ package com.cinshop.customer;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.cinshop.common.entity.Address;
 import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.Sex;
@@ -24,6 +22,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class CustomerController {
+	private Logger logger = LoggerFactory.getLogger(CustomerController.class);
 	
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -53,10 +52,10 @@ public class CustomerController {
 		
 		//性別をセットする
 		if (gender[0].equals("1")) {
-			sex.setSex_id(1);
+			sex.setId(1);
 			sex.setSexName("男");
 		} else if (gender[0].equals("2")){
-			sex.setSex_id(2);
+			sex.setId(2);
 			sex.setSexName("女");
 			System.out.println(2);
 		}
@@ -73,11 +72,13 @@ public class CustomerController {
 		Customer savedCust = service.saveCustomer(customer);
 		
 		//アドレスをセットする
-		address.setCustomer(customer);
+		//address.setCustomer(customer);
 		address.setPostCode(postCode[0]);
 		address.setFirstAddress(firstAddress[0]);
 		address.setLastAddress(lastAddress[0]);
 		Address savedAddr = service.saveAddress(address);
+		
+		logger.info("{}がアカウントを登録しました",customer.getFullName());
 		
 		return "login";
 	}
@@ -88,8 +89,8 @@ public class CustomerController {
 	}
 	
 	//認証後のユーザーテスト用
-	@GetMapping("/testDebug")
-	public String testDebug() {	  
-		return "testDebug";
-	}
+//	@GetMapping("/testDebug")
+//	public String testDebug() {	  
+//		return "testDebug";
+//	}
 }

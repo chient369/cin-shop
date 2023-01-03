@@ -26,83 +26,94 @@
 
 
 	<!-- Shoping Cart -->
-	<form class="bg0 p-t-75 p-b-85" th:action="@{/cart/update}" method="post">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-xl-7 m-lr-auto m-b-50">
-					<div class="m-l-25 m-r--38 m-lr-0-xl">
-						<div class="wrap-table-shopping-cart">
-							<table class="table-shopping-cart">
-								<tr class="table_head">
-									<th class="column-1">商品</th>
-									<th class="column-2"></th>
-									<th class="column-3">値段</th>
-									<th class="column-4">数量</th>
-									<th class="column-5">合計</th>
-								</tr>
-								<th:block th:each="item : ${cartItems}">
-									<tr class="table_row">
-										<input type="hidden" th:name="productId" th:value="${item.product.id}">
-										<th:block th:with="detail = ${item.product.productDetail}">
-											<td class="column-1">
-												<div class="how-itemcart1">
-													<img th:src="@{${detail.mainImage}}" alt="IMG">
-												</div>
-											</td>
-											<td class="column-2" th:with="p = ${item.product}">
-												<div class="stext-301" th:text="${detail.name}"></div>
-												<div class="fs-10 p-t-2 p-l-4" th:text="'カラー :' + ${p.color.name}">
-												</div>
-												<div class="fs-10 p-t-2 p-l-4" th:text="'サイズ : '+ ${p.size.value}">
-												</div>
-											</td>
-											<td class="column-3" th:text="'¥ ' + ${detail.price}"></td>
-											<td class="column-4">
-												<div class="wrap-num-product flex-w m-l-auto m-r-0">
-													<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-														<i class="fs-16 zmdi zmdi-minus"></i>
-													</div>
-
-													<input class="mtext-104 cl3 txt-center num-product" type="number"
-														th:name="quantity" th:value="${item.quantity}">
-
-													<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-														<i class="fs-16 zmdi zmdi-plus"></i>
-													</div>
-												</div>
-											</td>
-											<td class="column-5" th:text="'¥ '+${detail.price} * ${item.quantity}">
-											</td>
-										</th:block>
-									</tr>
-								</th:block>
-
-
-							</table>
-
-						</div>
-						<div  class="flex-w flex-sa-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
-							<button class="flex-w flex-m m-r-20 m-tb-5">
-								<div
-									class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
-									カート更新
-								</div>
-							</button>
-
-							<a class="flex-w flex-c p-t-18 p-b-15 p-lr-40 p-lr-15-sm" th:href="@{/checkout}">
-								<div
-									class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
-									支払いに進む
-								</div>
-							</a>
-						</div>
-					</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-xl-7 m-lr-auto m-b-50">
+				<div th:if="${#lists.size(cartItems)} == 0" class="p-tb-50">
+					<h3 class="txt-center p-tb-30">商品がございません</h3>
+					<a th:href="@{/p}"
+						class="flex-c-m stext-101 m-tb-10 bor13 p-lr-15 trans-04 pointer m-tb-5">すぐに買い物</a>
 
 				</div>
-			</div>
+				<div th:if="${#lists.size(cartItems)} > 0">
+					<form class="bg0 p-t-50 p-b-85" th:action="@{/cart/update}" method="post">
+						<div class="m-l-25 m-r--38 m-lr-0-xl">
+							<div class="wrap-table-shopping-cart">
+								<table class="table-shopping-cart">
+									<tr class="table_head">
+										<th class="column-1">商品</th>
+										<th class="column-2"></th>
+										<th class="column-3">値段</th>
+										<th class="column-4">数量</th>
+										<th class="column-5">合計</th>
+									</tr>
+									<th:block th:each="item : ${cartItems}">
+										<tr class="table_row">
+											<input type="hidden" th:name="productId" th:value="${item.product.id}">
+											<th:block th:with="detail = ${item.product.productDetail}">
+												<td class="column-1">
+													<div class="how-itemcart1">
+														<img th:src="@{${detail.mainImage}}" alt="IMG">
+													</div>
+												</td>
+												<td class="column-2" th:with="p = ${item.product}">
+													<div class="stext-301" th:text="${detail.name}"></div>
+													<div class="fs-10 p-t-2 p-l-4" th:text="'カラー :' + ${p.color.name}">
+													</div>
+													<div class="fs-10 p-t-2 p-l-4" th:text="'サイズ : '+ ${p.size.value}">
+													</div>
+												</td>
+												<td class="column-3" th:text="'¥ ' + ${detail.price}"></td>
+												<td class="column-4">
+													<div class="wrap-num-product flex-w m-l-auto m-r-0">
+														<div
+															class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+															<i class="fs-16 zmdi zmdi-minus"></i>
+														</div>
 
+														<input class="mtext-104 cl3 txt-center num-product"
+															type="number" th:name="quantity"
+															th:value="${item.quantity}">
+
+														<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+															<i class="fs-16 zmdi zmdi-plus"></i>
+														</div>
+													</div>
+												</td>
+												<td class="column-5" th:text="'¥ '+${detail.price} * ${item.quantity}">
+												</td>
+											</th:block>
+										</tr>
+									</th:block>
+
+
+								</table>
+
+							</div>
+							<div class="cl13 txt-center p-tb-5 stext-109 u-cart-alert">*数量を変更する場合、カート更新ボータンを押してください</div>
+							<div class="flex-w flex-sa-m p-t-5 p-b-5 p-lr-40 p-lr-15-sm">
+								<button class="flex-w flex-m m-r-20 m-tb-5">
+									<div
+										class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
+										カート更新
+									</div>
+								</button>
+
+								<a class="flex-w flex-c p-t-5 p-b-5 p-lr-40 p-lr-15-sm" th:href="@{/order}">
+									<div
+										class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
+										支払いに進む
+									</div>
+								</a>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
 		</div>
-	</form>
+
+	</div>
 
 
 

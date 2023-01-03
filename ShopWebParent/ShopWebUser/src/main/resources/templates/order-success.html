@@ -11,8 +11,11 @@
 	<div th:replace="~{fragments/nav-header :: nav-header}"></div>
 
 	<!-- Slider -->
-	<div class="txt-center p-tb-200 ltext-102">エラーが発生しました！<br>もう一度やり直してください</div>
-
+	<div class="txt-center p-tb-200 ltext-102">
+		<brdiv　>ご注文ありがとうございます。</br>
+		<a　th:href="@{/}" class="flex-c-m stext-101 m-tb-10 hov-cl1　bor13 p-lr-15 trans-04 pointer m-tb-20">買い物を続き</a>
+		</div>
+	</div>
 
 	<!--Footer -->
 
@@ -20,8 +23,7 @@
 
 	<!--Back to top -->
 	<div class="btn-back-to-top" id="myBtn">
-		<span class="symbol-btn-back-to-top"> <i
-			class="zmdi zmdi-chevron-up"></i>
+		<span class="symbol-btn-back-to-top"> <i class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
 

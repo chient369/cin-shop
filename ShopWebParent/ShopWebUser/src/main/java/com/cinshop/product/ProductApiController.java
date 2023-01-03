@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Product;
 import com.cinshop.common.entity.ProductDetail;
 import com.cinshop.common.entity.Size;
@@ -25,13 +26,14 @@ public class ProductApiController {
 	private ProductDetailService service;
 
 	@GetMapping("/gs")
-	public List<Size> findExistSizesByColor(@RequestParam("cId") Integer colorId,@RequestParam("dId") Integer productId){
+	public List<Size> findExistSizesByColor(@RequestParam("cId") Integer colorId,
+			@RequestParam("dId") Integer productId) {
 		List<Size> sizes = new ArrayList<>();
 		ProductDetail detail = service.findById(productId);
 		Set<Product> products = detail.getProducts();
-		
+
 		Iterator<Product> it = products.iterator();
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			Product product = it.next();
 			if (product.getColor().getId().equals(colorId)) {
 				sizes.add(product.getSize());
@@ -39,5 +41,10 @@ public class ProductApiController {
 		}
 		return sizes;
 	}
-	
+
+	@GetMapping("/gb")
+	public List<Brand> getBrands() {
+		List<Brand> brands = service.findAllBranchs();
+		return brands;
+	}
 }

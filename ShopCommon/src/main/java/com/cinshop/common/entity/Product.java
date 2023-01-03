@@ -84,6 +84,9 @@ public class Product {
 	public void setStockAmount(Integer stockAmount) {
 		this.stockAmount = stockAmount;
 	}
+	public Integer getPrice() {
+		return this.productDetail.getPrice();
+	}
 
 	@Override
 	public int hashCode() {

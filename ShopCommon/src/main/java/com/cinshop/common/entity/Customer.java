@@ -52,11 +52,14 @@ public class Customer {
 	@Column(name = "point", length = 10)
 	private Integer point;
 	
-	@OneToOne(mappedBy="customer", cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "address_id")
 	private Address address;
 	
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Order> order = new HashSet<>();
+	
+	
 	public Customer() {
 
 	}
@@ -167,4 +170,17 @@ public class Customer {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+	
+	public String getFullName() {
+		return this.firstName + " " + this.lastName;
+	}
+
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", password=" + password + ", role=" + role + ", sex=" + sex + ", enable=" + enable + ", image="
+				+ image + ", phoneNumber=" + phoneNumber + ", point=" + point + ", address=" + address + ", order="
+				+ order + "]";
+	}
+	
 }

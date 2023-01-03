@@ -16,8 +16,5 @@ public class OrderDetailService {
 	
 	public List<OrderDetail> findOrderDetailsByProductId(Integer orderId){
 		return repository.findByOrder(new Order(orderId));
-	}
-	public OrderDetail saveOrderDetail(OrderDetail orderDetail) {
-		return repository.save(orderDetail);
-	}
+	}	
 }

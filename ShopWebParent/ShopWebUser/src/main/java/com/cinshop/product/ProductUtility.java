@@ -42,7 +42,7 @@ public class ProductUtility {
 	}
 
 	public List<Brand> findAllBrands() {
-		String sql = "SELECT * FROM BRAND";
+		String sql = "SELECT * FROM BRAND LIMIT 5";
 		List<Brand> brands = template.query(sql, new RowMapper<Brand>() {
 
 			@Override

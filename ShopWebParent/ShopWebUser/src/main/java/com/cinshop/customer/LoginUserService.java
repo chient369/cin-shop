@@ -16,6 +16,7 @@ public class LoginUserService implements UserDetailsService{
 	
 	@Autowired
 	public CustomerRepository custRepo;
+	
 	private List<Customer> roleCust;
 	private List<String> roleStr = new ArrayList<String>();
 	

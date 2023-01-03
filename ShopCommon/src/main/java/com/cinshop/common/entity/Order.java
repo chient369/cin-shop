@@ -1,11 +1,12 @@
 package com.cinshop.common.entity;
 
-import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.cinshop.common.OrderStatus;
-import com.cinshop.common.PaymentMethod;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -23,6 +24,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "orders")
@@ -33,32 +35,37 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name = "order_num", length = 16, unique = true, nullable = false)
+	private String orderNum;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
 	private Integer discountPercent;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "tax_id")
 	private Tax tax;
-	
+
 	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
 
-	@Enumerated(value = EnumType.STRING)
+	@OneToOne
+	@JoinColumn(name = "payment_method")
 	private PaymentMethod paymentMethod;
 
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OrderDetail> orderDetails = new ArrayList<>();
-	
+
 	@Temporal(TemporalType.DATE)
-	private Date order_time;
+	private Date orderTime;
 
 	private Integer total;
 
 	public Order() {
-
+		String randomNum = "OD" +Calendar.getInstance().getTimeInMillis() / 60;
+		this.orderNum = randomNum;
 	}
 
 	public Order(Integer id) {
@@ -74,7 +81,8 @@ public class Order {
 		this.paymentMethod = paymentMethod;
 		this.total = total;
 	}
-	//注文詳細を追加
+
+	// 注文詳細を追加
 	public void addOrderDetail(OrderDetail detail) {
 		this.orderDetails.add(detail);
 	}
@@ -135,7 +143,6 @@ public class Order {
 		this.status = status;
 	}
 
-
 	public List<OrderDetail> getOrderDetails() {
 		return orderDetails;
 	}
@@ -144,13 +151,29 @@ public class Order {
 		this.orderDetails = orderDetails;
 	}
 
-	public Date getOrder_time() {
-		return order_time;
+
+	public String getOrderNum() {
+		return orderNum;
 	}
 
-	public void setOrder_time(Date order_time) {
-		this.order_time = order_time;
+	public void setOrderNum(String orderNum) {
+		this.orderNum = orderNum;
 	}
+
+	public Date getOrderTime() {
+		return orderTime;
+	}
+
+	public void setOrderTime(Date orderTime) {
+		this.orderTime = orderTime;
+	}
+	@Transient
+	public String getOrderDateString() {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy年mm月dd日");  
+	   return formatter.format(this.orderTime);
+	}
+	
+
 	
 
 }
