@@ -8,9 +8,11 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 
 import com.cinshop.common.entity.Customer;
@@ -19,6 +21,8 @@ import com.cinshop.common.entity.OrderDetail;
 import com.cinshop.common.entity.Product;
 
 @Component
+@Configuration
+@EnableAsync
 public class MailSenderHelper {
 
 	@Autowired
@@ -60,7 +64,7 @@ public class MailSenderHelper {
 				if (line.contains("#shipCost"))
 					line = line.replace("#shipCost", "500");
 				if (line.contains("#paymentMethod"))
-					line = line.replace("#paymentMethod", order.getPaymentMethod().toString());
+					line = line.replace("#paymentMethod", order.getPaymentMethod().getNameJa());
 
 				if (line.contains("#detail")) {
 					line = line.replace("#detail", "");

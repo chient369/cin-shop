@@ -12,7 +12,7 @@ public abstract class AbstractCartService {
 	protected List<CartItem> cartItems;
 
 	public AbstractCartService() {
-		super();
+		
 	}
 	
 	public List<CartItem> getCartItems() {

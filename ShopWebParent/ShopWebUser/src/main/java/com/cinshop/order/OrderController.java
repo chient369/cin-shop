@@ -42,11 +42,11 @@ public class OrderController {
 
 	@GetMapping("/order")
 	public String checkout(Model model, HttpServletRequest request) {
-
 		Customer customer = getAuthenticatedCustomer(request);
+		HttpSession session = request.getSession();
+		AbstractCartService cartService = cartServiceFactory.getCartService(customer, session);
+		AbstractOrderService orderService = orderServiceFactory.getOrderService(cartService);
 		if (customer != null) {
-			AbstractCartService cartService = cartServiceFactory.getCartService(customer, null);
-			AbstractOrderService orderService = orderServiceFactory.getOrderService(cartService);
 			model.addAttribute("total", orderService.getTotalWithTax());
 			model.addAttribute("shipCost", orderService.getShippingCost());
 			model.addAttribute("cartItems", cartService.findCartItems());
@@ -55,6 +55,9 @@ public class OrderController {
 			return "/order-confirm";
 		}
 		// ゲストの場合、個人情報を入力するフォームに移行
+		if (cartService.getCartItems() == null) {		
+			return "403";
+		}
 		model.addAttribute("customer", new Customer());
 		return "guest-form-order";
 
@@ -94,8 +97,7 @@ public class OrderController {
 		HttpSession session = request.getSession();
 
 		AbstractCartService cartService = cartServiceFactory.getCartService(customer, session);
-		System.err.println(cartService.toString());
-		
+
 		AbstractOrderService orderService = orderServiceFactory.getOrderService(cartService);
 
 		// 支払方法を決定処理
@@ -103,7 +105,7 @@ public class OrderController {
 		Order order;
 		String email;
 		PaymentMethod paymentMethod = getPaymentMethod(request);
-		//会員で場合、クレジットカードの情報を格納する
+		// 会員で場合、クレジットカードの情報を格納する
 
 		if (cartService instanceof CustomerCartService) {
 			order = orderService.saveOrder(customer, paymentMethod);

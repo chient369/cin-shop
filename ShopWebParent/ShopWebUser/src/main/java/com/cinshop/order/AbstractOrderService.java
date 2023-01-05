@@ -2,6 +2,7 @@ package com.cinshop.order;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public abstract class AbstractOrderService {
 			order.addOrderDetail(detail);
 		}
 		order.setCustomer(customer);
-		order.setOrderTime(Calendar.getInstance().getTime());
+		order.setOrderTime(new Date());
 		// クレジットカードで支払い場合、顧客のカード情報を格納必要がある
 		order.setPaymentMethod(paymentMethod);
 		order.setStatus(OrderStatus.PLACED);

@@ -28,6 +28,7 @@ public class SecurityConfig {
                 
                 //ログインエラー用のURL
                 .failureUrl("/login?error")
+                
 
                 //ログインページは誰でも閲覧可能
                 .permitAll()
@@ -56,7 +57,8 @@ public class SecurityConfig {
                 //他のURLはログイン後のみアクセス可能
                 .anyRequest().authenticated()
         ).csrf()
-        .disable();
+        .disable()
+        ;
         return http.build();
     }
 
