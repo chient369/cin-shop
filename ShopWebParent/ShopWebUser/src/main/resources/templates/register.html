@@ -40,7 +40,7 @@
 							</div>
 
 							<div class="size-204">
-								<input type="text" id="email" name="email" th:field="*{email}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" oninput="nullCheck(); reInputEmail(); reInputEmail();">
+								<input type="text" id="email" name="email" th:field="*{email}" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" oninput="nullCheck(); reInputEmail();">
 							</div>
 						</div>
 						<div class="flex-w flex-m m-b-10 p-b-13">
@@ -154,9 +154,7 @@
 								<input type="text" id="lastAddress" name="lastAddress" class="stext-111 cl2 plh3 size-111 bor10 p-l-10" placeholder="番地,マンション名" oninput="nullCheck()">	
 							</div>
 						</div>
-						<div>
-							<button id="button_" disabled class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer m-t-50" onclick="nullCheckOnClick()">登録</button>
-						</div>
+						<button id="button_" disabled class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer m-t-50">登録</button>
 					</form>
 				</div>
 			</div>
@@ -379,7 +377,6 @@
 		const postCode = document.getElementById('postCode');
 		const firstAddress = document.getElementById('firstAddress');
 		const lastAddress = document.getElementById('lastAddress');
-		const checkbox = document.getElementById('lastAddress');
 		const button = document.getElementById('button_');
 		
 		//コントローラから受け取った値を変数に代入する。

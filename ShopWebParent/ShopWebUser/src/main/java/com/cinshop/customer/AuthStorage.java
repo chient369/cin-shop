@@ -3,6 +3,9 @@ package com.cinshop.customer;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class AuthStorage {
 	private static Map<String,String> auth;
 	private static AuthStorage INSTANCE;
