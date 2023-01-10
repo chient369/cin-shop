@@ -4,11 +4,16 @@ import java.util.Calendar;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cinshop.cart.AbstractCartService;
 import com.cinshop.cart.CartServiceFactory;
@@ -18,6 +23,7 @@ import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.Order;
 import com.cinshop.common.entity.PaymentMethod;
 import com.cinshop.customer.CustomerService;
+import com.cinshop.exception.NotLoginException;
 import com.cinshop.utility.MailSenderHelper;
 import com.cinshop.utility.Utility;
 
@@ -27,6 +33,7 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class OrderController {
 	private static final Integer CREDIT_METHOD = 4;
+	private final Integer ITEM_PER_PAGE = 3;
 
 	@Autowired
 	private OrderServiceFactory orderServiceFactory;
@@ -55,8 +62,8 @@ public class OrderController {
 			return "/order-confirm";
 		}
 		// ゲストの場合、個人情報を入力するフォームに移行
-		if (cartService.getCartItems() == null) {		
-			return "403";
+		if (cartService.getCartItems() == null) {
+			return "error/403";
 		}
 		model.addAttribute("customer", new Customer());
 		return "guest-form-order";
@@ -124,6 +131,27 @@ public class OrderController {
 
 		session.removeAttribute("cart");
 		return "order-success";
+	}
+
+	@GetMapping("/order/history")
+	public String orderHistoryFirstpage(Model model, HttpServletRequest request) throws NotLoginException {
+		return orderHistory(model, request, 1);
+	}
+
+	@GetMapping("/order/history/{pNum}")
+	public String orderHistory(Model model, HttpServletRequest request, @PathVariable Integer pNum)
+			throws NotLoginException {
+		Customer customer = getAuthenticatedCustomer(request);
+		if (customer == null) {
+			throw new NotLoginException("Deny Access!!");
+		}
+		CustomerOrderService orderService = orderServiceFactory.getCustomerService();
+		Pageable pageable = PageRequest.of(pNum - 1, ITEM_PER_PAGE);
+		Page<Order> orders = orderService.findOrderByCustomerId(customer.getId(), pageable);
+		model.addAttribute("orders", orders.getContent());
+		model.addAttribute("totalPages", orders.getTotalPages());
+		model.addAttribute("currentPage", orders.getNumber());
+		return "order-history";
 	}
 
 	private Customer getAuthenticatedCustomer(HttpServletRequest request) {

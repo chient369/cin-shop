@@ -169,7 +169,7 @@ public class Order {
 	}
 	@Transient
 	public String getOrderDateString() {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy年mm月dd日");  
+		SimpleDateFormat formatter = new SimpleDateFormat("YYYY年MM月DD日");  
 	   return formatter.format(this.orderTime);
 	}
 	

@@ -274,9 +274,10 @@ $(document).ready(function() {
 	/*==================================================================
 	[ Show modal1 ]*/
 	$(".paymentMethodErr").hide();
-	$('.js-select2').on('change', function(e) {
-		let id = $(selector).attr('id');
+	$('.payment').on('change', function(e) {
+		var id = $(this).children(":selected").attr("id");
 
+			console.log(id)
 		if (id == "CREDIT") {
 
 			$('.credit-modal').show("linear");

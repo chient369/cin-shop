@@ -46,13 +46,13 @@ public class SecurityConfig {
                 .requestMatchers("/css/**","/js/**","/vendor/**","/fonts/**","/images/**")
                
                 .permitAll()
-                
+                .requestMatchers("/c/**", 
+       				 "/logout").authenticated()
                 //ログイン無しでもアクセス可能
-                .requestMatchers("/","/login", "/register", "/create","/p/**","/cart/**","/api/**","/order/**").permitAll()
+                .requestMatchers("/**","/error","/login", "/register", "/create","/p/**","/cart/**","/api/**","/order/**").permitAll()
                 
                 //権限ごとにアクセス可能なURL
-                .requestMatchers("/c/**", 
-                				 "/logout").hasRole("USER")
+                
                 
                 //他のURLはログイン後のみアクセス可能
                 .anyRequest().authenticated()

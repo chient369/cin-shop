@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.cinshop.common.entity.Address;
 import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.Sex;
+import com.cinshop.utility.Utility;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -87,7 +88,19 @@ public class CustomerController {
 	public String login() {	  
 		return "login";
 	}
-	
+	@GetMapping("/c")
+	public String accountDetail(Model model,HttpServletRequest request) {
+		Customer customer = getAuthenticatedCustomer(request);
+		model.addAttribute("cust",customer);
+		return "account-detail";
+	}
+	private Customer getAuthenticatedCustomer(HttpServletRequest request) {
+		String email = Utility.getEmailAuthenticatedCustomer(request);
+		Customer customer = null;
+		if (email != null)
+			customer = service.findCustomerByEmail(email).get();
+		return customer;
+	}
 	//認証後のユーザーテスト用
 //	@GetMapping("/testDebug")
 //	public String testDebug() {	  

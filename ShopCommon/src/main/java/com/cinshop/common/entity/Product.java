@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "product")
@@ -86,6 +87,15 @@ public class Product {
 	}
 	public Integer getPrice() {
 		return this.productDetail.getPrice();
+	}
+	
+	@Transient
+	public String getMainImage() {
+		return productDetail.getMainImage();
+	}
+	@Transient
+	public String getName() {
+		return productDetail.getName();
 	}
 
 	@Override

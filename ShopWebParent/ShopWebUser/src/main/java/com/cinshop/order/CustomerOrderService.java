@@ -1,7 +1,7 @@
 package com.cinshop.order;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.cinshop.common.entity.Order;
@@ -9,8 +9,8 @@ import com.cinshop.common.entity.Order;
 @Service
 public class CustomerOrderService extends AbstractOrderService {
 
-	public List<Order> findOrderByCustomerId(Integer id) {
-		return orderService.findOrderByCustomerId(id);
+	public Page<Order> findOrderByCustomerId(Integer id,Pageable pageable) {
+		return orderService.findOrderByCustomerId(id,pageable);
 	}
 	public Order findOrderById(Integer id) {
 		return orderService.findOrderById(id);

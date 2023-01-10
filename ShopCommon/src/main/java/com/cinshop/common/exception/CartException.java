@@ -1,10 +1,10 @@
 package com.cinshop.common.exception;
 
-public class OrderException extends Exception {
+public class CartException extends Exception {
 
 	private String msg;
 
-	public OrderException(String msg) {
+	public CartException(String msg) {
 		super();
 		this.msg = msg;
 	}
