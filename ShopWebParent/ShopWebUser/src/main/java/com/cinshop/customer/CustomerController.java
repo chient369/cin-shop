@@ -25,7 +25,7 @@ import com.cinshop.utility.Utility;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-//a
+
 @Controller
 public class CustomerController {
 	private Logger logger = LoggerFactory.getLogger(CustomerController.class);
@@ -46,12 +46,13 @@ public class CustomerController {
 	@GetMapping("/register")
 	public String registerGet(Model model) {	
 		model.addAttribute("customer", new Customer());
+		model.addAttribute("address", new Address());
 		return "register";
 	}
 
 	//顧客情報登録
 	@PostMapping("/register")
-	public String registerPost(Model model, HttpServletRequest request, @ModelAttribute Customer customer) throws ServletException, IOException{
+	public String registerPost(Model model, HttpServletRequest request, @ModelAttribute Customer customer, @ModelAttribute Address address) throws ServletException, IOException{
 		
 		request.setCharacterEncoding("UTF-8"); // 文字化け防止
 		String email = customer.getEmail();
@@ -61,10 +62,7 @@ public class CustomerController {
 		
 		//フォームの値を取得
 		String gender = request.getParameter("gender");
-		String postCode = request.getParameter("postCode");
-		String firstAddress = request.getParameter("firstAddress");
-		String lastAddress = request.getParameter("lastAddress");
-		
+		System.out.println(gender);
 		//email検索
 		Optional<Customer> cust = service.findCustomerByEmail(email);
 		
@@ -73,16 +71,15 @@ public class CustomerController {
 			model.addAttribute("firstNameValue", firstName);
 			model.addAttribute("lastNameValue", lastName);
 			model.addAttribute("phoneNumberValue", phoneNumber);
-			model.addAttribute("postCodeValue", postCode);
-			model.addAttribute("firstAddressValue", firstAddress);
-			model.addAttribute("lastAddressValue", lastAddress);
+			model.addAttribute("postCodeValue", address.getPostCode());
+			model.addAttribute("firstAddressValue", address.getFirstAddress());
+			model.addAttribute("lastAddressValue", address.getLastAddress());
 			model.addAttribute("emailSearchResult", "true");
 			model.addAttribute("customer", new Customer());
 			return "register";
 		//email検索結果なし。顧客情報登録
 		} else {
 			Sex sex = new Sex();
-			Address address = new Address();
 			
 			//パスワードハッシュ化
 			String encodePassword = passwordEncoder.encode(customer.getPassword());
@@ -95,22 +92,18 @@ public class CustomerController {
 				} else if (gender.equals("2")){
 					sex.setSex_id(2);
 					sex.setSexName("女");
-				} else {
-					sex.setSex_id(0);
-					sex.setSexName("未登録");
 				}
-				customer.setSex(sex);
+			} else {
+				sex.setSex_id(3);
+				sex.setSexName("未登録");
 			}
 			
+			customer.setSex(sex);
 			customer.setPassword(encodePassword);
 			customer.setEnable((byte)1);
 			customer.setPoint(0);
 			customer.setImage("img/xxx.jpg");	//あとでかえるかも
 			customer.setRole("ROLE_USER");
-			
-			address.setPostCode(postCode);
-			address.setFirstAddress(firstAddress);
-			address.setLastAddress(lastAddress);
 			customer.setAddress(address);
 			
 			//顧客情報をDBに登録
@@ -222,13 +215,14 @@ public class CustomerController {
 		
 		//テキストボックスの初期値用にセットする
 		model.addAttribute("customer", new Customer());
+		model.addAttribute("address", new Address());
 		model.addAttribute("custId", cust.get().getId());
 		model.addAttribute("emailDBValue", cust.get().getEmail());
 		model.addAttribute("passwordDBValue", cust.get().getPassword());
-		if (cust.get().getSex().getSex_id() != 0) {
+		if (cust.get().getSex().getSex_id() != 3) {
 			model.addAttribute("sexDBValue", cust.get().getSex().getSex_id());
 		} else {
-			model.addAttribute("sexDBValue", "0");
+			model.addAttribute("sexDBValue", "3");
 		}
 		model.addAttribute("firstNameDBValue", cust.get().getFirstName());
 		model.addAttribute("lastNameDBValue", cust.get().getLastName());
@@ -241,20 +235,17 @@ public class CustomerController {
 	
 	
 	@PostMapping("/account/u")
-	public String updateAccount(@ModelAttribute Customer customer, Model model, HttpServletRequest request) throws ServletException, IOException{
+	public String updateAccount(@ModelAttribute Customer customer, @ModelAttribute Address address, Model model, HttpServletRequest request) throws ServletException, IOException{
 		
 		request.setCharacterEncoding("UTF-8"); // 文字化け防止
 		
 		//フォームの値を取得
 		String custId = request.getParameter("custId");
 		String gender = request.getParameter("gender");
-		String postCode = request.getParameter("postCode");
-		String firstAddress = request.getParameter("firstAddress");
-		String lastAddress = request.getParameter("lastAddress");
 		
 		//顧客情報登録
 		Sex sex = new Sex();
-		Address address = new Address();
+		
 		//パスワードハッシュ化
 		String encodePassword = passwordEncoder.encode(customer.getPassword());
 		
@@ -266,28 +257,23 @@ public class CustomerController {
 			} else if (gender.equals("2")){
 				sex.setSex_id(2);
 				sex.setSexName("女");
-			} else {
-				sex.setSex_id(0);
-				sex.setSexName("未登録");
 			}
-			customer.setSex(sex);
+		} else {
+			sex.setSex_id(3);
+			sex.setSexName("未登録");
 		}
 		
+		customer.setSex(sex);
 		customer.setId(Integer.valueOf(custId));
 		customer.setPassword(encodePassword);
 		customer.setEnable((byte)1);
 		customer.setPoint(0);
 		customer.setImage("img/xxx.jpg");	//あとでかえるかも
 		customer.setRole("ROLE_USER");
+		customer.setAddress(address);
 		
-
-		//アドレスをセットする
-		//address.setCustomer(customer);
-		address.setPostCode(postCode);
-		address.setFirstAddress(firstAddress);
-		address.setLastAddress(lastAddress);
-		Address savedAddr = service.saveAddress(address);
-		
+		service.save(customer);
+	
 		logger.info("{}がアカウントを登録しました",customer.getFullName());
 		
 		return "login";
