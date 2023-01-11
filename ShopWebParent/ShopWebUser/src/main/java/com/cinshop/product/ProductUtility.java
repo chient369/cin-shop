@@ -2,7 +2,6 @@ package com.cinshop.product;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,7 @@ import org.springframework.stereotype.Component;
 import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Category;
 import com.cinshop.common.entity.Color;
-import com.cinshop.common.entity.Customer;
-import com.cinshop.common.entity.FavouriteProduct;
 import com.cinshop.common.entity.Size;
-import com.cinshop.dto.FavouriteProductDTO;
 
 @Component
 public class ProductUtility {

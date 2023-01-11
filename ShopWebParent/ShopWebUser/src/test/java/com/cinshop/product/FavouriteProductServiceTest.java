@@ -11,13 +11,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
-import com.cinshop.common.entity.Brand;
-import com.cinshop.common.entity.Category;
-import com.cinshop.common.entity.Color;
-import com.cinshop.common.entity.FavouriteProduct;
 import com.cinshop.common.entity.Product;
-import com.cinshop.common.entity.Size;
-import com.cinshop.dto.FavouriteProductDTO;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)

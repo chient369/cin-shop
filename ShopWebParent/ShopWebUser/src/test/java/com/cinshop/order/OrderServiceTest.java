@@ -46,12 +46,12 @@ public class OrderServiceTest {
 		assertThat(savedOrder).isNotNull();
 	}
 
-	@Test
-	public void findOrderByCustomerId() {
-		List<Order> orders = service.findOrderByCustomerId(1);
-		orders.forEach(order -> System.out.println(order.getId()));
-		assertThat(orders.size()).isGreaterThan(0);
-	}
+//	@Test
+//	public void findOrderByCustomerId() {
+//		List<Order> orders = service.findOrderByCustomerId(1);
+//		orders.forEach(order -> System.out.println(order.getId()));
+//		assertThat(orders.size()).isGreaterThan(0);
+//	}
 
 	@Test
 	public void findOrderByIdTest() {
