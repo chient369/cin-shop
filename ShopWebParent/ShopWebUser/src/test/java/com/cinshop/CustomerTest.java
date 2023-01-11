@@ -31,9 +31,9 @@ public class CustomerTest {
 		Sex sex = new Sex();
 		
 		//性別		
-		//insert into sex values(1, "男");登録してから実行
-		//insert into sex values(2, "女");登録してから実行
-		sex.setId(1);
+
+		//insert into sex values(1, "男");insert into sex values(2, "女");insert into sex values(0, "未登録");	登録してから実行
+		sex.setSex_id(1);
 		sex.setSexName("男");
 		
 		//顧客登録
@@ -48,7 +48,7 @@ public class CustomerTest {
 		customer.setPhoneNumber("xxx-xxxx-xxxx");
 		customer.setPoint(100);
 		
-		Customer savedCust = service.saveCustomer(customer);
+		Customer savedCust = service.save(customer);
 		assertThat(savedCust).isNotNull();
 		
 		//住所登録

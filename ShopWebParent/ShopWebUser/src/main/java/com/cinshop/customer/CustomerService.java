@@ -21,17 +21,18 @@ public class CustomerService{
 	@Autowired
 	private AddressRepository AddrRepo;
 	
-	public Customer saveCustomer(Customer customer) {
-		return custRepo.save(customer);
+	public Customer save(Customer cust) {
+		return custRepo.save(cust);
 	}
 	
-	public Address saveAddress(Address address) {
-		return AddrRepo.save(address);
+	public void update(Integer custId, String newPassword) {
+		custRepo.update(custId, newPassword);
 	}
 	
 	public Optional<Customer> findCustomerByEmail(String email) {
 		return custRepo.findCustomerByEmail(email);
 	}
+
 	public Customer saveGuest(Customer guest) {
 		Long checkExistAcc = custRepo.countByEmail(guest.getEmail());
 		if (checkExistAcc > 0) {
@@ -44,6 +45,16 @@ public class CustomerService{
 		// ゲストに仮パスワードを設定する
 		guest.setPassword(Calendar.getInstance().getTimeInMillis() + "");
 		return custRepo.save(guest);
+	}
+
+	
+	public Address saveAddress(Address address) {
+		return AddrRepo.save(address);
+	}
+	
+	public Optional<Address> findAddressById(Integer custId) {
+		return AddrRepo.findAddressById(custId);
+
 	}
 } 
 
