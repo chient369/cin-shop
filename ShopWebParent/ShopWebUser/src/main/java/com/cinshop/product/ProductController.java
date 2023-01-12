@@ -60,7 +60,6 @@ public class ProductController {
 		model.addAttribute("p", detail.getProducts());
 		model.addAttribute("detail", detail);
 		model.addAttribute("colors", findExistColors(detail.getProducts()));
-		model.addAttribute("sizes", dService.findAllSizes());
 		return "product/product-detail";
 	}
 

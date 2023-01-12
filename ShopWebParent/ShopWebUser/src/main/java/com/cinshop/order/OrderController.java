@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cinshop.cart.AbstractCartService;
 import com.cinshop.cart.CartServiceFactory;
@@ -32,7 +31,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class OrderController {
-	private static final Integer CREDIT_METHOD = 4;
+	private static final Integer CREDIT_METHOD = 1;
 	private final Integer ITEM_PER_PAGE = 3;
 
 	@Autowired
@@ -116,9 +115,11 @@ public class OrderController {
 
 		if (cartService instanceof CustomerCartService) {
 			order = orderService.saveOrder(customer, paymentMethod);
+			System.err.println("Payment method * "+ paymentMethod.getId());
 			if (paymentMethod.getId() == CREDIT_METHOD) {
 				Credit credit = getCreditDetail(request);
 				credit.setCustomer(customer);
+				System.err.println("Saved credir card detail");
 				orderService.saveCreditDetails(credit);
 			}
 			email = customer.getEmail();

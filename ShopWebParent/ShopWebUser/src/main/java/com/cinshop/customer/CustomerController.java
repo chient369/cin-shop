@@ -43,6 +43,7 @@ public class CustomerController {
 	AuthStorage authStorage;
 	
 	//新規登録画面を表示
+
 	@GetMapping("/register")
 	public String registerGet(Model model) {	
 		model.addAttribute("customer", new Customer());

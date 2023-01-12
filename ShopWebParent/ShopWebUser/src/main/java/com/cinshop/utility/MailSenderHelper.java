@@ -63,8 +63,8 @@ public class MailSenderHelper {
 					line = line.replace("#orderNum", order.getOrderNum());
 				if (line.contains("#shipCost"))
 					line = line.replace("#shipCost", "500");
-				if (line.contains("#paymentMethod"))
-					line = line.replace("#paymentMethod", order.getPaymentMethod().getNameJa());
+//				if (line.contains("#paymentMethod"))
+//					line = line.replace("#paymentMethod", order.getPaymentMethod().getNameJa());
 
 				if (line.contains("#detail")) {
 					line = line.replace("#detail", "");
