@@ -190,7 +190,7 @@ public class CustomerController {
 	
 	
 	//ユーザー情報更新ページ
-	@GetMapping("/account")
+	@GetMapping("/c")
 	public String accountDetail(Model model) {	
 		
 		//スレッドローカルからSecurityContextを取得
@@ -269,20 +269,20 @@ public class CustomerController {
 		return "redirect:/account";
 	}
 	
-	@GetMapping("/c")
-	public String accountDetail(Model model,HttpServletRequest request) {
-		Customer customer = getAuthenticatedCustomer(request);
-		model.addAttribute("cust",customer);
-		return "account-detail";
-	}
-	private Customer getAuthenticatedCustomer(HttpServletRequest request) {
-		String email = Utility.getEmailAuthenticatedCustomer(request);
-		Customer customer = null;
-		if (email != null)
-			customer = service.findCustomerByEmail(email).get();
-		return customer;
+//	@GetMapping("/c")
+//	public String accountDetail(Model model,HttpServletRequest request) {
+//		Customer customer = getAuthenticatedCustomer(request);
+//		model.addAttribute("cust",customer);
+//		return "account-detail";
+//	}
+//	private Customer getAuthenticatedCustomer(HttpServletRequest request) {
+//		String email = Utility.getEmailAuthenticatedCustomer(request);
+//		Customer customer = null;
+//		if (email != null)
+//			customer = service.findCustomerByEmail(email).get();
+//		return customer;
 
-	}
+//	}
 	//認証後のユーザーテスト用
 //	@GetMapping("/testDebug")
 //	public String testDebug() {	  

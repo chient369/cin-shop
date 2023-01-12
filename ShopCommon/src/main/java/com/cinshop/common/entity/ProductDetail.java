@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -60,11 +59,10 @@ public class ProductDetail {
 	private Set<Product> products = new HashSet<>();
 
 	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Image> images = new ArrayList<>();
+	private List<ProductImage> images = new ArrayList<>();
 
 	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Review> reviews = new ArrayList<>();
-	
 
 	public ProductDetail() {
 	}
@@ -161,11 +159,11 @@ public class ProductDetail {
 		this.products = products;
 	}
 
-	public List<Image> getImages() {
+	public List<ProductImage> getImages() {
 		return images;
 	}
 
-	public void setImages(List<Image> images) {
+	public void setImages(List<ProductImage> images) {
 		this.images = images;
 	}
 
