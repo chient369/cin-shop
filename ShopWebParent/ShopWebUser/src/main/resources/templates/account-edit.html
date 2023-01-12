@@ -317,7 +317,7 @@
 
 
 	<!-- Shoping Cart -->
-	<form class="bg0 p-t-75 p-b-85">
+	<form th:action="@{/account/u}" th:object="${customer}" th:method="POST" class="bg0 p-t-75 p-b-85">
 		<div class="container">
 			<div class="row">
 
@@ -380,14 +380,17 @@
 					<div class="flex-w flex-m m-b-10 p-b-13">
 						<div class="size-203">
 							<span class="stext-110 cl2">
-								パスワード
+								新規パスワード
 							</span>
 						</div>
 
 						<div class="size-204">
-							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="password" name="password">
+							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="password" name="password" id="password" th:field="*{password}" oninput="confirmPassword(); nullCheck();">
 						</div>
 					</div>
+					<!-- エラーメッセージ表示-->
+					<b id = "passwordError_msg"></b>
+					<!-- エラーメッセージ表示-->
 					<div class="flex-w flex-m m-b-10 p-b-13 ">
 						<div class="size-203">
 							<span class="stext-110 cl2">
@@ -396,7 +399,7 @@
 						</div>
 
 						<div class="size-204">
-							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="password" name="password">
+							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="password" name="rePassword" id="rePassword" oninput="confirmPassword(); nullCheck();">
 						</div>
 					</div>
 					<div class="flex-w flex-m m-b-10 p-b-13">
@@ -408,7 +411,7 @@
 
 						<div class="size-204">
 							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="firstName"
-								placeholder="フリガナ">
+								placeholder="フリガナ" id="firstName" th:field="*{firstName}" oninput="nullCheck();">
 						</div>
 					</div>
 					<div class="flex-w flex-m m-b-10 p-b-13">
@@ -420,7 +423,7 @@
 
 						<div class="size-204">
 							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="lastName"
-								placeholder="フリガナ">
+								placeholder="フリガナ" id="lastName" th:field="*{lastName}" oninput="nullCheck();">
 						</div>
 					</div>
 					<div class="flex-w flex-m m-b-10 p-b-13">
@@ -432,10 +435,10 @@
 
 						<div class="size-204">
 							<div class="flex-w flex-sa-m">
-								<span class="flex-w"><input class="stext-111 p-lr-10" type="radio" name="firstName"
-										value="Male">男性</span>
-								<span class="flex-w"><input class="stext-111" type="radio" name="firstName"
-										value="Male">女性</span>
+								<span class="flex-w"><input class="stext-111 p-lr-10" type="radio" name="gender" id="gender"
+										value="1">男性</span>
+								<span class="flex-w"><input class="stext-111" type="radio" name="gender" id="gender"
+										value="2">女性</span>
 							</div>
 
 						</div>
@@ -449,53 +452,55 @@
 
 						<div class="size-204">
 							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="phoneNumber"
-								placeholder="000-0000-0000">
+								placeholder="000-0000-0000" id="phoneNumber" th:field="*{phoneNumber}" oninput="nullCheck();">
 						</div>
 					</div>
-					<div class="flex-w flex-m m-b-10 p-b-13">
-						<div class="size-203">
-							<span class="stext-110 cl2">
-								郵便番号
-							</span>
+					<div th:object="${address}">
+						<div class="flex-w flex-m m-b-10 p-b-13">
+							<div class="size-203">
+								<span class="stext-110 cl2">
+									郵便番号
+								</span>
+							</div>
+	
+							<div class="size-204">
+								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="postCode"
+									placeholder="123-4567" id="postCode" th:field="*{postCode}" oninput="nullCheck();">
+							</div>
 						</div>
-
-						<div class="size-204">
-							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="postCode"
-								placeholder="123-4567">
+						<div class="flex-w flex-m m-b-10 p-b-13">
+							<div class="size-203">
+								<span class="stext-110 cl2">
+									住所
+								</span>
+							</div>
+	
+							<div class="size-204">
+								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="firstAddress"
+									placeholder="市区町" id="firstAddress" th:field="*{firstAddress}" oninput="nullCheck();">
+							</div>
+						</div>
+						<div class="flex-w flex-m m-b-10 p-b-13">
+							<div class="size-203">
+								<span class="stext-110 cl2">
+									住所
+								</span>
+							</div>
+	
+							<div class="size-204">
+								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="lastAddress"
+									placeholder="番地,マンション名" id="lastAddress" th:field="*{lastAddress}" oninput="nullCheck();">
+							</div>
 						</div>
 					</div>
-					<div class="flex-w flex-m m-b-10 p-b-13">
-						<div class="size-203">
-							<span class="stext-110 cl2">
-								住所
-							</span>
-						</div>
-
-						<div class="size-204">
-							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="firstAddress"
-								placeholder="市区町">
-						</div>
-					</div>
-					<div class="flex-w flex-m m-b-10 p-b-13">
-						<div class="size-203">
-							<span class="stext-110 cl2">
-								住所
-							</span>
-						</div>
-
-						<div class="size-204">
-							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="lastAddress"
-								placeholder="番地,マンション名">
-						</div>
-					</div>
-					<button class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer m-t-50">
+					<button id="button_" disabled class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer m-t-50">
 						保存
 					</button>
 				</div>
-
-
 			</div>
 		</div>
+		<input type="hidden" id="email" name="email" th:field="*{email}">
+		<input type="hidden" id="custId" name="custId" th:field="*{id}">
 	</form>
 
 
@@ -642,7 +647,6 @@
 					-CIN &copy;
 					<script>document.write(new Date().getFullYear());</script>
 					Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
-
 				</p>>
 			</div>-->
 			</div>
@@ -694,7 +698,97 @@
 	</script>
 	<!--===============================================================================================-->
 	<script src="js/main.js"></script>
-
+		<!--========================================ここから追加したやつ==========================================-->
+	<script th:inline="javascript">
+		
+		//ボタン制御
+		var passwordCheck = false;	//パスワードが一致したらtrue
+		
+		const custId = document.getElementById('custId');
+		const email = document.getElementById('email');
+		let gender = document.getElementsByName('gender');
+		const firstName = document.getElementById('firstName');
+		const lastName = document.getElementById('lastName');
+		const phoneNumber = document.getElementById('phoneNumber');
+		const postCode = document.getElementById('postCode');
+		const firstAddress = document.getElementById('firstAddress');
+		const lastAddress = document.getElementById('lastAddress');
+		const button = document.getElementById('button_');
+		
+		const custIdDBValue = /*[[${custIdDBValue}]]*/"custIdDBValue";
+		const emailDBValue = /*[[${emailDBValue}]]*/"emailDBValue";
+		const genderDBValue = /*[[${genderDBValue}]]*/"genderDBValue";
+		const firstNameDBValue = /*[[${firstNameDBValue}]]*/"firstNameDBValue";
+		const lastNameDBValue = /*[[${lastNameDBValue}]]*/"lastNameDBValue";
+		const phoneNumberDBValue = /*[[${phoneNumberDBValue}]]*/"phoneNumberDBValue";
+		const postCodeDBValue = /*[[${postCodeDBValue}]]*/"postCodeDBValue";
+		const firstAddressDBValue = /*[[${firstAddressDBValue}]]*/"firstAddressDBValue";
+		const lastAddressDBValue = /*[[${lastAddressDBValue}]]*/"lastAddressDBValue";
+		console.log(custIdDBValue);
+		
+		if (!custIdDBValue == "")custId.defaultValue = custIdDBValue;
+		if (!emailDBValue == "")email.defaultValue = emailDBValue;
+		if (genderDBValue == 1) {
+			gender[0].checked = true;
+		} else if (genderDBValue == 2) {
+			gender[1].checked = true;
+		}
+		if (!firstNameDBValue == "")firstName.defaultValue = firstNameDBValue;
+		if (!lastNameDBValue == "")lastName.defaultValue = lastNameDBValue;
+		if (!phoneNumberDBValue == "")phoneNumber.defaultValue = phoneNumberDBValue;
+		if (!postCodeDBValue == "")postCode.defaultValue = postCodeDBValue;
+		if (!firstAddressDBValue == "")firstAddress.defaultValue = firstAddressDBValue;
+		if (!lastAddressDBValue == "")lastAddress.defaultValue = lastAddressDBValue;
+		
+		
+		//新規登録画面ロードした瞬間にボタンを灰色にする
+		window.addEventListener('load', (event) => {
+  			button.style.backgroundColor = "gray";
+		});
+		
+		
+		//入力するたびにパスワード一致チェック
+		function confirmPassword() {
+  			const password = document.getElementById('password').value;
+  			const confirmPassword = document.getElementById('rePassword').value;
+            const errorMsg = document.getElementById('passwordError_msg');
+            
+            if (password != "") {
+				if (password == confirmPassword) {
+	                errorMsg.innerText = "";
+	                passwordCheck = true;
+	            } else {
+	                errorMsg.innerText = "パスワードが一致しません";
+	                passwordCheck = false;
+	            }
+			} else {
+				errorMsg.innerText = "パスワードを入力してください";
+				passwordCheck = false;
+			}
+			errorMsg.style.color = "red";
+        }
+        
+        
+        //入力するたびに必須項目のNULLチェック
+		function nullCheck() {
+			const password = document.getElementById('password').value;
+			const rePassword = document.getElementById('rePassword').value;
+			const firstName = document.getElementById('firstName').value;
+			const lastName = document.getElementById('lastName').value;
+			const phoneNumber = document.getElementById('phoneNumber').value;
+			const postCode = document.getElementById('postCode').value;
+			const firstAddress = document.getElementById('firstAddress').value;
+			const lastAddress = document.getElementById('lastAddress').value;
+			
+			if(!password == "" && !rePassword == "" && !firstName == "" && !lastName == "" && 
+               !phoneNumber == "" && !postCode == "" && !firstAddress == "" && !lastAddress == "" && passwordCheck == true) {
+			    button.disabled = null;		//ボタンを押せるようにする。
+			    button.style.backgroundColor = "black";
+			} else {
+				button.disabled = "disabled";	//ボタンを押せないようにする。
+				button.style.backgroundColor = "gray";
+			}
+		}
+	</script>
 </body>
-
 </html>
