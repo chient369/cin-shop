@@ -27,8 +27,10 @@ public class Review {
 	@JoinColumn(name = "detail_id")
 	private ProductDetail productDetail;
 
+	@Column(name = "content")
 	private String content;
 
+	@Column(name = "vote")
 	private Integer vote;
 
 	public Review() {

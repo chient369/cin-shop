@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,8 @@ import com.cinshop.common.entity.Category;
 import com.cinshop.common.entity.Color;
 import com.cinshop.common.entity.Product;
 import com.cinshop.common.entity.ProductDetail;
+import com.cinshop.common.entity.Review;
+import com.cinshop.customer.LoginUserDetails;
 
 @Controller
 @RequestMapping("/p")
@@ -33,7 +36,8 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
-
+	
+	
 	@GetMapping("")
 	public String viewProductPage(Model model) {
 
@@ -56,11 +60,16 @@ public class ProductController {
 	@GetMapping("/{pId}")
 	public String viewProduct(@PathVariable Integer pId, Model model) {
 		ProductDetail detail = dService.findById(6);
+		
 
 		model.addAttribute("p", detail.getProducts());
 		model.addAttribute("detail", detail);
 		model.addAttribute("colors", findExistColors(detail.getProducts()));
 		model.addAttribute("sizes", dService.findAllSizes());
+		//レビュー用
+		model.addAttribute("review", new Review());
+		model.addAttribute("reviewList", detail.getReviews());
+		
 		return "product/product-detail";
 	}
 
