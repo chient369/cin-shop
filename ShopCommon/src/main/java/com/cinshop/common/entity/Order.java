@@ -43,6 +43,8 @@ public class Order {
 	private Customer customer;
 
 	private Integer discountPercent;
+	
+	private Integer shippingCost;
 
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "tax_id")
@@ -55,7 +57,7 @@ public class Order {
 	@JoinColumn(name = "payment_method")
 	private PaymentMethod paymentMethod;
 
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "order", orphanRemoval = true)
 	private List<OrderDetail> orderDetails = new ArrayList<>();
 
 	@Temporal(TemporalType.DATE)
@@ -167,11 +169,30 @@ public class Order {
 	public void setOrderTime(Date orderTime) {
 		this.orderTime = orderTime;
 	}
+	
+	
+	
+	public Integer getShippingCost() {
+		return shippingCost;
+	}
+
+	public void setShippingCost(Integer shippingCost) {
+		this.shippingCost = shippingCost;
+	}
+
 	@Transient
 	public String getOrderDateString() {
 		SimpleDateFormat formatter = new SimpleDateFormat("YYYY年MM月DD日");  
 	   return formatter.format(this.orderTime);
 	}
+
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", orderNum=" + orderNum + ", customer=" + customer + ", discountPercent="
+				+ discountPercent + ", tax=" + tax + ", status=" + status + ", paymentMethod=" + paymentMethod
+				+ ", orderDetails=" + orderDetails + ", orderTime=" + orderTime + ", total=" + total + "]";
+	}
+	
 	
 
 	

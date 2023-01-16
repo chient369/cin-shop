@@ -1,7 +1,6 @@
 package com.cinshop.order;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -13,12 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.cinshop.cart.AbstractCartService;
 import com.cinshop.common.OrderStatus;
-import com.cinshop.common.entity.PaymentMethod;
 import com.cinshop.common.entity.CartItem;
 import com.cinshop.common.entity.Credit;
 import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.Order;
 import com.cinshop.common.entity.OrderDetail;
+import com.cinshop.common.entity.PaymentMethod;
 import com.cinshop.common.entity.Tax;
 
 @Service
@@ -50,6 +49,7 @@ public abstract class AbstractOrderService {
 		// クレジットカードで支払い場合、顧客のカード情報を格納必要がある
 		order.setPaymentMethod(paymentMethod);
 		order.setStatus(OrderStatus.PLACED);
+		order.setShippingCost(getShippingCost());
 		order.setTax(utility.getCurrentTax());
 		order.setTotal(getTotalWithTax());
 

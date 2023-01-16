@@ -88,4 +88,9 @@ public class OrderDetail {
 		this.subTotal = subTotal;
 	}
 
+	@Override
+	public String toString() {
+		return "OrderDetail [product=" + product + ", quantity=" + quantity + ", subTotal=" + subTotal + "]";
+	}
+
 }
