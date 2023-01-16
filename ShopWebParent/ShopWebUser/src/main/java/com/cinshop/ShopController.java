@@ -21,6 +21,7 @@ import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.ProductDetail;
 import com.cinshop.customer.CustomerService;
 import com.cinshop.product.ProductDetailService;
+import com.cinshop.review.ReviewService;
 import com.cinshop.utility.Utility;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,12 +41,18 @@ public class ShopController {
 	
 	@Autowired
 	private CartServiceFactory cartFactory;
+	
+	@Autowired
+	private ReviewService rService;
 
 	@GetMapping("/")
 	public String viewHomePage(Model model,HttpServletRequest request) {
 		Customer customer = getAuthenticatedCustomer(request);
 		HttpSession session = request.getSession();
 		AbstractCartService cartService = cartFactory.getCartService(customer, session);
+		
+		//レビュー平均値検索
+		float avgVote = ((float)Math.round(rService.getAvgRanking(6) * 10))/10;
 		
 		if(customer != null) {
 			logger.info("{}が訪問しました", customer.getFullName());
@@ -67,6 +74,9 @@ public class ShopController {
 		model.addAttribute("totalPages", page.getTotalPages());
 		model.addAttribute("currentPage", page.getNumber());
 		session.setAttribute("cart", cartService.getCartItems());
+		
+		//レビュー用
+		model.addAttribute("avgVote", avgVote);
 		return "index";
 	}
 	

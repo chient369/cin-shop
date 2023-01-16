@@ -24,5 +24,7 @@ public class ReviewService {
 		return repository.save(review);
 	}
 	
-
+	public float getAvgRanking(Integer id) {
+		return repository.getAvgRanking(id);
+	}
 }

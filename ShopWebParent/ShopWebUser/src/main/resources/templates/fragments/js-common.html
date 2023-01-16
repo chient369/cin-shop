@@ -66,6 +66,7 @@
 		$('.js-addwish-detail').each(function () {
 			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
 
+			//https://qiita.com/t-yama-3/items/572fabc873b4b6a0fc7c
 			$(this).on('click', function () {
 				swal(nameProduct, "is added to wishlist !", "success");
 

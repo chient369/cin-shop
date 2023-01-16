@@ -95,7 +95,14 @@
 										<div class="size-204 respon6-next">
 											<div class="rs1-select2 bor8 bg0">
 												<select class="js-select2" name="size" id="select-size" required>
-													<option value="0">サイズを選択する</option>
+													<div th:each="sizes : ${sizes}">
+														<div th:if="${sizes == null}">
+															<option value="0">サイズを選択してください</option>
+														</div>
+														<div th:if="${sizes != null}">
+															<option th:value="${sizes.id}"><p th:text="${sizes.value}" style="display:inline;"></p></option>
+														</div>
+													</div>
 												</select>
 												<div class="dropDownSelect2"></div>
 											</div>
@@ -134,7 +141,7 @@
 							<!--add to wishlist-->
 							<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 								<div class="flex-m bor9 p-r-10 m-r-11">
-									<a href="#"
+									<a href="#" 
 										class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
 										data-tooltip="Add to Wishlist"> <i class="zmdi zmdi-favorite"></i>
 									</a>
@@ -161,7 +168,71 @@
 									role="tab">商品説明</a></li>
 
 							<li class="nav-item p-b-10"><a class="nav-link" data-toggle="tab" href="#reviews"
-									role="tab">評価</a></li>
+									role="tab">評価：<p th:text="${avgVote}" style="display:inline;"></p></a></li>
+							<li class="nav-item p-b-10">
+								<span class="fs-18 cl11">
+									<!-- 0.5 -->
+									<div th:if="${avgVote ge 0.3 && avgVote le 0.7}">
+										<i class="zmdi zmdi-star-half"></i>
+									</div>
+									<!-- 1 -->
+									<div th:if="${avgVote ge 0.8 && avgVote le 1.2}">
+										<i class="zmdi zmdi-star"></i>
+									</div>
+									<!-- 1.5 -->
+									<div th:if="${avgVote ge 1.3 && avgVote le 1.7}">
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star-half"></i>
+									</div>
+									<!-- 2 -->
+									<div th:if="${avgVote ge 1.8 && avgVote le 2.2}">
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+									</div>
+									<!-- 2.5 -->
+									<div th:if="${avgVote ge 2.3 && avgVote le 2.7}">
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star-half"></i>
+									</div>
+									<!-- 3 -->
+									<div th:if="${avgVote ge 2.8 && avgVote le 3.2}">
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+									</div>
+									<!-- 3.5 -->
+									<div th:if="${avgVote ge 3.3 && avgVote le 3.7}">
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star-half"></i>
+									</div>
+									<!-- 4 -->
+									<div th:if="${avgVote ge 3.8 && avgVote le 4.2}">
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+									</div>
+									<!-- 4.5 -->
+									<div th:if="${avgVote ge 4.3 && avgVote le 4.7}">
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star-half"></i>
+									</div>
+									<!-- 5 -->
+									<div th:if="${avgVote ge 4.8 && avgVote le 5.0}">
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+										<i class="zmdi zmdi-star"></i>
+									</div>
+								</span>
+							</li>		
 						</ul>
 
 						<!-- Tab panes -->
@@ -195,55 +266,60 @@
 														<div class="flex-w flex-sb-m p-b-17">
 															<span class="mtext-107 cl2 p-r-20" th:text = "${reviewList.customer.firstName} + ${reviewList.customer.lastName}"></span>
 															<span class="fs-18 cl11">
-																<div th:if="${reviewList.vote == 1}">
+																<!-- 0.5 -->
+																<div th:if="${reviewList.vote ge 0.3 && reviewList.vote le 0.7}">
+																	<i class="zmdi zmdi-star-half"></i>
+																</div>
+																<!-- 1 -->
+																<div th:if="${reviewList.vote ge 0.8 && reviewList.vote le 1.2}">
 																	<i class="zmdi zmdi-star"></i>
 																</div>
-																
-																<div th:if="${reviewList.vote == 1.5}">
+																<!-- 1.5 -->
+																<div th:if="${reviewList.vote ge 1.3 && reviewList.vote le 1.7}">
 																	<i class="zmdi zmdi-star"></i>
 																	<i class="zmdi zmdi-star-half"></i>
 																</div>
-																
-																<div th:if="${reviewList.vote == 2}">
+																<!-- 2 -->
+																<div th:if="${reviewList.vote ge 1.8 && reviewList.vote le 2.2}">
 																	<i class="zmdi zmdi-star"></i>
 																	<i class="zmdi zmdi-star"></i>
 																</div>
-																
-																<div th:if="${reviewList.vote == 2.5}">
-																	<i class="zmdi zmdi-star"></i>
-																	<i class="zmdi zmdi-star"></i>
-																	<i class="zmdi zmdi-star-half"></i>
-																</div>
-																
-																<div th:if="${reviewList.vote == 3}">
-																	<i class="zmdi zmdi-star"></i>
-																	<i class="zmdi zmdi-star"></i>
-																	<i class="zmdi zmdi-star"></i>
-																</div>
-																
-																<div th:if="${reviewList.vote == 3.5}">
-																	<i class="zmdi zmdi-star"></i>
+																<!-- 2.5 -->
+																<div th:if="${reviewList.vote ge 2.3 && reviewList.vote le 2.7}">
 																	<i class="zmdi zmdi-star"></i>
 																	<i class="zmdi zmdi-star"></i>
 																	<i class="zmdi zmdi-star-half"></i>
 																</div>
-																
-																<div th:if="${reviewList.vote == 4}">
-																	<i class="zmdi zmdi-star"></i>
+																<!-- 3 -->
+																<div th:if="${reviewList.vote ge 2.8 && reviewList.vote le 3.2}">
 																	<i class="zmdi zmdi-star"></i>
 																	<i class="zmdi zmdi-star"></i>
 																	<i class="zmdi zmdi-star"></i>
 																</div>
-																
-																<div th:if="${reviewList.vote == 4.5}">
-																	<i class="zmdi zmdi-star"></i>
+																<!-- 3.5 -->
+																<div th:if="${reviewList.vote ge 3.3 && reviewList.vote le 3.7}">
 																	<i class="zmdi zmdi-star"></i>
 																	<i class="zmdi zmdi-star"></i>
 																	<i class="zmdi zmdi-star"></i>
 																	<i class="zmdi zmdi-star-half"></i>
 																</div>
-																
-																<div th:if="${reviewList.vote == 5}">
+																<!-- 4 -->
+																<div th:if="${reviewList.vote ge 3.8 && reviewList.vote le 4.2}">
+																	<i class="zmdi zmdi-star"></i>
+																	<i class="zmdi zmdi-star"></i>
+																	<i class="zmdi zmdi-star"></i>
+																	<i class="zmdi zmdi-star"></i>
+																</div>
+																<!-- 4.5 -->
+																<div th:if="${reviewList.vote ge 4.3 && reviewList.vote le 4.7}">
+																	<i class="zmdi zmdi-star"></i>
+																	<i class="zmdi zmdi-star"></i>
+																	<i class="zmdi zmdi-star"></i>
+																	<i class="zmdi zmdi-star"></i>
+																	<i class="zmdi zmdi-star-half"></i>
+																</div>
+																<!-- 5 -->
+																<div th:if="${reviewList.vote ge 4.8 && reviewList.vote le 5.0}">
 																	<i class="zmdi zmdi-star"></i>
 																	<i class="zmdi zmdi-star"></i>
 																	<i class="zmdi zmdi-star"></i>
@@ -264,47 +340,49 @@
 											-->
 
 											<!-- Add review -->
-											<form class="w-full" th:action="@{/p}" th:object="${review}" th:method="POST">
-												<h5 class="mtext-108 cl2 p-b-7">ユーザーの評価</h5>
-
-												<div class="flex-w flex-m p-t-50 p-b-23">
-													<span class="stext-102 cl3 m-r-16">5段階評価</span> <span
-														class="wrap-rating fs-18 cl11 pointer"> <i
-															class="item-rating pointer zmdi zmdi-star-outline"></i> <i
-															class="item-rating pointer zmdi zmdi-star-outline"></i> <i
-															class="item-rating pointer zmdi zmdi-star-outline"></i> <i
-															class="item-rating pointer zmdi zmdi-star-outline"></i> <i
-															class="item-rating pointer zmdi zmdi-star-outline"></i>
-														<input class="dis-none" type="number" name="vote" id="vote" th:field="*{vote}">
-													</span>
-												</div>
-
-												<div class="row p-b-25">
-													<div class="col-12 p-b-5">
-														<label class="stext-102 cl3" for="review">詳細</label>
-														<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10"
-															id="content" name="content" th:field=*{content}>
-														</textarea>
+											<div th:if="${customer != null}">
+												<form class="w-full" th:action="@{/p}" th:object="${review}" th:method="POST">
+													<h5 class="mtext-108 cl2 p-b-7">あなたの評価</h5>
+	
+													<div class="flex-w flex-m p-t-50 p-b-23">
+														<span class="stext-102 cl3 m-r-16">5段階評価</span> <span
+															class="wrap-rating fs-18 cl11 pointer"> <i
+																class="item-rating pointer zmdi zmdi-star-outline"></i> <i
+																class="item-rating pointer zmdi zmdi-star-outline"></i> <i
+																class="item-rating pointer zmdi zmdi-star-outline"></i> <i
+																class="item-rating pointer zmdi zmdi-star-outline"></i> <i
+																class="item-rating pointer zmdi zmdi-star-outline"></i>
+															<input class="dis-none" type="number" name="vote" id="vote" th:field="*{vote}">
+														</span>
 													</div>
-
-													<!-- <div class="col-sm-6 p-b-5">
-													<label class="stext-102 cl3" for="name">Name</label>
-													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name"
-														type="text" name="name">
-												</div>
-												<div class="col-sm-6 p-b-5">
-													<label class="stext-102 cl3" for="email">Email</label>
-													<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email"
-														type="text" name="email">
-												</div> -->
-												</div>
-
-
-												<button
-													class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
-													Submit</button>
-												<input type="hidden" id="detailId" name="detailId" th:value="${detail.id}">	
-											</form>
+	
+													<div class="row p-b-25">
+														<div class="col-12 p-b-5">
+															<label class="stext-102 cl3" for="review">詳細</label>
+															<textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10"
+																id="content" name="content" th:field=*{content}>
+															</textarea>
+														</div>
+	
+														<!-- <div class="col-sm-6 p-b-5">
+														<label class="stext-102 cl3" for="name">Name</label>
+														<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name"
+															type="text" name="name">
+													</div>
+													<div class="col-sm-6 p-b-5">
+														<label class="stext-102 cl3" for="email">Email</label>
+														<input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email"
+															type="text" name="email">
+													</div> -->
+													</div>
+	
+	
+													<button
+														class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
+														Submit</button>
+													<input type="hidden" id="detailId" name="detailId" th:value="${detail.id}">
+												</form>
+											</div>
 										</div>
 									</div>
 								</div>

@@ -25,6 +25,7 @@ import com.cinshop.common.entity.Product;
 import com.cinshop.common.entity.ProductDetail;
 import com.cinshop.common.entity.Review;
 import com.cinshop.customer.LoginUserDetails;
+import com.cinshop.review.ReviewService;
 
 @Controller
 @RequestMapping("/p")
@@ -37,10 +38,13 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
+	@Autowired
+	private ReviewService rService;
+	
 	
 	@GetMapping("")
 	public String viewProductPage(Model model) {
-
+		
 		return viewPage(1, model);
 	}
 
@@ -50,17 +54,23 @@ public class ProductController {
 	public String viewPage(@PathVariable Integer pnum, Model model) {
 		Pageable pageable = PageRequest.of(pnum - 1, ITEM_PER_PAGE);
 		Page<ProductDetail> page = dService.finAll(pageable);
+		
+		//レビュー平均値検索
+		float avgVote = ((float)Math.round(rService.getAvgRanking(6) * 10))/10;
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
 
 		model.addAttribute("products", page.getContent());
+		
+		//レビュー用
+		model.addAttribute("avgVote", avgVote);
 		return "product/product";
 	}
 
 	@GetMapping("/{pId}")
-	public String viewProduct(@PathVariable Integer pId, Model model) {
+	public String viewProduct(@PathVariable Integer pId, Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
 		ProductDetail detail = dService.findById(6);
-		
+		float avgVote = ((float)Math.round(rService.getAvgRanking(6) * 10))/10;
 
 		model.addAttribute("p", detail.getProducts());
 		model.addAttribute("detail", detail);
@@ -69,6 +79,13 @@ public class ProductController {
 		//レビュー用
 		model.addAttribute("review", new Review());
 		model.addAttribute("reviewList", detail.getReviews());
+		model.addAttribute("avgVote", avgVote);
+		if (userDetails != null) {
+			model.addAttribute("customer", userDetails.getCustomer().get());
+		} else {
+			model.addAttribute("customer", null);
+		}
+		
 		
 		return "product/product-detail";
 	}
