@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.cinshop.common.entity.Customer;
 
 @Controller
-public class MainController {
+public class DashBoardController {
 
 	@GetMapping("/")
 	public String home() {
