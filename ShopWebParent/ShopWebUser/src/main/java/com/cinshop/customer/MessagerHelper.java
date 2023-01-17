@@ -1,6 +1,7 @@
 package com.cinshop.customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -9,6 +10,9 @@ import jakarta.mail.internet.MimeMessage;
 
 @Component
 public class MessagerHelper {
+	
+	@Value("${spring.mail.username}")
+	private String shopEmail;
 	
 	@Autowired
 	private JavaMailSender mailSender;
@@ -25,8 +29,8 @@ public class MessagerHelper {
 	    try {
 	      //送信情報設定
 	      MimeMessageHelper helper = new MimeMessageHelper(message, true);
-	      helper.setFrom("iwakiri0319@gmail.com");
-	      helper.setTo("iwakiri0319@gmail.com");
+	      helper.setFrom(shopEmail);
+	      helper.setTo(toEmail);
 	      //helper.setCc("xxxxx@xxx.xx");
 	      //helper.setBcc("xxxxx@xxx.xx");
 	      helper.setSubject("【重要】パスワード再設定のお知らせ");

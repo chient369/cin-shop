@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-	  xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="~{fragments/page-header :: header('Home')}">
 
@@ -23,54 +21,57 @@
 
 	<!-- loginform -->
 	<form method="post" th:action="@{/login}">
-	<section class="bg0 p-t-104 p-b-116">
-		<div class="container">
-			<div class="flex-w flex-c">
-				<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
-					<h4 class="mtext-105 cl2 txt-center p-b-30">
-						ログイン
-					</h4>
-					
-					<!--検索結果なし-->
-					<b th:if="${param.error}" class="error">
-    					ユーザー名またはパスワードが違います。
-					</b>
-					<!--検索結果なし-->
-					
-					<div class="flex-w flex-m m-b-10 p-b-13">
-						<div class="size-203">
-							<span class="stext-110 cl2">
-								E-Mail
-							</span>
-						</div>
+		<section class="bg0 p-t-104 p-b-116">
+			<div class="container">
+				<div class="flex-w flex-c">
+					<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
+						<h4 class="mtext-105 cl2 txt-center p-b-30">
+							ログイン
+						</h4>
 
-						<div class="size-204">
-							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="username">
-						</div>
-					</div>
-					<div class="flex-w flex-m m-b-10 p-b-13">
-						<div class="size-203">
-							<span class="stext-110 cl2">
-								パスワード
-							</span>
-						</div>
+						<!--検索結果なし-->
+						<b th:if="${param.error}" class="error">
+							ユーザー名またはパスワードが違います。
+						</b>
+						<!--検索結果なし-->
 
-						<div class="size-204">
-							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="password" id="password" name="password">
+						<div class="flex-w flex-m m-b-10 p-b-13">
+							<div class="size-203">
+								<span class="stext-110 cl2">
+									E-Mail
+								</span>
+							</div>
+
+							<div class="size-204">
+								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="username">
+							</div>
 						</div>
+						<div class="flex-w flex-m m-b-10 p-b-13">
+							<div class="size-203">
+								<span class="stext-110 cl2">
+									パスワード
+								</span>
+							</div>
+
+							<div class="size-204">
+								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="password" id="password"
+									name="password">
+							</div>
+						</div>
+						<button id="button_"
+							class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer m-t-50">ログイン</button>
+						<a class="txt-center p-t-14 d-block" th:href="@{/inputEmail}">パスワードを忘れた場合</a>
 					</div>
-					<button id="button_" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer m-t-50">ログイン</button>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
 	</form>
 	<!-- loginform -->
 
 
 
 	<!-- Footer -->
-		<div th:replace="~{fragments/footer :: footer}"></div>
+	<div th:replace="~{fragments/footer :: footer}"></div>
 
 	<!-- Back to top -->
 	<div class="btn-back-to-top" id="myBtn">
@@ -121,4 +122,5 @@
 	<!--===============================================================================================-->
 	<script src="js/main.js"></script>
 </body>
+
 </html>

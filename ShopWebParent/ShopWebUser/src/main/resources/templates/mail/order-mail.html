@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<!--[if gte mso 15]>
@@ -447,7 +447,8 @@
 													</td>
 												</tr>
 											</tbody>
-										</table> <!-- END : SECTION : HEADER --> <!-- BEGIN : SECTION : MAIN -->
+										</table> <!-- END : SECTION : HEADER -->
+										<!-- BEGIN : SECTION : MAIN -->
 										<table class="section_wrapper main" data-id="main" id="section-main" border="0"
 											width="100%" cellpadding="0" cellspacing="0" align="center"
 											style="min-width: 100%;" role="presentation" bgcolor="#ffffff">
@@ -516,13 +517,15 @@
 																		<h2 style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, 'Karla'; color: #4b4b4b; font-size: 20px; line-height: 26px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 0;"
 																			align="center">
 																			<span data-key="1468270_order_number">注文番号
-																				No.</span>
+																			</span>
 																			<span
 																				th:text="${order.orderNum}">5200505</span>
-																		</h2> <!--注文日付-->
+																		</h2>
+																		<!--注文日付-->
 																		<p class="muted"
 																			style="mso-line-height-rule: exactly; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, 'Karla'; font-size: 14px; line-height: 26px; font-weight: normal; color: #bdbdbd; margin: 0;"
-																			align="center" th:text="${order.orderTime}">
+																			align="center"
+																			th:text="${order.orderDateString}">
 																			24/06/2018</p>
 																	</th>
 																</tr>
@@ -653,7 +656,7 @@
 																															valign="top">
 																															<p style="mso-line-height-rule: exactly; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, 'Karla'; font-size: 16px; line-height: 26px; font-weight: 400; color: #666363; margin: 0;"
 																																align="right"
-																																th:text="${detail.product.price} * ${detail.quantity}">
+																																th:text="'¥'+${detail.product.price} * ${detail.quantity}">
 																															</p>
 																														</th>
 																													</tr>
@@ -721,7 +724,7 @@
 																										bgcolor="#ffffff"
 																										valign="middle">
 																										<span
-																											th:text="${pCostTotal}"></span>
+																											th:text="'¥'+${pCostTotal}"></span>
 																									</th>
 																								</tr>
 
@@ -738,7 +741,7 @@
 																										bgcolor="#ffffff"
 																										valign="middle">
 																										<sapn
-																											th:text="${order.shippingCost}">
+																											th:text="'¥'+${order.shippingCost}">
 																										</sapn>
 																									</th>
 																								</tr>
@@ -759,7 +762,7 @@
 																										bgcolor="#ffffff"
 																										valign="middle">
 																										<span
-																											th:text="${order.total}"></span>
+																											th:text="'¥'+${order.total}"></span>
 																									</th>
 																								</tr>
 																							</tbody>
@@ -805,26 +808,17 @@
 																							style="min-width: 100%; font-weight: bold;"
 																							role="presentation">
 																							<tbody>
-																								<tr
-																									style="font-weight: bold;">
-																									<th width="40"
-																										style="mso-line-height-rule: exactly; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, 'Karla'; font-size: 16px; line-height: 26px; font-weight: bold; color: #666363; padding: 8px 10px 8px 0;"
-																										align="left"
-																										bgcolor="#ffffff"
-																										valign="middle">
-																										<img width="40"
-																											style="width: 40px; vertical-align: middle; height: auto !important; font-weight: bold;"
-																											alt="Mastercard Icon"
-																											src="https://orderlyemails.com/mobile-receipt-mastercard.png">
-																									</th>
+																								<tr style="font-weight: bold;">
 																									<th style="mso-line-height-rule: exactly; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, 'Karla'; font-size: 16px; line-height: 26px; font-weight: bold; color: #666363; padding: 8px 0;"
 																										align="left"
 																										bgcolor="#ffffff"
 																										valign="middle">
-																										Mastercard <span
+																										<span
+																											th:text="${order.paymentMethod.nameJa}"></span>
+																										<!--<span
 																											class="table-muted"
 																											style="font-size: 14px; font-weight: bold; color: #bdbdbd; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, 'Karla';">
-																											(••••••••••••6500)</span>
+																											(••••••••••••6500)</span>!-->
 
 																									</th>
 																								</tr>
@@ -836,7 +830,7 @@
 																						align="right" bgcolor="#ffffff"
 																						valign="middle">
 																						<span
-																							th:text="${order.total}"></span>
+																							th:text="'¥'+${order.total}"></span>
 																					</th>
 																				</tr>
 
@@ -1056,7 +1050,8 @@
 													</td>
 												</tr>
 											</tbody>
-										</table> <!-- END : SECTION : MAIN --> <!-- BEGIN : SECTION : FOOTER -->
+										</table> <!-- END : SECTION : MAIN -->
+										<!-- BEGIN : SECTION : FOOTER -->
 										<table class="section_wrapper footer" data-id="footer" id="section-footer"
 											border="0" width="100%" cellpadding="0" cellspacing="0" align="center"
 											style="min-width: 100%;" role="presentation" bgcolor="#ffffff">

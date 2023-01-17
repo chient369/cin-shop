@@ -39,7 +39,6 @@ public class MailSenderHelper {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
 
-			System.out.println(order);
 			Context context = new Context();
 			context.setVariable("order", order);
 			context.setVariable("details", order.getOrderDetails());
