@@ -68,6 +68,7 @@
 
 			//https://qiita.com/t-yama-3/items/572fabc873b4b6a0fc7c
 			$(this).on('click', function () {
+				favoriteProduct();
 				swal(nameProduct, "is added to wishlist !", "success");
 
 				$(this).addClass('js-addedwish-detail');
@@ -128,12 +129,7 @@
 							</li>	`
 				)
 			}
-
 		}
-
-
 	</script>
-
 </div>
-
 </html>

@@ -80,13 +80,9 @@ public class ProductController {
 		model.addAttribute("review", new Review());
 		model.addAttribute("reviewList", detail.getReviews());
 		model.addAttribute("avgVote", avgVote);
-		if (userDetails != null) {
-			model.addAttribute("customer", userDetails.getCustomer().get());
-		} else {
-			model.addAttribute("customer", null);
-		}
-		
-		
+		//お気に入り用
+		model.addAttribute("userDetails", userDetails);
+		model.addAttribute("dId", detail.getId());
 		return "product/product-detail";
 	}
 

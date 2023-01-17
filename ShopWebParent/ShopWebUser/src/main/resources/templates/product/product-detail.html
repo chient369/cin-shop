@@ -340,7 +340,7 @@
 											-->
 
 											<!-- Add review -->
-											<div th:if="${customer != null}">
+											<div th:if="${userDetails != null}">
 												<form class="w-full" th:action="@{/p}" th:object="${review}" th:method="POST">
 													<h5 class="mtext-108 cl2 p-b-7">あなたの評価</h5>
 	
@@ -482,12 +482,30 @@
 		</div>
 
 		<!-- Modal1 -->
-
 		<!--===============================================================================================-->
-
-
 		<div th:replace="~{fragments/js-common :: import-js}"></div>
-
-</body>
-
+		
+		
+		<!--=======================================お気に入り登録==============================================-->
+		<form th:action="@{/}" method="post">
+			<input type="hidden" id="dId" name="dId">
+		</form>
+		
+		<script th:inline="javascript">
+		
+		const userDetails = /*[[${userDetails}]]*/"userDetails";
+		
+		function favoriteProduct() {
+			//ゲストユーザー
+			if (userDetails == null) {
+				const dId = /*[[${dId}]]*/"dId";
+				document.cookie = 'dId=' + dId;
+			//ログイン済みユーザー
+			} else {
+				
+			}
+		}
+		</script>
+	</body>
 </html>
+
