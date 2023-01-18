@@ -51,8 +51,8 @@ public abstract class AbstractOrderService {
 		order.setStatus(OrderStatus.PLACED);
 		order.setShippingCost(getShippingCost());
 		order.setTax(utility.getCurrentTax());
-		order.setTotal(getTotalWithTax());
-		
+		order.setTotal(getTotal());
+
 
 		// 仮に1割引を設定
 		order.setDiscountPercent(0);
@@ -99,7 +99,7 @@ public abstract class AbstractOrderService {
 
 	public Integer getTotalWithTax() {
 		Tax tax = utility.getCurrentTax();
-		return getTotalIgnoretax() * (1 + tax.getTax() / 100);
+		return getTotalIgnoretax() +( getTotalIgnoretax() * tax.getTax() / 100);
 	}
 
 	public Integer getTotal() {

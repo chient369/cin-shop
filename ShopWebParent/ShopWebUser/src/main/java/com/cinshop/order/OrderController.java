@@ -78,17 +78,14 @@ public class OrderController {
 			AbstractCartService cartService = cartServiceFactory.getCartService(null, session);
 			AbstractOrderService orderService = orderServiceFactory.getOrderService(cartService);
 
-			// ゲストが入力した情報をDBに保存する又は更新する
-			Customer savedGuest = customerService.saveGuest(guest);
-
 			model.addAttribute("total", orderService.getTotal());
 			model.addAttribute("shipCost", orderService.getShippingCost());
 			model.addAttribute("cartItems", cartService.findCartItems());
-			model.addAttribute("cust", savedGuest);
+			model.addAttribute("cust", guest);
 			model.addAttribute("paymentMethods", orderService.findAllPaymentMethods());
 
 			// 注文する時に使う情報
-			session.setAttribute("customer", savedGuest);
+			session.setAttribute("customer", guest);
 
 			return "/order-confirm";
 		} catch (Exception e) {
@@ -127,6 +124,8 @@ public class OrderController {
 			order = orderService.saveOrder(guest, paymentMethod);
 			email = guest.getEmail();
 		}
+		// ゲストが入力した情報をDBに保存する又は更新する
+		Customer savedGuest = customerService.saveGuest((Customer)session.getAttribute("customer"));
 		mailSenderHelper.orderedNotify(email, order);
 
 		session.removeAttribute("cart");
