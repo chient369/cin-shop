@@ -41,6 +41,9 @@ public class ProductController {
 	@Autowired
 	private ReviewService rService;
 	
+	@Autowired
+	private FavoriteProductService fService;
+	
 	
 	@GetMapping("")
 	public String viewProductPage(Model model) {
@@ -54,22 +57,18 @@ public class ProductController {
 	public String viewPage(@PathVariable Integer pnum, Model model) {
 		Pageable pageable = PageRequest.of(pnum - 1, ITEM_PER_PAGE);
 		Page<ProductDetail> page = dService.finAll(pageable);
-		
-		//レビュー平均値検索
-		float avgVote = ((float)Math.round(rService.getAvgRanking(6) * 10))/10;
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
 
 		model.addAttribute("products", page.getContent());
-		
-		//レビュー用
-		model.addAttribute("avgVote", avgVote);
+		model.addAttribute("avgVote", 5);
 		return "product/product";
 	}
 
 	@GetMapping("/{pId}")
 	public String viewProduct(@PathVariable Integer pId, Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
 		ProductDetail detail = dService.findById(6);
+		
 		float avgVote = ((float)Math.round(rService.getAvgRanking(6) * 10))/10;
 
 		model.addAttribute("p", detail.getProducts());

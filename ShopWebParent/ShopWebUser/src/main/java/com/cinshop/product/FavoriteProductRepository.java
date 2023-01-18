@@ -6,11 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.cinshop.common.entity.Customer;
-import com.cinshop.common.entity.FavouriteProduct;
+import com.cinshop.common.entity.FavoriteProduct;
 
 @Repository
-public interface FavouriteProductRepository extends JpaRepository<FavouriteProduct, Integer> {
+public interface FavoriteProductRepository extends JpaRepository<FavoriteProduct, Integer> {
 
-	public List<FavouriteProduct> findByCustomer(Customer customer);
+	public List<FavoriteProduct> findByCustomer(Customer customer);
 
 }

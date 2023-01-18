@@ -494,17 +494,30 @@
 		<script th:inline="javascript">
 		
 		const userDetails = /*[[${userDetails}]]*/"userDetails";
+		const dId = /*[[${dId}]]*/"dId";
 		
 		function favoriteProduct() {
+			
 			//ゲストユーザー
 			if (userDetails == null) {
-				const dId = /*[[${dId}]]*/"dId";
 				document.cookie = 'dId=' + dId;
 			//ログイン済みユーザー
 			} else {
+				let URL = "http://localhost:8085/cinshop/api/p/fav"
 				
+				$.ajax({
+				url: URL,
+				success: function (data) {
+					console.log("aaa");
+				},
+				error: function () {
+					console.log("Error in get brands")
+				}
+			})
 			}
 		}
+		
+
 		</script>
 	</body>
 </html>

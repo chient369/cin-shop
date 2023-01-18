@@ -10,8 +10,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "favourite_product")
-public class FavouriteProduct {
+@Table(name = "favorite_product")
+public class FavoriteProduct {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +25,11 @@ public class FavouriteProduct {
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
-	public FavouriteProduct() {
+	public FavoriteProduct() {
 
 	}
 
-	public FavouriteProduct(Integer id, Product product, Customer customer) {
+	public FavoriteProduct(Integer id, Product product, Customer customer) {
 		super();
 		this.id = id;
 		this.product = product;
@@ -37,7 +37,7 @@ public class FavouriteProduct {
 	}
 	
 
-	public FavouriteProduct(Product product, Customer customer) {
+	public FavoriteProduct(Product product, Customer customer) {
 		super();
 		this.product = product;
 		this.customer = customer;

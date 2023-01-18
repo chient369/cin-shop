@@ -8,30 +8,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cinshop.common.entity.Customer;
-import com.cinshop.common.entity.FavouriteProduct;
+import com.cinshop.common.entity.FavoriteProduct;
 import com.cinshop.common.entity.Product;
 
 @Service
-public class FavouriteProductService {
+public class FavoriteProductService {
 
 	@Autowired
-	private FavouriteProductRepository repository;
+	private FavoriteProductRepository repository;
 
-	public FavouriteProduct addFavProduct(Integer custId, Integer product_id) {
-		FavouriteProduct favP = new FavouriteProduct(new Product(product_id), new Customer(custId));
+	public FavoriteProduct addFavProduct(Integer custId, Integer product_id) {
+		FavoriteProduct favP = new FavoriteProduct(new Product(product_id), new Customer(custId));
 		return repository.save(favP);
 	}
 
 	public void removeFavProduct(Integer custId, Integer product_id) {
-		FavouriteProduct favP = new FavouriteProduct(new Product(product_id), new Customer(custId));
+		FavoriteProduct favP = new FavoriteProduct(new Product(product_id), new Customer(custId));
 		repository.delete(favP);
 	}
 
 	public List<Product> findAllByCustomerId(Integer custId) {
-		List<FavouriteProduct> fav = repository.findByCustomer(new Customer(custId));
+		List<FavoriteProduct> fav = repository.findByCustomer(new Customer(custId));
 		List<Product> products = new ArrayList<>();
 
-		Iterator<FavouriteProduct> it = fav.iterator();
+		Iterator<FavoriteProduct> it = fav.iterator();
 		while (it.hasNext()) {
 			products.add(it.next().getProduct());
 		}

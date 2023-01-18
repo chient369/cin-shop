@@ -16,10 +16,10 @@ import com.cinshop.common.entity.Product;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @Rollback(value = false)
-public class FavouriteProductServiceTest {
+public class FavoriteProductServiceTest {
 
 	@Autowired
-	private FavouriteProductService service;
+	private FavoriteProductService service;
 
 	@Test
 	public void addFavTest() {
