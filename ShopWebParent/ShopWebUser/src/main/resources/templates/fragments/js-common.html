@@ -99,10 +99,10 @@
 
 	<script>
 		/*ブランド一覧を表示する */
-		let URL = "http://localhost:8085/cinshop/api/p/gb"
+		//let URL = "http://localhost:8085/cinshop/api/p/gb"
 		/*公開する時に使うリンク */
-		//let path = window.location.protocol + "//" +window.location.hostname;
-		//let URL =path+ "/cinshop/api/p/gb";
+		let path = window.location.protocol + "//" +window.location.hostname;
+		let URL =path+ "/cinshop/api/p/gb";
 		$.ajax({
 			url: URL,
 			success: function (data) {

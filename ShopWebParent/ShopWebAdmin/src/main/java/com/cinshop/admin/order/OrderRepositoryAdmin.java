@@ -17,13 +17,13 @@ public interface OrderRepositoryAdmin extends JpaRepository<Order, Integer> {
 	@Query("select o from Order o where o.id =?1")
 	Order findByOrderId(Integer id);
 
-	@Query("select count(o) from Order o where o.status = PLACED")
+	@Query("select count(o) from Order o where o.status = 'PLACED'")
 	public Integer countPlacedOrder();
 
 	@Query("select count(o) from Order o")
 	public Integer countOrder();
 
-	@Query("select count(o) from Order o where o.status = DELIVERING")
+	@Query("select count(o) from Order o where o.status = 'DELIVERING'")
 	public Integer countDeliveringOrder();
 	
 	@Query("select sum(o.total) from Order o ")

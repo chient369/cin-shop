@@ -172,7 +172,7 @@ public class Order {
 		SimpleDateFormat formatter = new SimpleDateFormat("YYYY年MM月DD日");  
 	   return formatter.format(this.orderTime);
 	}
-	
+
 
 	
 
