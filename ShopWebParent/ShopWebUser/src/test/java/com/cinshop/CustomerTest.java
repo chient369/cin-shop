@@ -32,7 +32,7 @@ public class CustomerTest {
 		
 		//性別		
 
-		//insert into sex values(1, "男");insert into sex values(2, "女");insert into sex values(0, "未登録");	登録してから実行
+		//insert into sex values(1, "男");insert into sex values(2, "女");insert into sex values(3, "未登録");	登録してから実行
 		sex.setSex_id(1);
 		sex.setSexName("男");
 		

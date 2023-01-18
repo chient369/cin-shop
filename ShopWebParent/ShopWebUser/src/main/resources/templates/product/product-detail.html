@@ -141,7 +141,7 @@
 							<!--add to wishlist-->
 							<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 								<div class="flex-m bor9 p-r-10 m-r-11">
-									<a href="#" 
+									<a href="#" th:href="@{/api/p/fav}"
 										class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
 										data-tooltip="Add to Wishlist"> <i class="zmdi zmdi-favorite"></i>
 									</a>
@@ -494,7 +494,9 @@
 		<script th:inline="javascript">
 		
 		const userDetails = /*[[${userDetails}]]*/"userDetails";
-		const dId = /*[[${dId}]]*/"dId";
+		const dId = document.getElementById('detail-id');
+		
+		console.log(userDetails);
 		
 		function favoriteProduct() {
 			
@@ -503,7 +505,7 @@
 				document.cookie = 'dId=' + dId;
 			//ログイン済みユーザー
 			} else {
-				let URL = "http://localhost:8085/cinshop/api/p/fav"
+				let URL = "http://localhost:8085/cinshop/api/p/fav?custId=" + custId + "&dId=" + dId
 				
 				$.ajax({
 				url: URL,
