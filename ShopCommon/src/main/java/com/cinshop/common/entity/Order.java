@@ -38,7 +38,7 @@ public class Order {
 	@Column(name = "order_num", length = 16, unique = true, nullable = false)
 	private String orderNum;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
@@ -166,6 +166,14 @@ public class Order {
 
 	public void setOrderTime(Date orderTime) {
 		this.orderTime = orderTime;
+	}
+	@Transient
+	public String getCustomerName() {
+		return this.customer.getFullName();
+	}
+	@Transient
+	public String getFullAddress() {
+		return this.customer.getAddress().getFullAddress();
 	}
 	@Transient
 	public String getOrderDateString() {

@@ -28,29 +28,26 @@
 		<div class="container-fluid pt-4 px-4">
 			<div class="row g-4">
 				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
+					<div class="bg-light rounded d-flex align-items-center justify-content-around p-4">
 						<i class="fa fa-thin fa-users fa-3x text-primary"></i>
 
 						<div class="ms-3">
-							<p class="mb-2">オンライン人数</p>
-							<h6 class="mb-0">34</h6>
+							<p class="mb-2">顧客数</p>
+							<h6 class="mb-0" th:text="${customerTotal}">34</h6>
 						</div>
 					</div>
 				</div>
 				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
+					<div class="bg-light rounded d-flex align-items-center justify-content-around p-4">
 						<i class="fa fa-ligth fa-user fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">会員数</p>
-							<h6 class="mb-0">34</h6>
+							<h6 class="mb-0" th:text="${memberTotal}">34</h6>
 						</div>
 					</div>
 				</div>
 				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
+					<div class="bg-light rounded d-flex align-items-center justify-content-around p-4">
 						<i class="fa fa-ligth fa-eye fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">総訪問人数</p>
@@ -59,38 +56,34 @@
 					</div>
 				</div>
 				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
+					<div class="bg-light rounded d-flex align-items-center justify-content-around p-4">
 						<i class="fa-sharp fa-solid fa-list fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">注文件数</p>
-							<h6 class="mb-0">$1234</h6>
+							<h6 class="mb-0" th:text="${orderTotal}">$1234</h6>
 						</div>
 					</div>
 				</div>
 				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
+					<div class="bg-light rounded d-flex align-items-center justify-content-around p-4">
 						<i class="fa fa-thin fa-file-pen fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">未確定注文</p>
-							<h6 class="mb-0">34</h6>
+							<h6 class="mb-0" th:text="${placedTotal}">34</h6>
 						</div>
 					</div>
 				</div>
 				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
+					<div class="bg-light rounded d-flex align-items-center justify-content-around p-4">
 						<i class="fa-sharp fa-solid fa-truck-fast fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">配達中</p>
-							<h6 class="mb-0">34</h6>
+							<h6 class="mb-0" th:text="${deliveringOrder}">34</h6>
 						</div>
 					</div>
 				</div>
 				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
+					<div class="bg-light rounded d-flex align-items-center justify-content-around p-4">
 						<i class="fa fa-ligth fa-eye fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">総訪問人数</p>
@@ -99,8 +92,7 @@
 					</div>
 				</div>
 				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
+					<div class="bg-light rounded d-flex align-items-center justify-content-around p-4">
 						<i class="fa fa-solid fa-yen-sign fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">売上</p>
@@ -123,12 +115,11 @@
 		<div class="container-fluid pt-4 px-4">
 			<div class="bg-light text-center rounded p-4">
 				<div class="d-flex align-items-center justify-content-between mb-4">
-					<h6 class="mb-0">Recent Salse</h6>
-					<a href="">Show All</a>
+					<h6 class="mb-0">注文</h6>
+					<a href="">すべて</a>
 				</div>
 				<div class="table-responsive">
-					<table
-						class="table text-start align-middle table-bordered table-hover mb-0">
+					<table class="table text-start align-middle table-bordered table-hover mb-0">
 						<thead>
 							<tr class="text-dark text-center">
 								<th scope="col">注文ID</th>
@@ -141,51 +132,18 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1111</td>
-								<td>01 Jan 2045</td>
-								<td>INV-0123</td>
-								<td>千葉県稲毛区穴側2-22-9</td>
-								<td>$123</td>
-								<td>Paid</td>
-								<td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-							</tr>
-							<tr>
-								<td><input class="form-check-input" type="checkbox"></td>
-								<td>01 Jan 2045</td>
-								<td>INV-0123</td>
-								<td>Jhon Doe</td>
-								<td>$123</td>
-								<td>Paid</td>
-								<td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-							</tr>
-							<tr>
-								<td><input class="form-check-input" type="checkbox"></td>
-								<td>01 Jan 2045</td>
-								<td>INV-0123</td>
-								<td>Jhon Doe</td>
-								<td>$123</td>
-								<td>Paid</td>
-								<td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-							</tr>
-							<tr>
-								<td><input class="form-check-input" type="checkbox"></td>
-								<td>01 Jan 2045</td>
-								<td>INV-0123</td>
-								<td>Jhon Doe</td>
-								<td>$123</td>
-								<td>Paid</td>
-								<td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-							</tr>
-							<tr>
-								<td><input class="form-check-input" type="checkbox"></td>
-								<td>01 Jan 2045</td>
-								<td>INV-0123</td>
-								<td>Jhon Doe</td>
-								<td>$123</td>
-								<td>Paid</td>
-								<td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-							</tr>
+							<th:block th:each="order : ${orders}">
+								<tr>
+									<td th:text="${order.orderNum}"></td>
+									<td th:text="${order.orderDateString}">01 Jan 2045</td>
+									<td th:text="${order.customer.id}">01 Jan 2045</td>
+									<td th:text="${order.customer}">01 Jan 2045</td>
+									<td th:text="${order.total}">$123</td>
+									<td th:text="${order.status}">Paid</td>
+									<td><a class="btn btn-sm btn-primary" th:href="@{'/order/' + ${order.id}}">詳細</a>
+									</td>
+								</tr>
+							</th:block>
 						</tbody>
 					</table>
 				</div>
@@ -358,8 +316,7 @@
 
 
 	<!-- Back to Top -->
-	<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
-		class="bi bi-arrow-up"></i></a>
+	<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 	</div>
 
 	<!-- JavaScript Libraries -->
