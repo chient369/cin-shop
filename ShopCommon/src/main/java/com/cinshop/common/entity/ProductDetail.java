@@ -63,6 +63,16 @@ public class ProductDetail {
 
 	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Review> reviews = new ArrayList<>();
+	
+	private float avgVote;
+
+	public float getAvgVote() {
+		return avgVote;
+	}
+
+	public void setAvgVote(float avgVote) {
+		this.avgVote = avgVote;
+	}
 
 	public ProductDetail() {
 	}

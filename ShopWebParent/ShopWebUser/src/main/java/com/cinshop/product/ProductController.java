@@ -60,8 +60,10 @@ public class ProductController {
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
 
+		//レビューの平均集計
+		avgVoteCalc(page);
 		model.addAttribute("products", page.getContent());
-		model.addAttribute("avgVote", 5);
+		
 		return "product/product";
 	}
 
@@ -101,10 +103,12 @@ public class ProductController {
 		Page<ProductDetail> page = dService.findByText(srcText, pageable);
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
-
-		model.addAttribute("products", page.getContent());
 		model.addAttribute("actionTag", "search");
 		model.addAttribute("searchTag", "text");
+		
+		//レビューの平均集計
+		avgVoteCalc(page);
+		model.addAttribute("products", page.getContent());
 		return "product/product";
 	}
 
@@ -124,10 +128,13 @@ public class ProductController {
 		Page<ProductDetail> page = dService.findByCategory(catId, pageable);
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
-		model.addAttribute("products", page.getContent());
 		model.addAttribute("actionTag", "search");
 		model.addAttribute("searchTag", "cat");
 		model.addAttribute("tagId", catId);
+		
+		//レビューの平均集計
+		avgVoteCalc(page);
+		model.addAttribute("products", page.getContent());
 		return "product/product";
 	}
 
@@ -147,11 +154,13 @@ public class ProductController {
 		Page<ProductDetail> page = dService.findByCategory(brandId, pageable);
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
-
-		model.addAttribute("products", page.getContent());
 		model.addAttribute("actionTag", "search");
 		model.addAttribute("searchTag", "brand");
 		model.addAttribute("tagId", brandId);
+		
+		//レビューの平均集計
+		avgVoteCalc(page);
+		model.addAttribute("products", page.getContent());
 		return "product/product";
 	}
 
@@ -170,11 +179,13 @@ public class ProductController {
 		Page<ProductDetail> page = dService.findByColor(colorId, pageable);
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
-
-		model.addAttribute("products", page.getContent());
 		model.addAttribute("actionTag", "search");
 		model.addAttribute("searchTag", "color");
 		model.addAttribute("tagId", colorId);
+		
+		//レビューの平均集計
+		avgVoteCalc(page);
+		model.addAttribute("products", page.getContent());
 		return "product/product";
 	}
 
@@ -194,10 +205,12 @@ public class ProductController {
 		Page<ProductDetail> page = dService.findByPrice(pFrom, pTo, pageable);
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
-
-		model.addAttribute("products", page.getContent());
 		model.addAttribute("actionTag", "search");
 		model.addAttribute("searchTag", "price");
+		
+		//レビューの平均集計
+		avgVoteCalc(page);
+		model.addAttribute("products", page.getContent());
 
 		return "product/product";
 	}
@@ -218,14 +231,16 @@ public class ProductController {
 		Pageable pageable = PageRequest.of(pNum - 1, ITEM_PER_PAGE, sort);
 
 		Page<ProductDetail> page = dService.finAll(pageable);
+		
+		//レビューの平均集計
+		avgVoteCalc(page);
+		model.addAttribute("products", page.getContent());
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
 
-		model.addAttribute("products", page.getContent());
 		model.addAttribute("actionTag", "sort");
 		model.addAttribute("sortBy", sortBy);
 		model.addAttribute("sortDir", sortDir);
-
 		return "product/product";
 	}
 
@@ -263,5 +278,22 @@ public class ProductController {
 		model.addAttribute("brands", brands);
 		model.addAttribute("cats", categories);
 		return model;
+	}
+	
+	private float avgVoteCalc(Page<ProductDetail> page) { 
+		//ここからお気に入り、平均集計。
+		float avgVote = 0.0F;
+		float totalVote = 0.0F;
+		for (int i = 0; i < page.getContent().size(); i++) {
+			for (int j = 0; j < page.getContent().get(i).getReviews().size(); j++) {
+				totalVote += page.getContent().get(i).getReviews().get(j).getVote().floatValue();
+			}
+			avgVote = totalVote / page.getContent().get(i).getReviews().size();
+			avgVote = ((float)Math.round(avgVote * 10))/10;
+			page.getContent().get(i).setAvgVote(avgVote);
+			totalVote = 0.0F;
+			avgVote = 0.0F;
+		}
+		return avgVote;
 	}
 }

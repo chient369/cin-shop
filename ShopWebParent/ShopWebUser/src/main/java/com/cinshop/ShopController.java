@@ -51,9 +51,6 @@ public class ShopController {
 		HttpSession session = request.getSession();
 		AbstractCartService cartService = cartFactory.getCartService(customer, session);
 		
-		//レビュー平均値検索
-		float avgVote = ((float)Math.round(rService.getAvgRanking(6) * 10))/10;
-		
 		if(customer != null) {
 			logger.info("{}が訪問しました", customer.getFullName());
 		}else {
@@ -65,6 +62,20 @@ public class ShopController {
 		List<Color> colors = service.findAllColors();
 		List<Brand> brands = service.findAllBranchs();
 		List<Category> categories = service.findAllCategories();
+		
+		//ここからレビュー、平均集計
+		float avgVote = 0.0F;
+		float totalVote = 0.0F;
+		for (int i = 0; i < page.getContent().size(); i++) {
+			for (int j = 0; j < page.getContent().get(i).getReviews().size(); j++) {
+				totalVote += page.getContent().get(i).getReviews().get(j).getVote().floatValue();
+			}
+			avgVote = totalVote / page.getContent().get(i).getReviews().size();
+			avgVote = ((float)Math.round(avgVote * 10))/10;
+			page.getContent().get(i).setAvgVote(avgVote);
+			totalVote = 0.0F;
+			avgVote = 0.0F;
+		}
 
 		model.addAttribute("products", page.getContent());
 		model.addAttribute("totalPages", page.getSize());
@@ -75,8 +86,6 @@ public class ShopController {
 		model.addAttribute("currentPage", page.getNumber());
 		session.setAttribute("cart", cartService.getCartItems());
 		
-		//レビュー用
-		model.addAttribute("avgVote", avgVote);
 		return "index";
 	}
 	
