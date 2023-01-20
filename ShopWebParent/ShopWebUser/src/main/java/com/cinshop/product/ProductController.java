@@ -1,12 +1,15 @@
 	package com.cinshop.product;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -232,12 +235,25 @@ public class ProductController {
 
 		Page<ProductDetail> page = dService.finAll(pageable);
 		
-		//レビューの平均集計
-		avgVoteCalc(page);
-		model.addAttribute("products", page.getContent());
-
+		//レビューの平均集計。手動でソート。詰替え
+		if (sortBy.equals("avgVote")) {
+			avgVoteCalc(page);
+			//ソート
+			List<ProductDetail> newList = page.stream()
+			        .sorted(Comparator.comparing(ProductDetail::getAvgVote, Comparator.reverseOrder())
+	                .thenComparing(ProductDetail::getAvgVote))
+			        .collect(Collectors.toList());
+			
+			//詰替え
+			long start = pageable.getOffset();
+			long end = (start + pageable.getPageSize()) > newList.size() ? newList.size() : (start + pageable.getPageSize());
+			Page<ProductDetail> newPage = new PageImpl<ProductDetail>(newList.subList((int)start, (int)end), pageable, newList.size());
+			model.addAttribute("products", newPage.getContent());	
+		} else {
+			model.addAttribute("products", page.getContent());
+		}
+		
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
-
 		model.addAttribute("actionTag", "sort");
 		model.addAttribute("sortBy", sortBy);
 		model.addAttribute("sortDir", sortDir);
