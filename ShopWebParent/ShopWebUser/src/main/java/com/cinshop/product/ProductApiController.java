@@ -61,10 +61,9 @@ public class ProductApiController {
 		return brands;
 	}
 	
-	@PostMapping("/fav")
+	@GetMapping("/fav")
 	public FavoriteProduct addFavouriteProduct(@RequestParam("custId") Integer custId, @RequestParam("dId") Integer dId){
 		FavoriteProduct favorite = fService.addFavProduct(custId, dId);
-		System.out.println("ok");
 		return favorite;
 	}
 }

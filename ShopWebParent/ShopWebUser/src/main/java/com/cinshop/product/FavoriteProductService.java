@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.FavoriteProduct;
 import com.cinshop.common.entity.Product;
+import com.cinshop.common.entity.ProductDetail;
 
 @Service
 public class FavoriteProductService {
@@ -18,22 +19,22 @@ public class FavoriteProductService {
 	private FavoriteProductRepository repository;
 
 	public FavoriteProduct addFavProduct(Integer custId, Integer product_id) {
-		FavoriteProduct favP = new FavoriteProduct(new Product(product_id), new Customer(custId));
+		FavoriteProduct favP = new FavoriteProduct(new ProductDetail(product_id), new Customer(custId));
 		return repository.save(favP);
 	}
 
 	public void removeFavProduct(Integer custId, Integer product_id) {
-		FavoriteProduct favP = new FavoriteProduct(new Product(product_id), new Customer(custId));
+		FavoriteProduct favP = new FavoriteProduct(new ProductDetail(product_id), new Customer(custId));
 		repository.delete(favP);
 	}
 
-	public List<Product> findAllByCustomerId(Integer custId) {
+	public List<ProductDetail> findAllByCustomerId(Integer custId) {
 		List<FavoriteProduct> fav = repository.findByCustomer(new Customer(custId));
-		List<Product> products = new ArrayList<>();
+		List<ProductDetail> products = new ArrayList<>();
 
 		Iterator<FavoriteProduct> it = fav.iterator();
 		while (it.hasNext()) {
-			products.add(it.next().getProduct());
+			products.add(it.next().getProductDetail());
 		}
 
 		return products;

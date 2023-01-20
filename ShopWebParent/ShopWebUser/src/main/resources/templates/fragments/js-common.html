@@ -53,6 +53,7 @@
 			e.preventDefault();
 		});
 
+		//商品一覧のお気に入りボタン
 		$('.js-addwish-b2').each(function () {
 			var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
 			$(this).on('click', function () {
@@ -63,17 +64,23 @@
 			});
 		});
 
+		//商品詳細のお気に入りボタン
 		$('.js-addwish-detail').each(function () {
 			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
 
 			$(this).on('click', function () {
-				//お気に入り追加 -> product-detail.html
-				favoriteProduct();
-				
-				swal(nameProduct, "is added to wishlist !", "success");
-
-				$(this).addClass('js-addedwish-detail');
-				$(this).off('click');
+				//すでにお気に入りに登録されている場合
+				if (kkk) {
+					//お気に入り追加 -> product-detail.html
+					favoriteProduct();
+					
+					swal(nameProduct, "is added to wishlist !", "success");
+	
+					$(this).addClass('js-addedwish-detail');
+					$(this).off('click');
+				} else {
+					
+				}
 			});
 		});
 

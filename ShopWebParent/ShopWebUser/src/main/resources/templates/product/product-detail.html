@@ -141,9 +141,9 @@
 							<!--add to wishlist-->
 							<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 								<div class="flex-m bor9 p-r-10 m-r-11">
-									<a href="#" th:href="@{/api/p/fav}"
+									<a href="#"
 										class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
-										data-tooltip="Add to Wishlist"> <i class="zmdi zmdi-favorite"></i>
+										data-tooltip="Add to Wishlist"> <i class="zmdi zmdi-favorite" id="wishlist-favorite"></i>
 									</a>
 								</div>
 
@@ -493,33 +493,29 @@
 		
 		<script th:inline="javascript">
 		
-		const userDetails = /*[[${userDetails}]]*/"userDetails";
-		const dId = document.getElementById('detail-id');
-		
-		console.log(userDetails);
-		
+		const custId = /*[[${custId}]]*/"custId";
+		const dId = /*[[${dId}]]*/"dId";
+		var wishlist = document.getElementById('wishlist-favorite');
+		wishlist.style.color = "#6c7ae0";
+
 		function favoriteProduct() {
 			
 			//ゲストユーザー
-			if (userDetails == null) {
-				document.cookie = 'dId=' + dId;
+			if (custId == null) {
+				document.cookie = dId + 'dId=' + dId;
 			//ログイン済みユーザー
 			} else {
 				let URL = "http://localhost:8085/cinshop/api/p/fav?custId=" + custId + "&dId=" + dId
-				
 				$.ajax({
 				url: URL,
 				success: function (data) {
-					console.log("aaa");
 				},
 				error: function () {
-					console.log("Error in get brands")
+					console.log("access error fav post")
 				}
 			})
 			}
 		}
-		
-
 		</script>
 	</body>
 </html>
