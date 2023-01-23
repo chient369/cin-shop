@@ -9,7 +9,9 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +26,7 @@ import com.cinshop.common.entity.FavoriteProduct;
 import com.cinshop.common.entity.Product;
 import com.cinshop.common.entity.ProductDetail;
 import com.cinshop.common.entity.Size;
+import com.cinshop.customer.LoginUserDetails;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -61,9 +64,26 @@ public class ProductApiController {
 		return brands;
 	}
 	
-	@GetMapping("/fav")
-	public FavoriteProduct addFavouriteProduct(@RequestParam("custId") Integer custId, @RequestParam("dId") Integer dId){
-		FavoriteProduct favorite = fService.addFavProduct(custId, dId);
-		return favorite;
+	@PostMapping("/fav")
+	public FavoriteProduct addFavouriteProduct(@RequestParam("custId") Integer custId, @RequestParam("dId") Integer dId, @AuthenticationPrincipal LoginUserDetails userDetails){
+		FavoriteProduct favoriteAdd;
+		if (userDetails.getCustomer().get().getId() == custId) { 
+			favoriteAdd = fService.addFavProduct(custId, dId);
+		} else {
+			favoriteAdd = null;
+		}
+		return favoriteAdd;
+	}
+	
+	@PostMapping("/fav/remove")
+	public Boolean removeFavouriteProduct(@RequestParam("custId") Integer custId, @RequestParam("dId") Integer dId, @AuthenticationPrincipal LoginUserDetails userDetails) {
+		boolean removeSuccess = false;
+		if (userDetails.getCustomer().get().getId() == custId) { 
+			fService.removeFavProduct(custId, dId);
+			removeSuccess = true;
+		} else {
+			removeSuccess = false;
+		}
+		return removeSuccess;
 	}
 }

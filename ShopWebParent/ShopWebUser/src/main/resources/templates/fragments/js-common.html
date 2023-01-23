@@ -69,23 +69,25 @@
 			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
 
 			$(this).on('click', function () {
-				//すでにお気に入りに登録されている場合
-				if (kkk) {
+				
+				let favoriteCheckedTF = false;
+				
+				//お気に入りに登録されていない場合
+				if (favoriteChecked(favoriteCheckedTF) == false) {
+
 					//お気に入り追加 -> product-detail.html
-					favoriteProduct();
+					addFavoriteProduct();
 					
 					swal(nameProduct, "is added to wishlist !", "success");
 	
 					$(this).addClass('js-addedwish-detail');
 					$(this).off('click');
 				} else {
-					
+					//お気に入り削除 -> product-detail.html
+					removeFavoriteProduct();
 				}
 			});
 		});
-
-		/*---------------------------------------------*/
-
 	</script>
 	<!--===============================================================================================-->
 	<script th:src="@{/vendor/perfect-scrollbar/perfect-scrollbar.min.js}"></script>

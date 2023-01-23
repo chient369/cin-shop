@@ -25,6 +25,8 @@ public class FavoriteProductService {
 
 	public void removeFavProduct(Integer custId, Integer product_id) {
 		FavoriteProduct favP = new FavoriteProduct(new ProductDetail(product_id), new Customer(custId));
+		System.out.println(favP.getCustomer());
+		System.out.println(favP.getProductDetail());
 		repository.delete(favP);
 	}
 
@@ -38,5 +40,10 @@ public class FavoriteProductService {
 		}
 
 		return products;
+	}
+	
+	public FavoriteProduct findByCustomerAndDetailId(Integer custId, Integer dId) {
+		FavoriteProduct favoriteProduct = repository.find(custId, dId);
+		return favoriteProduct;
 	}
 }

@@ -141,10 +141,17 @@
 							<!--add to wishlist-->
 							<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 								<div class="flex-m bor9 p-r-10 m-r-11">
-									<a href="#"
+									<th:block th:if="${favoriteProduct != null}">
+										<a href="#"
+										class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
+										data-tooltip="Remove to Wishlist"> <i class="zmdi zmdi-favorite" id="wishlist-favorite"></i>
+									</th:block>
+									<th:block th:if="${favoriteProduct == null}">
+										<a href="#"
 										class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
 										data-tooltip="Add to Wishlist"> <i class="zmdi zmdi-favorite" id="wishlist-favorite"></i>
 									</a>
+									</th:block>
 								</div>
 
 								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
@@ -484,22 +491,34 @@
 		<!-- Modal1 -->
 		<!--===============================================================================================-->
 		<div th:replace="~{fragments/js-common :: import-js}"></div>
-		
-		
 		<!--=======================================お気に入り登録==============================================-->
-		<form th:action="@{/}" method="post">
-			<input type="hidden" id="dId" name="dId">
-		</form>
-		
 		<script th:inline="javascript">
 		
+		const favoriteProduct = /*[[${favoriteProduct}]]*/"favoriteProduct";
 		const custId = /*[[${custId}]]*/"custId";
 		const dId = /*[[${dId}]]*/"dId";
 		var wishlist = document.getElementById('wishlist-favorite');
-		wishlist.style.color = "#6c7ae0";
-
-		function favoriteProduct() {
-			
+		
+		
+		//お気に入りにチェック済みの場合、ボタンの色を変更する。
+		if (favoriteProduct != null) {
+			wishlist.style.color = "#6c7ae0";
+		}
+		
+		//
+		function favoriteChecked(favoriteCheckedTF) {
+			//チェック済み
+			if (favoriteProduct != null) {
+				favoriteCheckedTF = true;
+			//チェックなし	
+			} else {
+				favoriteCheckedTF = false;
+			}
+			return favoriteCheckedTF;
+		}
+		
+		//お気に入りボタンクリック時（追加）
+		function addFavoriteProduct() {
 			//ゲストユーザー
 			if (custId == null) {
 				document.cookie = dId + 'dId=' + dId;
@@ -507,15 +526,45 @@
 			} else {
 				let URL = "http://localhost:8085/cinshop/api/p/fav?custId=" + custId + "&dId=" + dId
 				$.ajax({
-				url: URL,
-				success: function (data) {
-				},
-				error: function () {
-					console.log("access error fav post")
-				}
-			})
+					url: URL,
+					type: "post",
+					success: function (data) {
+						if (data == null) {
+							console.log("他ユーザーからのデータ変更防止")
+						}
+					},
+					error: function () {
+						console.log("access error fav post (add)")
+					}
+				})
 			}
 		}
+		
+		//お気に入りボタンクリック時（削除）
+		function removeFavoriteProduct() {
+			//ゲストユーザー
+			if (custId == null) {
+				document.cookie = dId + 'dId=' + dId;
+			//ログイン済みユーザー
+			} else {
+				let URL = "http://localhost:8085/cinshop/api/p/fav/remove?custId=" + custId + "&dId=" + dId
+				$.ajax({
+					url: URL,
+					type: "post",
+					success: function (removeSuccess) {
+						if (removeSuccess) {
+							console.log("削除成功")
+							wishlist.style.color = "#000";	
+						} else {
+							console.log("他ユーザーからのデータ変更防止")
+						}
+					},
+					error: function () {
+						console.log("access error fav post (remove)")
+					}
+				})
+			}
+		}		
 		</script>
 	</body>
 </html>

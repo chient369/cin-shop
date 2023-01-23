@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Category;
 import com.cinshop.common.entity.Color;
+import com.cinshop.common.entity.FavoriteProduct;
 import com.cinshop.common.entity.Product;
 import com.cinshop.common.entity.ProductDetail;
 import com.cinshop.common.entity.Review;
@@ -74,21 +75,29 @@ public class ProductController {
 	public String viewProduct(@PathVariable Integer pId, Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
 		ProductDetail detail = dService.findById(6);
 		
-		float avgVote = ((float)Math.round(rService.getAvgRanking(6) * 10))/10;
-
 		model.addAttribute("p", detail.getProducts());
 		model.addAttribute("detail", detail);
 		model.addAttribute("colors", findExistColors(detail.getProducts()));
 		model.addAttribute("sizes", dService.findAllSizes());
+		
 		//レビュー用
+		float avgVote = ((float)Math.round(rService.getAvgRanking(6) * 10))/10;
 		model.addAttribute("review", new Review());
 		model.addAttribute("reviewList", detail.getReviews());
 		model.addAttribute("avgVote", avgVote);
+		
 		//お気に入り用
 		if (userDetails != null) {
+			FavoriteProduct favoriteProduct = fService.findByCustomerAndDetailId(userDetails.getCustomer().get().getId(), pId);
 			model.addAttribute("custId", userDetails.getCustomer().get().getId());
+			if (favoriteProduct != null) {
+				model.addAttribute("favoriteProduct", favoriteProduct.getClass());
+			} else {
+				model.addAttribute("favoriteProduct", null);
+			}
 		} else {
 			model.addAttribute("custId", null);
+			model.addAttribute("favoriteProduct", null);
 		}
 		model.addAttribute("userDetails", userDetails);
 		model.addAttribute("dId", detail.getId());
@@ -99,7 +108,6 @@ public class ProductController {
 	@GetMapping("/search/text")
 	public String searchByTextFirstPage(@RequestParam("src-txt") String text, Model model) {
 		return searchByText(text, 1, model);
-
 	}
 
 	@GetMapping("/search/text/{pNum}")
@@ -240,10 +248,12 @@ public class ProductController {
 
 		Page<ProductDetail> page = dService.finAll(pageable);
 		
-		//レビューの平均集計。手動でソート。詰替え
+		//レビューの平均集計
+		avgVoteCalc(page);
+		
+		//レビューのソート
 		if (sortBy.equals("avgVote")) {
-			avgVoteCalc(page);
-			//ソート
+			//ソート、平均評価と商品の関連付け
 			List<ProductDetail> newList = page.stream()
 			        .sorted(Comparator.comparing(ProductDetail::getAvgVote, Comparator.reverseOrder())
 	                .thenComparing(ProductDetail::getAvgVote))
@@ -301,8 +311,8 @@ public class ProductController {
 		return model;
 	}
 	
+	//ここから平均評価の集計
 	private float avgVoteCalc(Page<ProductDetail> page) { 
-		//ここからお気に入り、平均集計。
 		float avgVote = 0.0F;
 		float totalVote = 0.0F;
 		for (int i = 0; i < page.getContent().size(); i++) {
@@ -317,4 +327,5 @@ public class ProductController {
 		}
 		return avgVote;
 	}
+	
 }
