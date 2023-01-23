@@ -28,6 +28,5 @@ public interface OrderRepositoryAdmin extends JpaRepository<Order, Integer> {
 	
 	@Query("select sum(o.total) from Order o ")
 	public Integer totalSales();
-
-
+	
 }

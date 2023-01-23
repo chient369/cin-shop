@@ -7,8 +7,8 @@ $(document).ready(function() {
 	$(".animsition").animsition({
 		inClass: 'fade-in',
 		outClass: 'fade-out',
-		inDuration: 1000,
-		outDuration: 700,
+		inDuration: 500,
+		outDuration: 300,
 		linkElement: '.animsition-link',
 		loading: true,
 		loadingParentElement: 'html',
@@ -16,7 +16,7 @@ $(document).ready(function() {
 		loadingInner: '<div class="loader05"></div>',
 		timeout: false,
 		timeoutCountdown: 5000,
-		onLoadEvent: true,
+		onLoadEvent: true,	
 		browser: ['animation-duration', '-webkit-animation-duration'],
 		overlay: false,
 		overlayClass: 'animsition-overlay-slide',
@@ -299,10 +299,10 @@ $(document).ready(function() {
 
 		let colorId = $("input[name = 'color']:checked").val();
 		let detailId = $("#detail-id").val();
-		//let URL = "http://localhost:8085/cinshop/api/p/gs?cId=" + colorId + "&dId=" + detailId;
+		let URL = "http://localhost:8085/cinshop/api/p/gs?cId=" + colorId + "&dId=" + detailId;
 		/*公開する時に使うリンク */
-		let path = window.location.protocol + "//" +window.location.hostname;
-		let URL =path+ "/cinshop/api/p/gs?cId="  + colorId + "&dId=" + detailId;
+		//let path = window.location.protocol + "//" +window.location.hostname;
+		//let URL =path+ "/cinshop/api/p/gs?cId="  + colorId + "&dId=" + detailId;
 		$.ajax({
 			url: URL,
 			success: function(data) {

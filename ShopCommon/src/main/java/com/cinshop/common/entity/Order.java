@@ -172,6 +172,14 @@ public class Order {
 		SimpleDateFormat formatter = new SimpleDateFormat("YYYY年MM月DD日");  
 	   return formatter.format(this.orderTime);
 	}
+	@Transient
+	public Long getProductCost() {
+		Long cost = 0L;
+		for(OrderDetail detail : this.orderDetails) {
+			cost+=detail.getSubTotal();
+		}
+	   return cost;
+	}
 
 
 	

@@ -34,7 +34,7 @@
 
 						<div class="ms-3">
 							<p class="mb-2">顧客数</p>
-							<h6 class="mb-0" th:text="${customerTotal}">34</h6>
+							<h6 class="mb-0" th:text="${customerTotal}">0</h6>
 						</div>
 					</div>
 				</div>
@@ -44,17 +44,7 @@
 						<i class="fa fa-ligth fa-user fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">会員数</p>
-							<h6 class="mb-0" th:text="${memberTotal}">34</h6>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
-						<i class="fa fa-ligth fa-eye fa-3x text-primary"></i>
-						<div class="ms-3">
-							<p class="mb-2">総訪問人数</p>
-							<h6 class="mb-0">$1234</h6>
+							<h6 class="mb-0" th:text="${memberTotal}">0</h6>
 						</div>
 					</div>
 				</div>
@@ -64,7 +54,7 @@
 						<i class="fa-sharp fa-solid fa-list fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">注文件数</p>
-							<h6 class="mb-0" th:text="${orderTotal}">$1234</h6>
+							<h6 class="mb-0" th:text="${orderTotal}">0</h6>
 						</div>
 					</div>
 				</div>
@@ -74,7 +64,7 @@
 						<i class="fa fa-thin fa-file-pen fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">未確定注文</p>
-							<h6 class="mb-0" th:text="${placedTotal}">34</h6>
+							<h6 class="mb-0" th:text="${placedTotal}">0</h6>
 						</div>
 					</div>
 				</div>
@@ -84,17 +74,7 @@
 						<i class="fa-sharp fa-solid fa-truck-fast fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">配達中</p>
-							<h6 class="mb-0" th:text="${deliveringOrder}">34</h6>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
-						<i class="fa fa-ligth fa-eye fa-3x text-primary"></i>
-						<div class="ms-3">
-							<p class="mb-2">総訪問人数</p>
-							<h6 class="mb-0">$1234</h6>
+							<h6 class="mb-0" th:text="${deliveringOrder}">0</h6>
 						</div>
 					</div>
 				</div>
@@ -104,7 +84,7 @@
 						<i class="fa fa-solid fa-yen-sign fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">売上</p>
-							<h6 class="mb-0">$1234</h6>
+							<h6 class="mb-0" th:text ="'¥' + ${totalSale}">0</h6>
 						</div>
 					</div>
 				</div>
@@ -145,9 +125,9 @@
 								<tr>
 									<td th:text="${order.orderNum}"></td>
 									<td th:text ="${order.orderDateString}">01 Jan 2045</td>
-									<td th:text ="${order.customer.fullName}">INV-0123</td>
-									<td th:text ="${order.customer.address.fullAddress}">千葉県稲毛区穴側2-22-9</td>
-									<td th:text ="${order.total}">$123</td>
+									<td th:text ="${order.customer !=null}?${order.customer.fullName}">INV-0123</td>
+									<td th:text ="${order.customer !=null}?${order.customer.address.fullAddress}">千葉県稲毛区穴側2-22-9</td>
+									<td th:text ="'¥' +${order.total}">$123</td>
 									<td th:text ="${order.status}">Paid</td>
 									<td><a class="btn btn-sm btn-primary" th:href="@{'/order/' + ${order.id}}">詳細</a></td>
 								</tr>
@@ -156,16 +136,8 @@
 					</table>
 				</div>
 				<div class="btn-toolbar justify-content-center mt-4">
-					<div class="btn-group me-2">
-						<button type="button" class="btn btn-primary">&lt;</button>
-						<button type="button" class="btn btn-primary">1</button>
-						<button type="button" class="btn btn-primary">2</button>
-						<button type="button" class="btn btn-primary">3</button>
-						<button type="button" class="btn btn-primary" disabled>...</button>
-						<button type="button" class="btn btn-primary">4</button>
-						<button type="button" class="btn btn-primary">5</button>
-						<button type="button" class="btn btn-primary">6</button>
-						<button type="button" class="btn btn-primary">&gt;</button>
+					<div class="btn-group me-2" th:each="page : ${orderTotalPages}">
+						<button type="button" class="btn btn-secondary" th:text ="${page}" th:classappend="${page == orderCurrentPage +1}?'disabled'"></button>						
 					</div>
 				</div>
 			</div>

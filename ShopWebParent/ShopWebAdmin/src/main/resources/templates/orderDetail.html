@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments :: page-head('Home')}">
+</head>
+
+<body>
+	<div class="
+	container-xxl position-relative bg-whited-flexp-0">
+		<!-- Spinner Start -->
+		<div th:replace="~{fragments:: spinner}"></div>
+		<!-- Spinner End -->
+	</div>
+
+	<!-- Sidebar Start -->
+	<div th:replace="~{fragments:: sidebar}"></div>
+	<!-- Sidebar End -->
+
+
+	<!-- Content Start -->
+	<div class="content">
+		<!-- Navbar Start -->
+		<nav th:replace="~{fragments:: head-nav}"></nav>
+		<!-- Navbar End -->
+
+		<!-- form Start -->
+		<div class="container-fluid pt-4 px-4">
+			<div class="bg-light  rounded p-4">
+				<h4 class="mb-3">
+					注文詳細 : <span class="text-secondary" th:text="${order.orderNum}"></span>
+				</h4>
+				<div class="d-flex justify-content-start">
+					<div class="d-flex　flex-column justify-content-start mb-4 me-5">
+						<h5 class="mb-1">顧客情報</h5>
+						<p>
+							注文日付 : <span th:text="${order.orderDateString}"></span>
+						</p>
+						<p>
+							顧客名 : <span th:text="${order.customer.fullName}"></span>
+						</p>
+						<p>
+							電話番号 : <span th:text="${order.customer.phoneNumber}"></span>
+						</p>
+						<p>
+							Email : <span th:text="${order.customer.email}"></span>
+						</p>
+					</div>
+					<div class="d-flex　flex-column justify-content-start mb-4 me-5">
+						<h5 class="mb-1">配送先</h5>
+						<p>
+							受取名 : <span th:text="${order.customer.fullName}"></span>
+						</p>
+						<p>
+							住所 : <span th:text="${order.customer.address.fullAddress}"></span>
+						</p>
+						<p>
+							電話番号 : <span th:text="${order.customer.phoneNumber}"></span>
+						</p>
+						<p>
+							Email : <span th:text="${order.customer.email}"></span>
+						</p>
+					</div>
+					<div class="d-flex　flex-column justify-content-start mb-4 me-5">
+						<h5 class="mb-1">支払い</h5>
+						<p>
+							商品総金: <span th:text="${order.productCost}"></span>
+						</p>
+						<p>
+							配送料 : <span>500</span>
+						</p>
+						<p>
+							合計 : <span th:text="${order.total}"></span>
+						</p>
+						<p>
+							支払い方法 : <span th:text="${order.paymentMethod.nameJa}"></span>
+						</p>
+
+					</div>
+					<div class="d-flex　flex-column justify-content-start mb-4 me-5">
+						<h5 class="mb-1">注文状況</h5>
+						<button class="btn btn-primary">問い合わせ中</button>
+						<button class="btn btn-primary">支払い済み</button>
+						<button class="btn btn-primary">配達中</button>
+						<button class="btn btn-primary">完了</button>
+
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table text-start align-middle table-bordered mb-0">
+						<thead>
+							<tr class="text-dark text-center">
+								<th scope="col">商品ID</th>
+								<th scope="col">商品名</th>
+								<th scope="col">イメージ</th>
+								<th scope="col">カラー</th>
+								<th scope="col">サイズ</th>
+								<th scope="col">数量</th>
+								<th scope="col">合計</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="detail : ${order.orderDetails}">
+								<tr th:with="p = ${detail.product}">
+									<td class="text-center" th:text="${p.id}"></td>
+									<td class="text-center" th:text="${p.name}">01 Jan 2045</td>
+									<td class="text-center"><img
+										class="img-thumbnail product-image" th:src="${p.mainImage}"></img></td>
+									<td class="text-center"
+										th:style="|color : ${p.color.colorCode}|"><i
+										class="fa fa-thin fa-circle fa-2x"></i></td>
+									<td class="text-center" th:text="${p.size.value}">$123</td>
+									<td class="text-center" th:text="${detail.quantity}">Paid</td>
+									<td class="text-center" th:text="${detail.subTotal}"></td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!-- form End -->
+		<!-- Footer Start -->
+		<div class="container-fluid pt-4 px-4 mb-0">
+			<div class="bg-light rounded-top p-4">
+				<div class="row">
+					<div class="col-12 col-sm-6 text-center text-sm-start">
+						&copy; <a href="#">Your Site Name</a>, All Right Reserved.
+					</div>
+					<div class="col-12 col-sm-6 text-center text-sm-end">
+						<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+						Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Footer End -->
+
+	</div>
+
+
+	<div th:replace="~{fragments::common-js}"></div>
+</body>
+
+</html>
