@@ -64,21 +64,33 @@ public class ProductDetail {
 	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Review> reviews = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<FavoriteProduct> favoriteProduct = new ArrayList<>();
+	
 	private float avgVote;
-
-	public float getAvgVote() {
-		return avgVote;
-	}
-
-	public void setAvgVote(float avgVote) {
-		this.avgVote = avgVote;
-	}
+	private boolean favoriteChecked;
 
 	public ProductDetail() {
 	}
 
 	public ProductDetail(Integer detailId) {
 		this.id = detailId;
+	}
+	
+	public List<FavoriteProduct> getFavoriteProduct() {
+		return favoriteProduct;
+	}
+
+	public void setFavoriteProduct(List<FavoriteProduct> favoriteProduct) {
+		this.favoriteProduct = favoriteProduct;
+	}
+	
+	public boolean isFavoriteChecked() {
+		return favoriteChecked;
+	}
+
+	public void setFavoriteChecked(boolean favoriteChecked) {
+		this.favoriteChecked = favoriteChecked;
 	}
 
 	public Integer getId() {
@@ -87,6 +99,14 @@ public class ProductDetail {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public float getAvgVote() {
+		return avgVote;
+	}
+
+	public void setAvgVote(float avgVote) {
+		this.avgVote = avgVote;
 	}
 
 	public String getCode() {

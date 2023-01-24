@@ -50,15 +50,15 @@ public class ProductController {
 	
 	
 	@GetMapping("")
-	public String viewProductPage(Model model) {
+	public String viewProductPage(Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
 		
-		return viewPage(1, model);
+		return viewPage(1, model, userDetails);
 	}
 
 	/* ホームページ */
 
 	@GetMapping("/page/{pnum}")
-	public String viewPage(@PathVariable Integer pnum, Model model) {
+	public String viewPage(@PathVariable Integer pnum, Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
 		Pageable pageable = PageRequest.of(pnum - 1, ITEM_PER_PAGE);
 		Page<ProductDetail> page = dService.finAll(pageable);
 
@@ -66,8 +66,30 @@ public class ProductController {
 
 		//レビューの平均集計
 		avgVoteCalc(page);
-		model.addAttribute("products", page.getContent());
 		
+		//お気に入り登録しているか判定
+		List<FavoriteProduct> favoriteProduct = new ArrayList<FavoriteProduct>();
+		if (userDetails != null) {
+			favoriteProduct = fService.findByCustId(userDetails.getCustomer().get().getId());
+			boolean detailIdMatch = false;
+			for (int i = 0; i < page.getContent().size(); i++) {
+				for(int j = 0; j < favoriteProduct.size(); j++) {
+					if (page.getContent().get(i).getId() == favoriteProduct.get(j).getProductDetail().getId()) {
+						detailIdMatch = true;
+					}
+				}
+				page.getContent().get(i).setFavoriteChecked(detailIdMatch);
+				detailIdMatch = false;
+			}
+		} else {
+			for (int i = 0; i < page.getContent().size(); i++) {
+				for(int j = 0; j < favoriteProduct.size(); j++) {
+					page.getContent().get(i).setFavoriteChecked(false);
+				}
+			}
+		}
+		
+		model.addAttribute("products", page.getContent());
 		return "product/product";
 	}
 

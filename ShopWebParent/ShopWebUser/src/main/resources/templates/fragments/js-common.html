@@ -50,17 +50,33 @@
 	<script th:src="@{/vendor/sweetalert/sweetalert.min.js}"></script>
 	<script>
 		$('.js-addwish-b2').on('click', function (e) {
-			e.preventDefault();
+			//e.preventDefault();
 		});
 
 		//商品一覧のお気に入りボタン
 		$('.js-addwish-b2').each(function () {
 			var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
 			$(this).on('click', function () {
-				swal(nameProduct, "is added to wishlist !", "success");
+				let favoriteCheckedTF = false;
+				
+				//お気に入りに登録されていない場合
+				if (favoriteChecked(favoriteCheckedTF) == false) {
 
-				$(this).addClass('js-addedwish-b2');
-				$(this).off('click');
+					//お気に入り追加 -> product-detail.html
+					addFavoriteProduct();
+					
+					swal(nameProduct, "is added to wishlist !", "success");
+	
+					//$(this).addClass('js-addedwish-detail');
+					//$(this).off('click');
+				} else {
+					//お気に入り削除 -> product-detail.html
+					removeFavoriteProduct();
+					swal(nameProduct, "is removed to wishlist !", "success");
+				}
+
+				//$(this).addClass('js-addedwish-b2');
+				//$(this).off('click');
 			});
 		});
 
@@ -76,15 +92,16 @@
 				if (favoriteChecked(favoriteCheckedTF) == false) {
 
 					//お気に入り追加 -> product-detail.html
-					addFavoriteProduct();
+					addFavoriteProductDetail();
 					
 					swal(nameProduct, "is added to wishlist !", "success");
 	
-					$(this).addClass('js-addedwish-detail');
-					$(this).off('click');
+					//$(this).addClass('js-addedwish-detail');
+					//$(this).off('click');
 				} else {
 					//お気に入り削除 -> product-detail.html
-					removeFavoriteProduct();
+					removeFavoriteProductDetail();
+					swal(nameProduct, "is removed to wishlist !", "success");
 				}
 			});
 		});

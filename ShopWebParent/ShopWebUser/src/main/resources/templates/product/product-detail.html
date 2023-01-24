@@ -141,17 +141,10 @@
 							<!--add to wishlist-->
 							<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 								<div class="flex-m bor9 p-r-10 m-r-11">
-									<th:block th:if="${favoriteProduct != null}">
-										<a href="#"
+									<p
 										class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
-										data-tooltip="Remove to Wishlist"> <i class="zmdi zmdi-favorite" id="wishlist-favorite"></i>
-									</th:block>
-									<th:block th:if="${favoriteProduct == null}">
-										<a href="#"
-										class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
-										data-tooltip="Add to Wishlist"> <i class="zmdi zmdi-favorite" id="wishlist-favorite"></i>
-									</a>
-									</th:block>
+										data-tooltip="お気に入り"> <i class="zmdi zmdi-favorite" id="wishlist-favorite"></i>
+									</p>
 								</div>
 
 								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
@@ -494,23 +487,22 @@
 		<!--=======================================お気に入り登録==============================================-->
 		<script th:inline="javascript">
 		
-		const favoriteProduct = /*[[${favoriteProduct}]]*/"favoriteProduct";
 		const custId = /*[[${custId}]]*/"custId";
 		const dId = /*[[${dId}]]*/"dId";
 		var wishlist = document.getElementById('wishlist-favorite');
-		
+		var favoriteProduct = /*[[${favoriteProduct}]]*/"favoriteProduct";
 		
 		//お気に入りにチェック済みの場合、ボタンの色を変更する。
 		if (favoriteProduct != null) {
 			wishlist.style.color = "#6c7ae0";
 		}
 		
-		//
+		//お気に入りチェック確認 return -> js-commmon
 		function favoriteChecked(favoriteCheckedTF) {
-			//チェック済み
+			//お気に入りチェック済み
 			if (favoriteProduct != null) {
 				favoriteCheckedTF = true;
-			//チェックなし	
+			//お気に入りチェックなし	
 			} else {
 				favoriteCheckedTF = false;
 			}
@@ -518,7 +510,7 @@
 		}
 		
 		//お気に入りボタンクリック時（追加）
-		function addFavoriteProduct() {
+		function addFavoriteProductDetail() {
 			//ゲストユーザー
 			if (custId == null) {
 				document.cookie = dId + 'dId=' + dId;
@@ -531,6 +523,10 @@
 					success: function (data) {
 						if (data == null) {
 							console.log("他ユーザーからのデータ変更防止")
+						} else {
+							wishlist.style.color = "#6c7ae0"
+							favoriteProduct = data
+							console.log("追加成功")
 						}
 					},
 					error: function () {
@@ -541,7 +537,7 @@
 		}
 		
 		//お気に入りボタンクリック時（削除）
-		function removeFavoriteProduct() {
+		function removeFavoriteProductDetail() {
 			//ゲストユーザー
 			if (custId == null) {
 				document.cookie = dId + 'dId=' + dId;
@@ -553,8 +549,9 @@
 					type: "post",
 					success: function (removeSuccess) {
 						if (removeSuccess) {
+							wishlist.style.color = "#000";
+							favoriteProduct = null	
 							console.log("削除成功")
-							wishlist.style.color = "#000";	
 						} else {
 							console.log("他ユーザーからのデータ変更防止")
 						}
@@ -564,8 +561,8 @@
 					}
 				})
 			}
-		}		
-		</script>
+		}	
+	</script>
 	</body>
 </html>
 

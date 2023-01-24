@@ -24,9 +24,8 @@ public class FavoriteProductService {
 	}
 
 	public void removeFavProduct(Integer custId, Integer product_id) {
-		FavoriteProduct favP = new FavoriteProduct(new ProductDetail(product_id), new Customer(custId));
-		System.out.println(favP.getCustomer());
-		System.out.println(favP.getProductDetail());
+		//FavoriteProduct favP = new FavoriteProduct(new ProductDetail(product_id), new Customer(custId));
+		FavoriteProduct favP = repository.findByCustIdAndDetailId(custId, product_id);
 		repository.delete(favP);
 	}
 
@@ -42,8 +41,13 @@ public class FavoriteProductService {
 		return products;
 	}
 	
+	public List<FavoriteProduct> findByCustId(Integer custId) {
+		List<FavoriteProduct> favoriteProduct = repository.findByCustId(custId);
+		return favoriteProduct;
+	}
+	
 	public FavoriteProduct findByCustomerAndDetailId(Integer custId, Integer dId) {
-		FavoriteProduct favoriteProduct = repository.find(custId, dId);
+		FavoriteProduct favoriteProduct = repository.findByCustIdAndDetailId(custId, dId);
 		return favoriteProduct;
 	}
 }

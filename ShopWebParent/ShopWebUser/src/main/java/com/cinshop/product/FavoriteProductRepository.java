@@ -15,5 +15,8 @@ public interface FavoriteProductRepository extends JpaRepository<FavoriteProduct
 	public List<FavoriteProduct> findByCustomer(Customer customer);
 	
 	@Query("select f from FavoriteProduct f where f.customer.id = ?1 and f.productDetail.id = ?2")
-	public FavoriteProduct find(Integer custId, Integer dId);
+	public FavoriteProduct findByCustIdAndDetailId(Integer custId, Integer dId);
+	
+	@Query("select f from FavoriteProduct f where f.customer.id = ?1")
+	public List<FavoriteProduct> findByCustId(Integer custId);
 }
