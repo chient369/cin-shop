@@ -80,6 +80,7 @@ public class ProductController {
 				}
 				page.getContent().get(i).setFavoriteChecked(detailIdMatch);
 				detailIdMatch = false;
+				model.addAttribute("custId", userDetails.getCustomer().get().getId());
 			}
 		} else {
 			for (int i = 0; i < page.getContent().size(); i++) {

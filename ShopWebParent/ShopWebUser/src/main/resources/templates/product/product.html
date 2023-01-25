@@ -41,23 +41,24 @@
 								</div>
 
 								<div class="block2-txt-child2 flex-r p-t-3">
-									<a 
+									<button 
 										class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" id="wishlist-favorite" 
+										th:onclick="|clickGetIdAndDid('__${p.id}__','__${p.favoriteChecked}__','__${p.name}__')|"
 										<!-- お気に入り追加済み -->
 										<th:block th:if="${p.favoriteChecked == true}">
 												<img class="icon-heart1 dis-block trans-04"
-												th:src="@{/images/icons/icon-heart-02.png}" alt="ICON" th:id="${p.name}">
+												th:src="@{/images/icons/icon-heart-02.png}" alt="ICON" th:id="${p.id}">
 										</th:block>
 										<th:block th:if="${p.favoriteChecked == false}">
 											<img class="icon-heart1 dis-block trans-04"
-												th:src="@{/images/icons/icon-heart-01.png}" alt="ICON" th:id="${p.name}">
+												th:src="@{/images/icons/icon-heart-01.png}" alt="ICON" th:id="${p.id}">
 										</th:block>
-									</a>
+									</button>
 								</div>
 							</div>
 						</div>
 					</div>
-				</th:block>	
+				</th:block>
 			</div>
 			
 			<!--Load more -->
@@ -80,15 +81,27 @@
 	<!--===============================================================================================-->
 	<div th:replace="~{fragments/js-common :: import-js}"></div>
 	<script th:inline="javascript">
-		//ここでクリックされたid要素を取得するaddeventlistener
+		const custId = /*[[${custId}]]*/"custId";
+		const dName = '';
+		var changedFavoriteProductList = {};
 		
-		//お気に入りチェック確認 return -> js-commmon
-		function favoriteChecked(favoriteChecked) {
-			return favoriteChecked = favoriteCheckedTF;
+		//同画面上でお気に入りの追加/削除を動的に行うためのメソッド
+		function clickGetIdAndDid(dId, TF, name) {
+			var checkedFavoriteProductTF = TF;
+			if(changedFavoriteProductList.length != 0 && changedFavoriteProductList[dId] != null) {
+				checkedFavoriteProductTF = changedFavoriteProductList[dId];
+			}
+			if (checkedFavoriteProductTF == 'true') {
+				removeFavoriteProduct(custId, dId);
+			} else {
+				addFavoriteProduct(custId, dId);
+			}
+			//商品名を代入
+			dName = name;
 		}
 			
 		//お気に入りボタンクリック時（追加）
-		function addFavoriteProduct() {
+		function addFavoriteProduct(custId=null, dId) {
 			//ゲストユーザー
 			if (custId == null) {
 				document.cookie = dId + 'dId=' + dId;
@@ -102,8 +115,10 @@
 						if (data == null) {
 							console.log("他ユーザーからのデータ変更防止")
 						} else {
-							favoriteCheckedTF = true;
-							console.log("追加成功")
+							//配列に変更データを保存
+							changedFavoriteProductList[dId] = 'true';
+							document.getElementById(dId).src = "images/icons/icon-heart-02.png";
+							swal(dName, "is added to wishlist !", "success");
 						}
 					},
 					error: function () {
@@ -114,7 +129,7 @@
 		}
 		
 		//お気に入りボタンクリック時（削除）
-		function removeFavoriteProduct() {
+		function removeFavoriteProduct(custId=null, dId) {
 			//ゲストユーザー
 			if (custId == null) {
 				document.cookie = dId + 'dId=' + dId;
@@ -126,7 +141,10 @@
 					type: "post",
 					success: function (removeSuccess) {
 						if (removeSuccess) {
-							console.log("削除成功")
+							//配列に変更データを保存
+							changedFavoriteProductList[dId] = 'false';
+							document.getElementById(dId).src = "images/icons/icon-heart-01.png";
+							swal(dName, "is removed to wishlist !", "success");
 						} else {
 							console.log("他ユーザーからのデータ変更防止")
 						}
