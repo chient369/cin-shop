@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: page-head('Home')}">
+</head>
+
+<body>
+	<div class="
+	container-xxl position-relative bg-whited-flexp-0">
+		<!-- Spinner Start -->
+		<div th:replace="~{fragments:: spinner}"></div>
+		<!-- Spinner End -->
+	</div>
+
+	<!-- Sidebar Start -->
+	<div th:replace="~{fragments:: sidebar}"></div>
+	<!-- Sidebar End -->
+
+
+	<!-- Content Start -->
+	<div class="content">
+		<!-- Navbar Start -->
+		<nav th:replace="~{fragments:: head-nav}"></nav>
+		<!-- Navbar End -->
+
+
+	
+		<!-- Sale & Revenue End -->
+
+
+
+
+
+		<!-- Recent Sales Start -->
+		<div class="container-fluid pt-4 px-4">
+			<div class="bg-light text-center rounded p-4">
+				<div class="d-flex align-items-center justify-content-between mb-4">
+					<h6 class="mb-0">注文</h6>
+				</div>
+				<div class="table-responsive">
+					<table
+						class="table text-start align-middle table-bordered table-hover mb-0">
+						<thead>
+							<tr class="text-dark text-center">
+								<th scope="col">注文ID</th>
+								<th scope="col">注文日付</th>
+								<th scope="col">顧客名</th>
+								<th scope="col">お届け住所</th>
+								<th scope="col">合計</th>
+								<th scope="col">ステータス</th>
+								<th scope="col">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="order : ${orders}">
+								<tr>
+									<td th:text="${order.orderNum}"></td>
+									<td th:text ="${order.orderDateString}">01 Jan 2045</td>
+									<td th:text ="${order.customer !=null}?${order.customer.fullName}">INV-0123</td>
+									<td th:text ="${order.customer !=null}?${order.customer.address.fullAddress}">千葉県稲毛区穴側2-22-9</td>
+									<td th:text ="'¥' +${order.total}">$123</td>
+									<td th:text ="${order.status}">Paid</td>
+									<td><a class="btn btn-sm btn-primary" th:href="@{'/order/' + ${order.id}}">詳細</a></td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+				<div class="btn-toolbar justify-content-center mt-4">
+					<div class="btn-group me-2" th:each="page : ${orderTotalPages}">
+						<button type="button" class="btn btn-secondary" th:text ="${page}" th:classappend="${page == orderCurrentPage +1}?'disabled'"></button>						
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	<!-- Back to Top -->
+	<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
+		class="bi bi-arrow-up"></i></a>
+	</div>
+
+	<!-- JavaScript Libraries -->
+	<div th:replace="~{fragments::common-js}"></div>
+</body>
+
+</html>

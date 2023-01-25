@@ -72,8 +72,9 @@
 				</div>
 			</div>
 			<div class="navbar-nav w-100">
-				<a th:href="@{/}" class="nav-item nav-link active"><i
-					class="fa fa-tachometer-alt me-2"></i>ダッシュボード</a> <a th:href="@{/}"
+				<a th:href="@{/}" th:classappend="${#ctx.springRequestContext.requestUri =='/shopAdmin/'}?'active':''" class="nav-item nav-link "><i
+					class="fa fa-tachometer-alt me-2"></i>ダッシュボード</a> 
+					<a th:href="@{/users}" th:classappend="${#ctx.springRequestContext.requestUri =='/users'}?'active':''	"
 					class="nav-item nav-link"><i class="fa fa-duotone fa-users"></i>
 					会員管理</a>
 
@@ -87,12 +88,12 @@
 							th:href="@{/}" class="dropdown-item ms-4">カテゴリ一覧</a>
 					</div>
 				</div>
-				<div class="nav-item dropdown">
+				<div  class="nav-item dropdown">
 					<a th:href="@{#}" class="nav-link dropdown-toggle"
 						data-bs-toggle="dropdown"><i
 						class="fa-sharp fa-solid fa-money-check-dollar"></i> 注文管理</a>
 					<div class="dropdown-menu bg-transparent border-0">
-						<a th:href="@{/}" class="dropdown-item ms-4">注文一覧</a> <a
+						<a th:classappend="${#ctx.springRequestContext.requestUri =='/order'}?'active':''" th:href="@{/order}" class="dropdown-item ms-4">注文一覧</a> <a
 							th:href="@{/}" class="dropdown-item ms-4">未確定注文</a>
 
 					</div>
