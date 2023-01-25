@@ -54,7 +54,7 @@
 						<i class="fa-sharp fa-solid fa-list fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">注文件数</p>
-							<h6 class="mb-0" th:text="${orderTotal}">0</h6>
+							<h6 class="mb-0" th:text="${orderTotal} +' 件'">0</h6>
 						</div>
 					</div>
 				</div>
@@ -64,7 +64,7 @@
 						<i class="fa fa-thin fa-file-pen fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">未確定注文</p>
-							<h6 class="mb-0" th:text="${placedTotal}">0</h6>
+							<h6 class="mb-0" th:text="${placedOrder}+' 件'">0</h6>
 						</div>
 					</div>
 				</div>
@@ -74,7 +74,7 @@
 						<i class="fa-sharp fa-solid fa-truck-fast fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">配達中</p>
-							<h6 class="mb-0" th:text="${deliveringOrder}">0</h6>
+							<h6 class="mb-0" th:text="${deliveringOrder}+' 件'">0</h6>
 						</div>
 					</div>
 				</div>
