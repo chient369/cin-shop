@@ -77,7 +77,9 @@
 
 					</div>
 					<div class="d-flexflex-column justify-content-start mb-4 me-5">
+
 						<h5 class="mb-1">ステータス</h5>
+
 						<button type="button" onclick="changeModal(this)" data-bs-toggle="modal"
 							data-bs-target="#confirmStatus"
 							th:classappend="${order.status.name == 'PLACED'} ? 'btn-primary disabled' : 'btn-secondary'"
@@ -85,7 +87,9 @@
 						<button type="button" onclick="changeModal(this)" data-bs-toggle="modal"
 							data-bs-target="#confirmStatus"
 							th:classappend="${order.status.name == 'PROCESSING'} ? 'btn-primary disabled' : 'btn-secondary'"
+
 							class="btn" value="3">処理中</button>
+
 						<button type="button" onclick="changeModal(this)" data-bs-toggle="modal"
 							data-bs-target="#confirmStatus"
 							th:classappend="${order.status.name == 'PAID'} ? 'btn-primary disabled' : 'btn-secondary'"
@@ -146,7 +150,9 @@
 					<div class="modal-body"></div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+
 						<a id="confirmChangeStatus" type="button" class="btn btn-primary">確認</a>
+
 					</div>
 				</div>
 			</div>
@@ -174,6 +180,7 @@
 	<div th:replace="~{fragments::common-js}"></div>
 	<script>
 		/*注文状況を変更*/
+
 		var oId = [[${order.id }]];
 		var orderNum = '[[${order.orderNum }]]';
 		var baseURL = [[@{/}]];
@@ -183,6 +190,7 @@
 			let content = "注文" + orderNum + "は<strong>" + status + "</strong>に変更します！よろしですか？"
 			$(".modal-body").html(content);
 			$("#confirmChangeStatus").attr("href",changeStatusUrl);
+
 		}
 	</script>
 </body>
