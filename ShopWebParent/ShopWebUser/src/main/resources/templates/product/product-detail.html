@@ -511,57 +511,38 @@
 		
 		//お気に入りボタンクリック時（追加）
 		function addFavoriteProductDetail() {
-			//ゲストユーザー
-			if (custId == null) {
-				document.cookie = dId + 'dId=' + dId;
-			//ログイン済みユーザー
-			} else {
-				let URL = "http://localhost:8085/cinshop/api/p/fav?custId=" + custId + "&dId=" + dId
-				$.ajax({
-					url: URL,
-					type: "post",
-					success: function (data) {
-						if (data == null) {
-							console.log("他ユーザーからのデータ変更防止")
-						} else {
-							wishlist.style.color = "#6c7ae0"
-							favoriteProduct = data
-							console.log("追加成功")
-						}
-					},
-					error: function () {
-						console.log("access error fav post (add)")
-					}
-				})
-			}
+			let URL = "http://localhost:8085/cinshop/api/p/fav?dId=" + dId
+			$.ajax({
+				url: URL,
+				type: "post",
+				success: function (data) {
+						console.log("追加成功")
+						wishlist.style.color = "#6c7ae0"
+						favoriteProduct = data
+				},
+				error: function () {
+					console.log("access error fav post (add)")
+				}
+			})
 		}
 		
 		//お気に入りボタンクリック時（削除）
 		function removeFavoriteProductDetail() {
-			//ゲストユーザー
-			if (custId == null) {
-				document.cookie = dId + 'dId=' + dId;
-			//ログイン済みユーザー
-			} else {
-				let URL = "http://localhost:8085/cinshop/api/p/fav/remove?custId=" + custId + "&dId=" + dId
-				$.ajax({
-					url: URL,
-					type: "post",
-					success: function (removeSuccess) {
-						if (removeSuccess) {
-							wishlist.style.color = "#000";
-							favoriteProduct = null	
-							console.log("削除成功")
-						} else {
-							console.log("他ユーザーからのデータ変更防止")
-						}
-					},
-					error: function () {
-						console.log("access error fav post (remove)")
-					}
-				})
-			}
-		}	
+			let URL = "http://localhost:8085/cinshop/api/p/fav/remove?dId=" + dId
+			$.ajax({
+				url: URL,
+				type: "post",
+				success: function () {
+					console.log("削除成功")
+					wishlist.style.color = "#000"
+					favoriteProduct = null
+				},
+				error: function () {
+					console.log("access error fav post (remove)")
+				}
+			})
+		}
+	
 	</script>
 	</body>
 </html>

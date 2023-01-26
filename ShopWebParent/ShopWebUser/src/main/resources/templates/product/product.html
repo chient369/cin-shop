@@ -88,72 +88,61 @@
 		//同画面上でお気に入りの追加/削除を動的に行うためのメソッド
 		function clickGetIdAndDid(dId, TF, name) {
 			var checkedFavoriteProductTF = TF;
+			console.log(document.cookie);
 			if(changedFavoriteProductList.length != 0 && changedFavoriteProductList[dId] != null) {
 				checkedFavoriteProductTF = changedFavoriteProductList[dId];
 			}
 			if (checkedFavoriteProductTF == 'true') {
-				removeFavoriteProduct(custId, dId);
+				removeFavoriteProduct(dId);
 			} else {
-				addFavoriteProduct(custId, dId);
+				addFavoriteProduct(dId);
 			}
 			//商品名を代入
 			dName = name;
 		}
 			
 		//お気に入りボタンクリック時（追加）
-		function addFavoriteProduct(custId=null, dId) {
-			//ゲストユーザー
-			if (custId == null) {
-				document.cookie = dId + 'dId=' + dId;
-			//ログイン済みユーザー
-			} else {
-				let URL = "http://localhost:8085/cinshop/api/p/fav?custId=" + custId + "&dId=" + dId
-				$.ajax({
-					url: URL,
-					type: "post",
-					success: function (data) {
-						if (data == null) {
-							console.log("他ユーザーからのデータ変更防止")
-						} else {
-							//配列に変更データを保存
-							changedFavoriteProductList[dId] = 'true';
-							document.getElementById(dId).src = "images/icons/icon-heart-02.png";
-							swal(dName, "is added to wishlist !", "success");
-						}
-					},
-					error: function () {
-						console.log("access error fav post (add)")
+		function addFavoriteProduct(dId) {
+			let URL = "http://localhost:8085/cinshop/api/p/fav?dId=" + dId
+			$.ajax({
+				url: URL,
+				type: "post",
+				success: function (data) {
+					if (data == null) {
+						console.log("他ユーザーからのデータ変更防止")
+					} else {
+						//配列に変更データを保存
+						changedFavoriteProductList[dId] = 'true';
+						document.getElementById(dId).src = "images/icons/icon-heart-02.png";
+						swal(dName, "is added to wishlist !", "success");
 					}
-				})
-			}
+				},
+				error: function () {
+					console.log("access error fav post (add)")
+				}
+			})
 		}
 		
 		//お気に入りボタンクリック時（削除）
-		function removeFavoriteProduct(custId=null, dId) {
-			//ゲストユーザー
-			if (custId == null) {
-				document.cookie = dId + 'dId=' + dId;
-			//ログイン済みユーザー
-			} else {
-				let URL = "http://localhost:8085/cinshop/api/p/fav/remove?custId=" + custId + "&dId=" + dId
-				$.ajax({
-					url: URL,
-					type: "post",
-					success: function (removeSuccess) {
-						if (removeSuccess) {
-							//配列に変更データを保存
-							changedFavoriteProductList[dId] = 'false';
-							document.getElementById(dId).src = "images/icons/icon-heart-01.png";
-							swal(dName, "is removed to wishlist !", "success");
-						} else {
-							console.log("他ユーザーからのデータ変更防止")
-						}
-					},
-					error: function () {
-						console.log("access error fav post (remove)")
+		function removeFavoriteProduct(dId) {
+			let URL = "http://localhost:8085/cinshop/api/p/fav/remove?dId=" + dId
+			$.ajax({
+				url: URL,
+				type: "post",
+				success: function (removeSuccess) {
+					if (removeSuccess) {
+						//配列に変更データを保存
+						changedFavoriteProductList[dId] = 'false';
+						document.getElementById(dId).src = "images/icons/icon-heart-01.png";
+						swal(dName, "is removed to wishlist !", "success");
+					} else {
+						console.log("他ユーザーからのデータ変更防止")
 					}
-				})
-			}
+				},
+				error: function () {
+					console.log("access error fav post (remove)")
+				}
+			})
 		}
 	</script>
 	</body>

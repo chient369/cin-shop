@@ -10,17 +10,17 @@ import org.springframework.stereotype.Repository;
 
 import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.FavoriteProduct;
+import com.cinshop.common.entity.ProductDetail;
 
 @Repository
 public interface FavoriteProductRepository extends JpaRepository<FavoriteProduct, Integer> {
 
 	public List<FavoriteProduct> findByCustomer(Customer customer);
 	
+	public FavoriteProduct findByProductDetail(ProductDetail produtDetail);
+	
 	public Page<FavoriteProduct> findByCustomer(Customer customer, Pageable pageable);
 	
 	@Query("select f from FavoriteProduct f where f.customer.id = ?1 and f.productDetail.id = ?2")
 	public FavoriteProduct findByCustIdAndDetailId(Integer custId, Integer dId);
-	
-	@Query("select f from FavoriteProduct f where f.customer.id = ?1")
-	public List<FavoriteProduct> findByCustId(Integer custId);
 }

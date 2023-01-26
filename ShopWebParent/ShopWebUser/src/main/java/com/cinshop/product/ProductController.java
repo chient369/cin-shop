@@ -1,6 +1,7 @@
 	package com.cinshop.product;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,9 @@ import com.cinshop.common.entity.ProductDetail;
 import com.cinshop.common.entity.Review;
 import com.cinshop.customer.LoginUserDetails;
 import com.cinshop.review.ReviewService;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/p")
@@ -50,15 +55,16 @@ public class ProductController {
 	
 	
 	@GetMapping("")
-	public String viewProductPage(Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
-		
-		return viewPageProduct(1, model, userDetails);
+	public String viewProductPage(Model model, @AuthenticationPrincipal LoginUserDetails userDetails, 
+			@CookieValue(name= "key", required = false, defaultValue = "no data") String v, HttpServletRequest request) {
+		return viewPageProduct(1, model, userDetails, v, request);
 	}
 
 	/* ホームページ */
 
 	@GetMapping("/page/{pnum}")
-	public String viewPageProduct(@PathVariable Integer pnum, Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
+	public String viewPageProduct(@PathVariable Integer pnum, Model model, @AuthenticationPrincipal LoginUserDetails userDetails, String v,
+			HttpServletRequest request) {
 		Pageable pageable = PageRequest.of(pnum - 1, ITEM_PER_PAGE);
 		Page<ProductDetail> page = dService.finAll(pageable);
 
@@ -70,7 +76,7 @@ public class ProductController {
 		//お気に入り登録しているか判定
 		List<FavoriteProduct> favoriteProduct = new ArrayList<FavoriteProduct>();
 		if (userDetails != null) {
-			favoriteProduct = fService.findByCustId(userDetails.getCustomer().get().getId());
+			favoriteProduct = fService.findByCustomer(userDetails.getCustomer().get().getId());
 			boolean detailIdMatch = false;
 			for (int i = 0; i < page.getContent().size(); i++) {
 				for(int j = 0; j < favoriteProduct.size(); j++) {
@@ -83,10 +89,33 @@ public class ProductController {
 				model.addAttribute("custId", userDetails.getCustomer().get().getId());
 			}
 		} else {
-			for (int i = 0; i < page.getContent().size(); i++) {
-				for(int j = 0; j < favoriteProduct.size(); j++) {
-					page.getContent().get(i).setFavoriteChecked(false);
+			
+			String value = "";
+			Cookie cookies[] = request.getCookies();
+
+			for (Cookie cookie : cookies) {
+				System.out.println(cookie.getValue());
+			}
+			
+			
+			if (!v.equals("no data")) {
+				List<String> values = Arrays.asList(v.split("^"));
+				System.out.println(values.get(0) + values.size());
+				
+
+				
+				boolean detailIdMatch = false;
+				for (int i = 0; i < page.getContent().size(); i++) {
+					for(int j = 0; j < values.size(); j++) {
+						if (page.getContent().get(i).getId().toString() == values.get(i)) {
+							detailIdMatch = true;
+						}
+					}
+					page.getContent().get(i).setFavoriteChecked(detailIdMatch);
+					detailIdMatch = false;
+					model.addAttribute("custId", null);
 				}
+			} else {
 			}
 		}
 		

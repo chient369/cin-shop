@@ -1,5 +1,8 @@
 package com.cinshop.product;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -7,15 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.cinshop.common.entity.FavoriteProduct;
 import com.cinshop.customer.LoginUserDetails;
-
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/p/fav")
@@ -25,36 +25,48 @@ public class FavoriteProductController {
 	@Autowired
 	private FavoriteProductService fService;
 	
+	@Autowired
+	private ProductDetailService dService;
+	
 	@GetMapping("")
-	public String viewFavoriteProductPage(Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
-		
-		return viewPageFavoriteProduct(1, model, userDetails);
+	public String viewFavoriteProductPage(Model model, @AuthenticationPrincipal LoginUserDetails userDetails, @CookieValue(name= "_favorite_product_cinshop", required = false, defaultValue = "no data") String v) {
+		return viewPageFavoriteProduct(1, model, userDetails, v);
 	}
-
 	@GetMapping("/page/{pnum}")
-	public String viewPageFavoriteProduct(HttpServletRequest request, @PathVariable Integer pnum, Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
+	public String viewPageFavoriteProduct(@PathVariable Integer pnum, Model model, @AuthenticationPrincipal LoginUserDetails userDetails, String v) {
 		Pageable pageable = PageRequest.of(pnum - 1, ITEM_PER_PAGE);
+		Page<FavoriteProduct> page = Page.empty(pageable);
 		
-		
-		Page<FavoriteProduct> page = fService.findByCustomer(userDetails.getCustomer().get().getId(), pageable);
-		
+		//会員ユーザー
+		if (userDetails != null) {
+			page = fService.findByCustomer(userDetails.getCustomer().get().getId(), pageable);
+			model.addAttribute("custId", userDetails.getCustomer().get().getId());
+		//ゲストユーザー	
+		} else {
+			if (!v.equals("no data")) {
+				List<String> values = Arrays.asList(v.split(","));
+				System.out.println(v);
+				System.out.println(values);
+				for (int i = 0; i < values.size(); i++) {
+					page.getContent().set(i, fService.findByProductDetail(Integer.parseInt(values.get(i))));
+				}
+			} else {
+				System.out.println(v);
+			}
+		}
+		model.addAttribute("custId", null);
 		model.addAttribute("totalPages", page.getTotalPages() > 0 ? page.getTotalPages() : 1);
 		model.addAttribute("currentPage", page.getNumber());
 
 		//レビューの平均集計
 		avgVoteCalc(page);
 		
-		//お気に入り登録しているか判定
-		if (userDetails != null) {
-			for (int i = 0; i < page.getContent().size(); i++) {
-				page.getContent().get(i).getProductDetail().setFavoriteChecked(true);
-			}
-			model.addAttribute("products", page.getContent());
-			model.addAttribute("custId", userDetails.getCustomer().get().getId());
-			
-		} else {
-			model.addAttribute("products", session.getAttribute(cart));
+		for (int i = 0; i < page.getContent().size(); i++) {
+			page.getContent().get(i).getProductDetail().setFavoriteChecked(true);
 		}
+		
+		model.addAttribute("products", page.getContent());
+		
 		return "product/product-favorite";
 	}
 	
