@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.cinshop.common.entity.Customer;
@@ -22,9 +24,12 @@ public class FavoriteProductService {
 		FavoriteProduct favP = new FavoriteProduct(new ProductDetail(product_id), new Customer(custId));
 		return repository.save(favP);
 	}
+	
+	public Page<FavoriteProduct> findByCustomer(Integer custId, Pageable pageable) {
+		return repository.findByCustomer(new Customer(custId), pageable);
+	}
 
 	public void removeFavProduct(Integer custId, Integer product_id) {
-		//FavoriteProduct favP = new FavoriteProduct(new ProductDetail(product_id), new Customer(custId));
 		FavoriteProduct favP = repository.findByCustIdAndDetailId(custId, product_id);
 		repository.delete(favP);
 	}

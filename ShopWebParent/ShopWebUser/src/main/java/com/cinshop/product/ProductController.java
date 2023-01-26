@@ -52,13 +52,13 @@ public class ProductController {
 	@GetMapping("")
 	public String viewProductPage(Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
 		
-		return viewPage(1, model, userDetails);
+		return viewPageProduct(1, model, userDetails);
 	}
 
 	/* ホームページ */
 
 	@GetMapping("/page/{pnum}")
-	public String viewPage(@PathVariable Integer pnum, Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
+	public String viewPageProduct(@PathVariable Integer pnum, Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
 		Pageable pageable = PageRequest.of(pnum - 1, ITEM_PER_PAGE);
 		Page<ProductDetail> page = dService.finAll(pageable);
 
@@ -93,6 +93,8 @@ public class ProductController {
 		model.addAttribute("products", page.getContent());
 		return "product/product";
 	}
+	
+
 
 	@GetMapping("/{pId}")
 	public String viewProduct(@PathVariable Integer pId, Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {

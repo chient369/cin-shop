@@ -82,7 +82,7 @@
 	<div th:replace="~{fragments/js-common :: import-js}"></div>
 	<script th:inline="javascript">
 		const custId = /*[[${custId}]]*/"custId";
-		const dName = '';
+		var dName = '';
 		var changedFavoriteProductList = {};
 		
 		//同画面上でお気に入りの追加/削除を動的に行うためのメソッド
