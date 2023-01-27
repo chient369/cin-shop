@@ -7,8 +7,8 @@ $(document).ready(function() {
 	$(".animsition").animsition({
 		inClass: 'fade-in',
 		outClass: 'fade-out',
-		inDuration: 500,
-		outDuration: 300,
+		inDuration: 1000,
+		outDuration: 700,
 		linkElement: '.animsition-link',
 		loading: true,
 		loadingParentElement: 'html',
@@ -16,7 +16,7 @@ $(document).ready(function() {
 		loadingInner: '<div class="loader05"></div>',
 		timeout: false,
 		timeoutCountdown: 5000,
-		onLoadEvent: true,	
+		onLoadEvent: true,
 		browser: ['animation-duration', '-webkit-animation-duration'],
 		overlay: false,
 		overlayClass: 'animsition-overlay-slide',
@@ -191,24 +191,6 @@ $(document).ready(function() {
 	});
 
 
-
-	$("#add-cart-alert").hide();
-	/*==================================================================
-	[ Cart ]*/
-	$(".add-cart-btn").on('click', (e) => {
-		let color = $("input[name ='color']").val();
-		let size = $("#select-size").val()
-
-		if (size == 0 || color <= 0) {
-			$("#add-cart-alert").toggle();
-			e.preventDefault();
-			return;
-		}
-		$(".add-cart-btn").submit()
-	})
-	$(".close").click(function() {
-		$("#add-cart-alert").toggle();
-	});
 	/*==================================================================
 	[ +/- num product ]*/
 	$(".u-cart-alert").hide();
@@ -299,10 +281,10 @@ $(document).ready(function() {
 
 		let colorId = $("input[name = 'color']:checked").val();
 		let detailId = $("#detail-id").val();
-		//let URL = "http://localhost:8085/cinshop/api/p/gs?cId=" + colorId + "&dId=" + detailId;
+		let URL = "http://localhost:8085/cinshop/api/p/gs?cId=" + colorId + "&dId=" + detailId;
 		/*公開する時に使うリンク */
-		let path = window.location.protocol + "//" +window.location.hostname;
-		let URL =path+ "/cinshop/api/p/gs?cId="  + colorId + "&dId=" + detailId;
+		//let path = window.location.protocol + "//" +window.location.hostname;
+		//let URL =path+ "/cinshop/api/p/gs?cId="  + colorId + "&dId=" + detailId;
 		$.ajax({
 			url: URL,
 			success: function(data) {

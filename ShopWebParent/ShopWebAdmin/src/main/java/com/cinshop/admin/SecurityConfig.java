@@ -4,8 +4,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -42,12 +46,11 @@ public class SecurityConfig {
         ).authorizeHttpRequests(authz -> authz
         		
         		//静的ファイルはログイン無しでもアクセス可能
-//        		.requestMatchers("/css/**","/js/**","/lib/**","/img/**")
-//               
-//                .permitAll()
+       		.requestMatchers("/css/**","/js/**","/lib/**","/img/**")
+               .permitAll()
 
                 //ログイン無しでもアクセス可能
-                .requestMatchers("/**").permitAll()               
+                //.requestMatchers("/**").permitAll()               
                 //権限ごとにアクセス可能なURL
                 
                 
@@ -63,4 +66,20 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    @Bean
+    public InMemoryUserDetailsManager userDetailsService() {
+    	 UserDetails admin= User.withUsername("admin")
+    	            .password(passwordEncoder().encode("cinshopadmin"))
+    	            .roles("USER")
+    	            .build();
+    	       
+    	        return new InMemoryUserDetailsManager(admin);
+    }
+//    public static void main(String[] args) {
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        String rawPassword = "admincinshop2022";
+//        String encodedPassword = encoder.encode(rawPassword);
+//         
+//        System.out.println(encodedPassword);
+//    }
 }
