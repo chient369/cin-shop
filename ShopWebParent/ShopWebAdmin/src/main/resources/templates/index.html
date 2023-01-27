@@ -84,7 +84,7 @@
 						<i class="fa fa-solid fa-yen-sign fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">売上</p>
-							<h6 class="mb-0" th:text ="'¥' + ${totalSale}">0</h6>
+							<h6 class="mb-0" th:text="'¥' + ${totalSale}">0</h6>
 						</div>
 					</div>
 				</div>
@@ -121,12 +121,21 @@
 							<th:block th:each="order : ${orders}">
 								<tr>
 									<td th:text="${order.orderNum}"></td>
-									<td th:text ="${order.orderDateString}">01 Jan 2045</td>
-									<td th:text ="${order.customer !=null}?${order.customer.fullName}">INV-0123</td>
-									<td th:text ="${order.customer !=null}?${order.customer.address.fullAddress}">千葉県稲毛区穴側2-22-9</td>
-									<td th:text ="'¥' +${order.total}">$123</td>
-									<td th:text ="${order.status}">Paid</td>
-									<td><a class="btn btn-sm btn-primary" th:href="@{'/order/' + ${order.id}}">詳細</a></td>
+									<td th:text="${order.orderDateString}">01 Jan 2045</td>
+									<td
+										th:text="${order.customer !=null}?${order.customer.fullName}">INV-0123</td>
+									<td
+										th:text="${order.customer !=null}?${order.customer.address.fullAddress}">千葉県稲毛区穴側2-22-9</td>
+									<td th:text="'¥' +${order.total}">$123</td>
+									<td th:switch="${order.status.name}"class="text-center">
+										<span th:case="'PLACED'">未確定</span>
+										<span th:case="'PAID'">支払い済</span>
+										<span th:case="'PROCESSING'">処理中</span>
+										<span th:case="'COMPLETED'">完了</span>
+										<span th:case="'DELIVERING'">配送中</span>
+									</td>
+									<td><a class="btn btn-sm btn-primary"
+										th:href="@{'/order/' + ${order.id}}">詳細</a></td>
 								</tr>
 							</th:block>
 						</tbody>
@@ -134,7 +143,8 @@
 				</div>
 				<div class="btn-toolbar justify-content-center mt-4">
 					<div class="btn-group me-2" th:each="page : ${orderTotalPages}">
-						<button type="button" class="btn btn-secondary" th:text ="${page}" th:classappend="${page == orderCurrentPage +1}?'disabled'"></button>						
+						<a th:href ="@{'/order/p/' + ${page}}" class="btn btn-secondary" th:text="${page}"
+							th:classappend="${page == orderCurrentPage +1}?'disabled'"></a>
 					</div>
 				</div>
 			</div>

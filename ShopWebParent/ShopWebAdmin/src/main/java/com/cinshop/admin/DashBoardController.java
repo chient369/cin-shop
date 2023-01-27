@@ -44,4 +44,8 @@ public class DashBoardController {
 		model.addAttribute("totalSale", orderService.totalSales());
 		return "index";
 	}
+	@GetMapping("/login")
+	public String loginPage() {
+		return "login";
+	}
 }

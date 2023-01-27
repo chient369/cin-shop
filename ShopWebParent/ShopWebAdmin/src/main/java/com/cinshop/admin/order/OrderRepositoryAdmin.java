@@ -4,9 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import com.cinshop.common.OrderStatus;
 import com.cinshop.common.entity.Order;
 
 @Repository
@@ -28,5 +28,14 @@ public interface OrderRepositoryAdmin extends JpaRepository<Order, Integer> {
 	
 	@Query("select sum(o.total) from Order o ")
 	public Integer totalSales();
+	
+	@Query("select o from Order o where o.orderNum = ?1")
+	public Page<Order> findByOrderNum(String orderNum,Pageable pageable);
+	
+	@Query("select o from Order o where o.status = ?1")
+	public Page<Order> findByStatus(OrderStatus status,Pageable pageable);
+	
+	@Query("select o from Order o where concat(o.customer.firstName,o.customer.lastName) like %?1%")
+	public Page<Order> findByCustomerName(String custName,Pageable pageable);
 	
 }
