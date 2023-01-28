@@ -153,24 +153,20 @@ public class ProductController {
 		} else {
 			if (!v.equals("no data")) {
 				String[] values = v.split(",");
-				boolean checked = false;
 				for (String value : values) {
 					if (value.equals(pId.toString())) {
-						checked = true;
+						model.addAttribute("favoriteProduct", "true");
 						break;
+					} else {
+						model.addAttribute("favoriteProduct", null);
 					}
-				}
-				if (checked == true) {
-					model.addAttribute("favoriteProduct", "true");
-				} else {
-					model.addAttribute("favoriteProduct", null);
 				}
 			} else {
 				model.addAttribute("favoriteProduct", null);
 			}
 			model.addAttribute("userDetails", null);
 		}
-		model.addAttribute("dId", detail.getId());
+		model.addAttribute("dId", pId);
 		return "product/product-detail";
 	}
 

@@ -98,7 +98,6 @@ public class ProductApiController {
 		} else {
 			List<String> list = new ArrayList<String>(Arrays.asList(v.split(",")));
 			String combCookie = "";
-			System.out.println(list);
 			
 	        Iterator<String> it = list.iterator();
 	        while (it.hasNext()) {
