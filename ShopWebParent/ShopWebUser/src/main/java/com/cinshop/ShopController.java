@@ -1,5 +1,6 @@
 package com.cinshop;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.cinshop.cart.AbstractCartService;
@@ -18,8 +21,11 @@ import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Category;
 import com.cinshop.common.entity.Color;
 import com.cinshop.common.entity.Customer;
+import com.cinshop.common.entity.FavoriteProduct;
 import com.cinshop.common.entity.ProductDetail;
 import com.cinshop.customer.CustomerService;
+import com.cinshop.customer.LoginUserDetails;
+import com.cinshop.product.FavoriteProductService;
 import com.cinshop.product.ProductDetailService;
 import com.cinshop.review.ReviewService;
 import com.cinshop.utility.Utility;
@@ -43,10 +49,11 @@ public class ShopController {
 	private CartServiceFactory cartFactory;
 	
 	@Autowired
-	private ReviewService rService;
+	private FavoriteProductService fService;
 
 	@GetMapping("/")
-	public String viewHomePage(Model model,HttpServletRequest request) {
+	public String viewHomePage(Model model,HttpServletRequest request, @AuthenticationPrincipal LoginUserDetails userDetails, 
+			@CookieValue(name= "key", required = false, defaultValue = "no data") String v) {
 		Customer customer = getAuthenticatedCustomer(request);
 		HttpSession session = request.getSession();
 		AbstractCartService cartService = cartFactory.getCartService(customer, session);
@@ -75,6 +82,37 @@ public class ShopController {
 			page.getContent().get(i).setAvgVote(avgVote);
 			totalVote = 0.0F;
 			avgVote = 0.0F;
+		}
+		
+		//お気に入り登録しているか判定
+		List<FavoriteProduct> favoriteProduct = new ArrayList<FavoriteProduct>();
+		if (userDetails != null) {
+			favoriteProduct = fService.findByCustomer(userDetails.getCustomer().get().getId());
+			boolean detailIdMatch = false;
+			for (int i = 0; i < page.getContent().size(); i++) {
+				for(int j = 0; j < favoriteProduct.size(); j++) {
+					if (page.getContent().get(i).getId() == favoriteProduct.get(j).getProductDetail().getId()) {
+						detailIdMatch = true;
+					}
+				}
+				page.getContent().get(i).setFavoriteChecked(detailIdMatch);
+				detailIdMatch = false;
+			}
+		} else {
+			if (!v.equals("no data")) {
+				String[] values = v.split(",");
+				
+				boolean detailIdMatch = false;
+				for (int i = 0; i < page.getContent().size(); i++) {
+					for(int j = 0; j < values.length; j++) {
+						if (page.getContent().get(i).getId().toString().equals(values[j])) {
+							detailIdMatch = true;
+						}
+					}
+					page.getContent().get(i).setFavoriteChecked(detailIdMatch);
+					detailIdMatch = false;
+				}
+			} 
 		}
 
 		model.addAttribute("products", page.getContent());

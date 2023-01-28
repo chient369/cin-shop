@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,6 +36,7 @@ import com.cinshop.review.ReviewService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/p")
@@ -86,47 +88,44 @@ public class ProductController {
 				}
 				page.getContent().get(i).setFavoriteChecked(detailIdMatch);
 				detailIdMatch = false;
-				model.addAttribute("custId", userDetails.getCustomer().get().getId());
 			}
 		} else {
-			
-			String value = "";
-			Cookie cookies[] = request.getCookies();
-
-			for (Cookie cookie : cookies) {
-				System.out.println(cookie.getValue());
-			}
-			
-			
 			if (!v.equals("no data")) {
-				List<String> values = Arrays.asList(v.split("^"));
-				System.out.println(values.get(0) + values.size());
-				
-
+				String[] values = v.split(",");
 				
 				boolean detailIdMatch = false;
 				for (int i = 0; i < page.getContent().size(); i++) {
-					for(int j = 0; j < values.size(); j++) {
-						if (page.getContent().get(i).getId().toString() == values.get(i)) {
+					for(int j = 0; j < values.length; j++) {
+						if (page.getContent().get(i).getId().toString().equals(values[j])) {
 							detailIdMatch = true;
 						}
 					}
 					page.getContent().get(i).setFavoriteChecked(detailIdMatch);
 					detailIdMatch = false;
-					model.addAttribute("custId", null);
 				}
-			} else {
-			}
+			} 
 		}
-		
 		model.addAttribute("products", page.getContent());
 		return "product/product";
 	}
 	
+	//お気に入りcookie一括削除（デバッグ・テスト用）
+	@GetMapping("/fav/remove")
+	private String remove(HttpServletRequest request, HttpServletResponse response) {
+	    Cookie[] cookies = request.getCookies();
+	    for (Cookie cookie : cookies) {
+        	cookie.setAttribute("key", null);
+            cookie.setMaxAge(0);
+            cookie.setPath("/cinshop");
+            response.addCookie(cookie);
+	    }
+	    return "redirect:/p";
+	}
 
 
 	@GetMapping("/{pId}")
-	public String viewProduct(@PathVariable Integer pId, Model model, @AuthenticationPrincipal LoginUserDetails userDetails) {
+	public String viewProduct(@PathVariable Integer pId, Model model, @AuthenticationPrincipal LoginUserDetails userDetails, 
+							  @CookieValue(name= "key", required = false, defaultValue = "no data") String v) {
 		ProductDetail detail = dService.findById(6);
 		
 		model.addAttribute("p", detail.getProducts());
@@ -141,19 +140,36 @@ public class ProductController {
 		model.addAttribute("avgVote", avgVote);
 		
 		//お気に入り用
+		//会員
 		if (userDetails != null) {
 			FavoriteProduct favoriteProduct = fService.findByCustomerAndDetailId(userDetails.getCustomer().get().getId(), pId);
-			model.addAttribute("custId", userDetails.getCustomer().get().getId());
 			if (favoriteProduct != null) {
 				model.addAttribute("favoriteProduct", favoriteProduct.getClass());
 			} else {
 				model.addAttribute("favoriteProduct", null);
 			}
+			model.addAttribute("userDetails", userDetails.getCustomer().get());
+		//ゲスト	
 		} else {
-			model.addAttribute("custId", null);
-			model.addAttribute("favoriteProduct", null);
+			if (!v.equals("no data")) {
+				String[] values = v.split(",");
+				boolean checked = false;
+				for (String value : values) {
+					if (value.equals(pId.toString())) {
+						checked = true;
+						break;
+					}
+				}
+				if (checked == true) {
+					model.addAttribute("favoriteProduct", "true");
+				} else {
+					model.addAttribute("favoriteProduct", null);
+				}
+			} else {
+				model.addAttribute("favoriteProduct", null);
+			}
+			model.addAttribute("userDetails", null);
 		}
-		model.addAttribute("userDetails", userDetails);
 		model.addAttribute("dId", detail.getId());
 		return "product/product-detail";
 	}

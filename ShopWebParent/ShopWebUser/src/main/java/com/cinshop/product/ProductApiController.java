@@ -1,39 +1,35 @@
 package com.cinshop.product;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cinshop.common.entity.Address;
 import com.cinshop.common.entity.Brand;
-import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.FavoriteProduct;
 import com.cinshop.common.entity.Product;
 import com.cinshop.common.entity.ProductDetail;
 import com.cinshop.common.entity.Size;
 import com.cinshop.customer.LoginUserDetails;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/p")
@@ -69,61 +65,71 @@ public class ProductApiController {
 	}
 	
 	@PostMapping("/fav")
-	public FavoriteProduct addFavouriteProduct(@RequestParam("dId") Integer dId, @AuthenticationPrincipal LoginUserDetails userDetails,
-			@CookieValue(name= "key", required = false, defaultValue = "no data") String v, HttpServletResponse response){
-		FavoriteProduct favoriteAdd = new FavoriteProduct();
+	public void addFavouriteProduct(@RequestParam("dId") Integer dId, @AuthenticationPrincipal LoginUserDetails userDetails,
+			@CookieValue(name= "key", required = false, defaultValue = "no data") String v, HttpServletResponse response, HttpServletRequest request) throws IOException{
 		//会員
 		if (userDetails != null) { 
-			favoriteAdd = fService.addFavProduct(userDetails.getCustomer().get().getId(), dId);
+			fService.addFavProduct(userDetails.getCustomer().get().getId(), dId);
 		} else {
 			//ゲスト
 			if (v.equals("no data")) {
-				Cookie cookie = new Cookie("key", dId.toString() + '^');
-				cookie.setHttpOnly(true);
+				String encCookie = URLEncoder.encode(dId.toString() + ",", "UTF-8");
+				Cookie cookie = new Cookie("key", encCookie);
+				cookie.setPath("/cinshop");
+				cookie.setMaxAge(365 * 24 * 60 * 60);
 				response.addCookie(cookie);
 			} else {
-				List<String> values = Arrays.asList(v.split("^"));
-				System.out.println(values.size());
-				Cookie cookie = new Cookie("key", (values.get(0) + dId + '^'));
-				cookie.setAttribute("key", (values.get(0) + dId + '^'));
-				//cookie.setHttpOnly(true);
+				String encCookie = URLEncoder.encode(v + dId.toString() + ",", "UTF-8");
+				Cookie cookie = new Cookie("key", encCookie);
+				cookie.setPath("/cinshop");
+				cookie.setMaxAge(365 * 24 * 60 * 60);
 				response.addCookie(cookie);
 			}
 		}
-		return favoriteAdd;
 	}
 	
 	@PostMapping("/fav/remove")
 	public void removeFavouriteProduct(@RequestParam("dId") Integer dId, @AuthenticationPrincipal LoginUserDetails userDetails,
-			@CookieValue(name= "key", required = false, defaultValue = "no data") String v, HttpServletResponse response) {
+			@CookieValue(name= "key", required = false, defaultValue = "no data") String v, HttpServletResponse response) throws IOException {
 		//会員
 		if (userDetails != null) { 
 			fService.removeFavProduct(userDetails.getCustomer().get().getId(), dId);
 		//ゲスト	
 		} else {
-			List<String> values = Arrays.asList(v.split("^"));
-			for (int i = 0; i < values.size(); i++) {
-				if (values.get(i) == dId.toString()) {
-					values.remove(i);
-				}
-			}
-			Cookie cookie = new Cookie("key", values.toString());
-			cookie.setHttpOnly(true);
+			List<String> list = new ArrayList<String>(Arrays.asList(v.split(",")));
+			String combCookie = "";
+			System.out.println(list);
+			
+	        Iterator<String> it = list.iterator();
+	        while (it.hasNext()) {
+	            String item = it.next();
+	            if (item.equals(dId.toString())) {
+	                it.remove();
+	            }
+	        }
+			for (String s : list) {combCookie += URLEncoder.encode(s + ',', "UTF-8");}
+			
+			Cookie cookie = new Cookie("key", null);
+			cookie.setValue(combCookie);
+			cookie.setPath("/cinshop");
+			cookie.setMaxAge(365 * 24 * 60 * 60);
 			response.addCookie(cookie);
 		}
 	}
 	
-	//http://localhost:8085/cinshop/api/p/fav/remove
-	@PostMapping("/fav/remove/a")
-	private String remove(HttpServletRequest request, HttpServletResponse response) {
-	    Cookie[] cookies = request.getCookies();
-	    for (Cookie cookie : cookies) {
-	        if ("id".equals(cookie.getName())) {
-	            cookie.setMaxAge(0);
-	            cookie.setPath("/");
-	            response.addCookie(cookie);
-	        }
-	    }
-	    return "redirect:/p";
+	@PostMapping("/favProductLength")
+	public int findFavoriteProduct(@CookieValue(name= "key", required = false, defaultValue = "no data") String v, @AuthenticationPrincipal LoginUserDetails userDetails) {
+		int size = 0;
+		//会員
+		if (userDetails != null) { 
+			List<FavoriteProduct> list = fService.findAllByCustomerId(userDetails.getCustomer().get().getId());
+			size = list.size();
+		} else {
+			//ゲスト
+			String[] list = v.split(",");
+			if (!v.equals("no data"))
+				size = list.length;
+		}
+		return size;
 	}
 }

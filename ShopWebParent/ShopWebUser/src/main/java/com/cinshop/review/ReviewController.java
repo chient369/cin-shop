@@ -32,8 +32,8 @@ public class ReviewController {
 			service.addReview(review);
 			
 			redirectAttributes.addAttribute("pId", detailId);
+			
 		}
-		//return "redirect:/p/{pId}";
-		return "redirect:/";
+		return "redirect:/p/{pId}";
 	}
 }

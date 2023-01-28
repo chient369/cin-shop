@@ -153,7 +153,7 @@ public class CustomerController {
 			//URLを送信する。
 			helper.sendEmail(email, "http://localhost:8085/cinshop/rstp?custId=" + cust.get().getId() + "&auth=" + authCode);
 		} else {
-			model.addAttribute("email", "");
+			model.addAttribute("email", null);
 		}
 		return "changePassword";
 	}

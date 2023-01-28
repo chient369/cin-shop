@@ -43,7 +43,7 @@
 								<div class="block2-txt-child2 flex-r p-t-3">
 									<button 
 										class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" id="wishlist-favorite" 
-										th:onclick="|clickGetIdAndDid('__${p.id}__','__${p.favoriteChecked}__','__${p.name}__')|"
+										th:onclick="|favoriteButtonCliked('__${p.id}__','__${p.favoriteChecked}__','__${p.name}__')|"
 										<!-- お気に入り追加済み -->
 										<th:block th:if="${p.favoriteChecked == true}">
 												<img class="icon-heart1 dis-block trans-04"
@@ -81,14 +81,12 @@
 	<!--===============================================================================================-->
 	<div th:replace="~{fragments/js-common :: import-js}"></div>
 	<script th:inline="javascript">
-		const custId = /*[[${custId}]]*/"custId";
 		var dName = '';
 		var changedFavoriteProductList = {};
 		
 		//同画面上でお気に入りの追加/削除を動的に行うためのメソッド
-		function clickGetIdAndDid(dId, TF, name) {
+		function favoriteButtonCliked(dId, TF, name) {
 			var checkedFavoriteProductTF = TF;
-			console.log(document.cookie);
 			if(changedFavoriteProductList.length != 0 && changedFavoriteProductList[dId] != null) {
 				checkedFavoriteProductTF = changedFavoriteProductList[dId];
 			}
@@ -107,15 +105,10 @@
 			$.ajax({
 				url: URL,
 				type: "post",
-				success: function (data) {
-					if (data == null) {
-						console.log("他ユーザーからのデータ変更防止")
-					} else {
-						//配列に変更データを保存
-						changedFavoriteProductList[dId] = 'true';
-						document.getElementById(dId).src = "images/icons/icon-heart-02.png";
-						swal(dName, "is added to wishlist !", "success");
-					}
+				success: function () {
+					changedFavoriteProductList[dId] = 'true';
+					document.getElementById(dId).src = "images/icons/icon-heart-02.png";
+					swal(dName, "is added to wishlist !", "success");
 				},
 				error: function () {
 					console.log("access error fav post (add)")
@@ -129,15 +122,10 @@
 			$.ajax({
 				url: URL,
 				type: "post",
-				success: function (removeSuccess) {
-					if (removeSuccess) {
-						//配列に変更データを保存
-						changedFavoriteProductList[dId] = 'false';
-						document.getElementById(dId).src = "images/icons/icon-heart-01.png";
-						swal(dName, "is removed to wishlist !", "success");
-					} else {
-						console.log("他ユーザーからのデータ変更防止")
-					}
+				success: function () {
+					changedFavoriteProductList[dId] = 'false';
+					document.getElementById(dId).src = "images/icons/icon-heart-01.png";
+					swal(dName, "is removed to wishlist !", "success");
 				},
 				error: function () {
 					console.log("access error fav post (remove)")

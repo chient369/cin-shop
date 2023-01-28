@@ -141,10 +141,10 @@
 							<!--add to wishlist-->
 							<div class="flex-w flex-m p-l-100 p-t-40 respon7">
 								<div class="flex-m bor9 p-r-10 m-r-11">
-									<p
+									<button 
 										class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
-										data-tooltip="お気に入り"> <i class="zmdi zmdi-favorite" id="wishlist-favorite"></i>
-									</p>
+										data-tooltip="お気に入り"> <i class="zmdi zmdi-favorite" id="wishlist-favorite" onclick="favoriteButtonCliked()"></i>
+									</button>
 								</div>
 
 								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
@@ -383,6 +383,7 @@
 													<input type="hidden" id="detailId" name="detailId" th:value="${detail.id}">
 												</form>
 											</div>
+											<!-- Add review -->
 										</div>
 									</div>
 								</div>
@@ -487,26 +488,25 @@
 		<!--=======================================お気に入り登録==============================================-->
 		<script th:inline="javascript">
 		
-		const custId = /*[[${custId}]]*/"custId";
 		const dId = /*[[${dId}]]*/"dId";
-		var wishlist = document.getElementById('wishlist-favorite');
 		var favoriteProduct = /*[[${favoriteProduct}]]*/"favoriteProduct";
+		var wishlist = document.getElementById('wishlist-favorite');
+		var favoriteProductChecked = 'false';
+		var dName = '';
 		
 		//お気に入りにチェック済みの場合、ボタンの色を変更する。
 		if (favoriteProduct != null) {
 			wishlist.style.color = "#6c7ae0";
+			favoriteProductChecked = 'true';
+		} else {
 		}
 		
-		//お気に入りチェック確認 return -> js-commmon
-		function favoriteCheckedDetail(favoriteCheckedTF) {
-			//お気に入りチェック済み
-			if (favoriteProduct != null) {
-				favoriteCheckedTF = true;
-			//お気に入りチェックなし	
+		function favoriteButtonCliked() {
+			if (favoriteProductChecked == 'true') {
+				removeFavoriteProductDetail();
 			} else {
-				favoriteCheckedTF = false;
+				addFavoriteProductDetail();
 			}
-			return favoriteCheckedTF;
 		}
 		
 		//お気に入りボタンクリック時（追加）
@@ -515,10 +515,10 @@
 			$.ajax({
 				url: URL,
 				type: "post",
-				success: function (data) {
-						console.log("追加成功")
-						wishlist.style.color = "#6c7ae0"
-						favoriteProduct = data
+				success: function () {
+					wishlist.style.color = "#6c7ae0"
+					favoriteProductChecked = 'true'
+					swal(dName, "is added to wishlist !", "success");
 				},
 				error: function () {
 					console.log("access error fav post (add)")
@@ -533,16 +533,15 @@
 				url: URL,
 				type: "post",
 				success: function () {
-					console.log("削除成功")
 					wishlist.style.color = "#000"
-					favoriteProduct = null
+					favoriteProductChecked = 'false'
+					swal(dName, "is removed to wishlist !", "success");
 				},
 				error: function () {
 					console.log("access error fav post (remove)")
 				}
 			})
 		}
-	
 	</script>
 	</body>
 </html>

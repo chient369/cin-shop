@@ -38,15 +38,9 @@ public class FavoriteProductService {
 		repository.delete(favP);
 	}
 
-	public List<ProductDetail> findAllByCustomerId(Integer custId) {
+	public List<FavoriteProduct> findAllByCustomerId(Integer custId) {
 		List<FavoriteProduct> fav = repository.findByCustomer(new Customer(custId));
-		List<ProductDetail> products = new ArrayList<>();
-
-		Iterator<FavoriteProduct> it = fav.iterator();
-		while (it.hasNext()) {
-			products.add(it.next().getProductDetail());
-		}
-		return products;
+		return fav;
 	}
 	
 	public FavoriteProduct findByCustomerAndDetailId(Integer custId, Integer dId) {

@@ -52,34 +52,6 @@
 		$('.js-addwish-b2').on('click', function (e) {
 			//e.preventDefault();
 		});
-
-
-
-		//商品詳細のお気に入りボタン
-		$('.js-addwish-detail').each(function () {
-			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
-
-			$(this).on('click', function () {
-				
-				let favoriteCheckedTF = false;
-				
-				//お気に入りに登録されていない場合
-				if (favoriteCheckedDetail(favoriteCheckedTF) == false) {
-
-					//お気に入り追加 -> product-detail.html
-					addFavoriteProductDetail();
-					
-					swal(nameProduct, "is added to wishlist !", "success");
-	
-					//$(this).addClass('js-addedwish-detail');
-					//$(this).off('click');
-				} else {
-					//お気に入り削除 -> product-detail.html
-					removeFavoriteProductDetail();
-					swal(nameProduct, "is removed to wishlist !", "success");
-				}
-			});
-		});
 	</script>
 	<!--===============================================================================================-->
 	<script th:src="@{/vendor/perfect-scrollbar/perfect-scrollbar.min.js}"></script>

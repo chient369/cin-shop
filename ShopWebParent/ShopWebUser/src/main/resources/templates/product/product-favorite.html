@@ -14,7 +14,7 @@
 	<section class="bg0 p-t-23 p-b-140">
 		<div class="container">
 			<div class="p-b-10">
-				<h3 class="ltext-103 cl5">商品一覧</h3>
+				<h3 class="ltext-103 cl5">お気に入り商品一覧</h3>
 			</div>
 						
 			<!--category, filter-->
@@ -43,7 +43,7 @@
 								<div class="block2-txt-child2 flex-r p-t-3">
 									<button 
 										class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" id="wishlist-favorite" 
-										th:onclick="|clickGetIdAndDid('__${p.productDetail.id}__','__${p.productDetail.favoriteChecked}__','__${p.productDetail.name}__')|"
+										th:onclick="|favoriteButtonCliked('__${p.productDetail.id}__','__${p.productDetail.favoriteChecked}__','__${p.productDetail.name}__')|"
 										<!-- お気に入り追加済み -->
 										<th:block th:if="${p.productDetail.favoriteChecked == true}">
 												<img class="icon-heart1 dis-block trans-04"
@@ -86,8 +86,7 @@
 		var changedFavoriteProductList = {};
 		
 		//同画面上でお気に入りの追加/削除を動的に行うためのメソッド
-		function clickGetIdAndDid(dId, TF, name) {
-			
+		function favoriteButtonCliked(dId, TF, name) {
 			var checkedFavoriteProductTF = TF;
 			if(changedFavoriteProductList.length != 0 && changedFavoriteProductList[dId] != null) {
 				checkedFavoriteProductTF = changedFavoriteProductList[dId];
@@ -100,22 +99,17 @@
 			//商品名を代入
 			dName = name;
 		}
-
+			
 		//お気に入りボタンクリック時（追加）
 		function addFavoriteProduct(dId) {
 			let URL = "http://localhost:8085/cinshop/api/p/fav?dId=" + dId
 			$.ajax({
 				url: URL,
 				type: "post",
-				success: function (data) {
-					if (data == null) {
-						console.log("他ユーザーからのデータ変更防止")
-					} else {
-						//配列に変更データを保存
-						changedFavoriteProductList[dId] = 'true';
-						document.getElementById(dId).src = "../images/icons/icon-heart-02.png";
-						swal(dName, "is added to wishlist !", "success");
-					}
+				success: function () {
+					changedFavoriteProductList[dId] = 'true';
+					document.getElementById(dId).src = "../images/icons/icon-heart-02.png";
+					swal(dName, "is added to wishlist !", "success");
 				},
 				error: function () {
 					console.log("access error fav post (add)")
@@ -129,15 +123,10 @@
 			$.ajax({
 				url: URL,
 				type: "post",
-				success: function (removeSuccess) {
-					if (removeSuccess) {
-						//配列に変更データを保存
-						changedFavoriteProductList[dId] = 'false';
-						document.getElementById(dId).src = "../images/icons/icon-heart-01.png";
-						swal(dName, "is removed to wishlist !", "success");
-					} else {
-						console.log("他ユーザーからのデータ変更防止")
-					}
+				success: function () {
+					changedFavoriteProductList[dId] = 'false';
+					document.getElementById(dId).src = "../images/icons/icon-heart-01.png";
+					swal(dName, "is removed to wishlist !", "success");
 				},
 				error: function () {
 					console.log("access error fav post (remove)")

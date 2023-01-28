@@ -25,8 +25,8 @@ public class MessagerHelper {
 	    try {
 	      //送信情報設定
 	      MimeMessageHelper helper = new MimeMessageHelper(message, true);
-	      helper.setFrom("iwakiri0319@gmail.com");
-	      helper.setTo("iwakiri0319@gmail.com");
+	      helper.setFrom("cinshop2022@gmail.com");
+	      helper.setTo(toEmail);
 	      //helper.setCc("xxxxx@xxx.xx");
 	      //helper.setBcc("xxxxx@xxx.xx");
 	      helper.setSubject("【重要】パスワード再設定のお知らせ");

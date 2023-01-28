@@ -68,7 +68,7 @@ public class ProductDetail {
 	private List<FavoriteProduct> favoriteProduct = new ArrayList<>();
 	
 	private float avgVote;
-	private boolean favoriteChecked;
+	private boolean favoriteChecked = false;
 
 	public ProductDetail() {
 	}

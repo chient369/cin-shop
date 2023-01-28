@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
+import com.cinshop.common.entity.FavoriteProduct;
 import com.cinshop.common.entity.Product;
 import com.cinshop.common.entity.ProductDetail;
 
@@ -31,7 +32,7 @@ public class FavoriteProductServiceTest {
 
 	@Test
 	public void getFavProductsByCustIdTest() {
-		List<ProductDetail> favs = service.findAllByCustomerId(1);
+		List<FavoriteProduct> favs = service.findAllByCustomerId(1);
 
 		favs.forEach(fav -> System.out.println(fav));
 		assertThat(favs.size()).isGreaterThan(0);
