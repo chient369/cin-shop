@@ -19,10 +19,15 @@ public class ReviewService {
 		return repository.findByProductDetail(new ProductDetail(detailId));
 
 	}
+
 	@Transactional
 	public Review addReview(Review review) {
 		return repository.save(review);
 	}
-	
 
+	public Float getAvgRanking(Integer id) {
+		if (repository.getAvgRanking(id) == null)
+			return 0.0F;
+		return repository.getAvgRanking(id);
+	}
 }

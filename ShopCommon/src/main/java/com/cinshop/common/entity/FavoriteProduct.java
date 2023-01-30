@@ -10,36 +10,36 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "favourite_product")
-public class FavouriteProduct {
+@Table(name = "favorite_product")
+public class FavoriteProduct {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_id")
-	private Product product;
+	@JoinColumn(name = "detail_id")
+	private ProductDetail productDetail;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
-	public FavouriteProduct() {
+	public FavoriteProduct() {
 
 	}
 
-	public FavouriteProduct(Integer id, Product product, Customer customer) {
+	public FavoriteProduct(Integer id, ProductDetail productDetail, Customer customer) {
 		super();
 		this.id = id;
-		this.product = product;
+		this.productDetail = productDetail;
 		this.customer = customer;
 	}
 	
 
-	public FavouriteProduct(Product product, Customer customer) {
+	public FavoriteProduct(ProductDetail productDetail, Customer customer) {
 		super();
-		this.product = product;
+		this.productDetail = productDetail;
 		this.customer = customer;
 	}
 
@@ -51,12 +51,12 @@ public class FavouriteProduct {
 		this.id = id;
 	}
 
-	public Product getProduct() {
-		return product;
+	public ProductDetail getProductDetail() {
+		return productDetail;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProductDetail(ProductDetail productDetail) {
+		this.productDetail = productDetail;
 	}
 
 	public Customer getCustomer() {

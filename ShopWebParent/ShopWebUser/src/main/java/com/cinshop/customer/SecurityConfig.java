@@ -51,7 +51,7 @@ public class SecurityConfig {
                 //ログイン無しでもアクセス可能
                 .requestMatchers("/**","/error","/login", "/register", "/create","/p/**","/cart/**","/api/**","/order/**").permitAll()
 
-                .requestMatchers("/", "/register", "/checkAcc", "/rstp/**", "/forgotPass", "/inputEmail", "/account").permitAll()
+                .requestMatchers("/register", "/checkAcc", "/rstp/**", "/forgotPass", "/inputEmail", "/account").permitAll()
 
                 
                 //権限ごとにアクセス可能なURL
@@ -59,6 +59,8 @@ public class SecurityConfig {
                 
                 //他のURLはログイン後のみアクセス可能
                 .anyRequest().authenticated()
+                
+     
         ).csrf()
         .disable()
         ;

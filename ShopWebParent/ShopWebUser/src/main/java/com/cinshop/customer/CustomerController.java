@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cinshop.common.entity.Address;
 import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.Sex;
-import com.cinshop.utility.Utility;
+import com.cinshop.utility.MailSenderHelper;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,7 +37,7 @@ public class CustomerController {
 	private CustomerService service;
 	
 	@Autowired
-	MessagerHelper helper;
+	MailSenderHelper helper;
 	
 	@Autowired
 	AuthStorage authStorage;
@@ -46,78 +46,8 @@ public class CustomerController {
 	@GetMapping("/register")
 	public String registerGet(Model model) {	
 		model.addAttribute("customer", new Customer());
+		model.addAttribute("address", new Address());
 		return "register";
-	}
-
-	//顧客情報登録
-	@PostMapping("/register")
-	public String registerPost(Model model, HttpServletRequest request, @ModelAttribute Customer customer) throws ServletException, IOException{
-		
-		request.setCharacterEncoding("UTF-8"); // 文字化け防止
-		String email = customer.getEmail();
-		String firstName = customer.getFirstName();
-		String lastName = customer.getLastName();
-		String phoneNumber = customer.getPhoneNumber();
-		
-		//フォームの値を取得
-		String gender = request.getParameter("gender");
-		String postCode = request.getParameter("postCode");
-		String firstAddress = request.getParameter("firstAddress");
-		String lastAddress = request.getParameter("lastAddress");
-		
-		//email検索
-		Optional<Customer> cust = service.findCustomerByEmail(email);
-		
-		//email検索結果あり
-		if (!cust.isEmpty()) {
-			model.addAttribute("firstNameValue", firstName);
-			model.addAttribute("lastNameValue", lastName);
-			model.addAttribute("phoneNumberValue", phoneNumber);
-			model.addAttribute("postCodeValue", postCode);
-			model.addAttribute("firstAddressValue", firstAddress);
-			model.addAttribute("lastAddressValue", lastAddress);
-			model.addAttribute("emailSearchResult", "true");
-			model.addAttribute("customer", new Customer());
-			return "register";
-		//email検索結果なし。顧客情報登録
-		} else {
-			Sex sex = new Sex();
-			Address address = new Address();
-			
-			//パスワードハッシュ化
-			String encodePassword = passwordEncoder.encode(customer.getPassword());
-			
-			//性別をセットする
-			if (gender != null) {
-				if (gender.equals("1")) {
-					sex.setSex_id(1);
-					sex.setSexName("男");
-				} else if (gender.equals("2")){
-					sex.setSex_id(2);
-					sex.setSexName("女");
-				} else {
-					sex.setSex_id(0);
-					sex.setSexName("未登録");
-				}
-				customer.setSex(sex);
-			}
-			
-			customer.setPassword(encodePassword);
-			customer.setEnable((byte)1);
-			customer.setPoint(0);
-			customer.setImage("img/xxx.jpg");	//あとでかえるかも
-			customer.setRole("ROLE_USER");
-			
-			address.setPostCode(postCode);
-			address.setFirstAddress(firstAddress);
-			address.setLastAddress(lastAddress);
-			customer.setAddress(address);
-			
-			//顧客情報をDBに登録
-			service.save(customer);
-			
-			return "redirect:/login";
-		}
 	}
 	
 	
@@ -140,7 +70,66 @@ public class CustomerController {
 	public String inputEmail() {	  
 		return "inputEmail";
 	}
-	
+
+	//顧客情報登録
+	@PostMapping("/register")
+	public String registerPost(Model model, HttpServletRequest request, @ModelAttribute Customer customer, @ModelAttribute Address address) throws ServletException, IOException{
+		
+		request.setCharacterEncoding("UTF-8"); // 文字化け防止
+		String gender = request.getParameter("gender");
+		
+		//email検索
+		Optional<Customer> cust = service.findCustomerByEmail(customer.getEmail());
+		
+		//email検索結果あり
+		if (!cust.isEmpty()) {
+			model.addAttribute("emailValue", customer.getEmail());
+			model.addAttribute("firstNameValue", customer.getFirstName());
+			model.addAttribute("lastNameValue", customer.getLastName());
+			model.addAttribute("phoneNumberValue", customer.getPhoneNumber());
+			model.addAttribute("postCodeValue", address.getPostCode());
+			model.addAttribute("firstAddressValue", address.getFirstAddress());
+			model.addAttribute("lastAddressValue", address.getLastAddress());
+			model.addAttribute("emailSearchResult", "true");
+			model.addAttribute("customer", new Customer());
+			model.addAttribute("address", new Address());
+			return "register";
+		//email検索結果なし。顧客情報登録
+		} else {
+			Sex sex = new Sex();
+			
+			//パスワードハッシュ化
+			String encodePassword = passwordEncoder.encode(customer.getPassword());
+			
+			//性別をセットする
+			if (gender != null) {
+				if (gender.equals("1")) {
+					sex.setSex_id(1);
+					sex.setSexName("男");
+				} else if (gender.equals("2")){
+					sex.setSex_id(2);
+					sex.setSexName("女");
+				}
+			} else {
+				sex.setSex_id(3);
+				sex.setSexName("未登録");
+			}
+			
+			customer.setSex(sex);
+			customer.setPassword(encodePassword);
+			customer.setEnable((byte)1);
+			customer.setPoint(0);
+			customer.setImage("img/xxx.jpg");	//あとでかえるかも
+			customer.setRole("ROLE_USER");
+			customer.setAddress(address);
+			
+			//顧客情報をDBに登録
+			service.save(customer);
+			
+			return "redirect:/login";
+		}
+	}
+		
 	
 	//ランダム文字列の関連付け。
 	@PostMapping("/forgotPass")
@@ -164,7 +153,7 @@ public class CustomerController {
 			//URLを送信する。
 			helper.sendEmail(email, "http://localhost:8085/cinshop/rstp?custId=" + cust.get().getId() + "&auth=" + authCode);
 		} else {
-			model.addAttribute("email", "");
+			model.addAttribute("email", null);
 		}
 		return "changePassword";
 	}
@@ -181,9 +170,7 @@ public class CustomerController {
 			model.addAttribute("custId", id);
 			return "password-edit";
 		} else {
-			//無効なリクエスト
-			System.out.println("dubug-no");
-			return "login";
+			return "redirect:/error";
 		}
 	}
 	
@@ -195,8 +182,6 @@ public class CustomerController {
 		//パスワードハッシュ化
 		String newPass = passwordEncoder.encode(newPassword);
 		
-		System.out.println(newPassword);
-		System.out.println(newPass);
 		service.update(Integer.valueOf(custId), newPass);
 		
 		authStorage.remove(custId);
@@ -205,7 +190,7 @@ public class CustomerController {
 	
 	
 	//ユーザー情報更新ページ
-	@GetMapping("/account")
+	@GetMapping("/c")
 	public String accountDetail(Model model) {	
 		
 		//スレッドローカルからSecurityContextを取得
@@ -217,18 +202,19 @@ public class CustomerController {
 		//AuthenticationからUserDetailsを取得（キャストが必要）
 		LoginUserDetails loginUserDetails = (LoginUserDetails) authentication.getPrincipal();
 		
-		
+		//顧客情報取得
 		Optional<Customer> cust = service.findCustomerByEmail(loginUserDetails.getUsername());
 		
 		//テキストボックスの初期値用にセットする
 		model.addAttribute("customer", new Customer());
-		model.addAttribute("custId", cust.get().getId());
+		model.addAttribute("address", new Address());
+		model.addAttribute("custIdDBValue", cust.get().getId());
 		model.addAttribute("emailDBValue", cust.get().getEmail());
 		model.addAttribute("passwordDBValue", cust.get().getPassword());
-		if (cust.get().getSex().getSex_id() != 0) {
+		if (cust.get().getSex().getSex_id() != 3) {
 			model.addAttribute("sexDBValue", cust.get().getSex().getSex_id());
 		} else {
-			model.addAttribute("sexDBValue", "0");
+			model.addAttribute("sexDBValue", "3");
 		}
 		model.addAttribute("firstNameDBValue", cust.get().getFirstName());
 		model.addAttribute("lastNameDBValue", cust.get().getLastName());
@@ -236,25 +222,21 @@ public class CustomerController {
 		model.addAttribute("postCodeDBValue", cust.get().getAddress().getPostCode());
 		model.addAttribute("firstAddressDBValue", cust.get().getAddress().getFirstAddress());
 		model.addAttribute("lastAddressDBValue", cust.get().getAddress().getLastAddress());
-		return "account-detail";
+		return "account-edit";
 	}
 	
 	
 	@PostMapping("/account/u")
-	public String updateAccount(@ModelAttribute Customer customer, Model model, HttpServletRequest request) throws ServletException, IOException{
+	public String updateAccount(@ModelAttribute Customer customer, @ModelAttribute Address address, Model model, HttpServletRequest request) throws ServletException, IOException{
 		
 		request.setCharacterEncoding("UTF-8"); // 文字化け防止
 		
 		//フォームの値を取得
-		String custId = request.getParameter("custId");
 		String gender = request.getParameter("gender");
-		String postCode = request.getParameter("postCode");
-		String firstAddress = request.getParameter("firstAddress");
-		String lastAddress = request.getParameter("lastAddress");
 		
 		//顧客情報登録
 		Sex sex = new Sex();
-		Address address = new Address();
+		
 		//パスワードハッシュ化
 		String encodePassword = passwordEncoder.encode(customer.getPassword());
 		
@@ -266,47 +248,41 @@ public class CustomerController {
 			} else if (gender.equals("2")){
 				sex.setSex_id(2);
 				sex.setSexName("女");
-			} else {
-				sex.setSex_id(0);
-				sex.setSexName("未登録");
 			}
-			customer.setSex(sex);
+		} else {
+			sex.setSex_id(3);
+			sex.setSexName("未登録");
 		}
-		
-		customer.setId(Integer.valueOf(custId));
+
+		customer.setSex(sex);
 		customer.setPassword(encodePassword);
 		customer.setEnable((byte)1);
 		customer.setPoint(0);
 		customer.setImage("img/xxx.jpg");	//あとでかえるかも
 		customer.setRole("ROLE_USER");
+		customer.setAddress(address);
 		
-
-		//アドレスをセットする
-		//address.setCustomer(customer);
-		address.setPostCode(postCode);
-		address.setFirstAddress(firstAddress);
-		address.setLastAddress(lastAddress);
-		Address savedAddr = service.saveAddress(address);
-		
+		service.save(customer);
+	
 		logger.info("{}がアカウントを登録しました",customer.getFullName());
 		
-		return "login";
+		return "redirect:/account";
 	}
 	
-	@GetMapping("/c")
-	public String accountDetail(Model model,HttpServletRequest request) {
-		Customer customer = getAuthenticatedCustomer(request);
-		model.addAttribute("cust",customer);
-		return "account-detail";
-	}
-	private Customer getAuthenticatedCustomer(HttpServletRequest request) {
-		String email = Utility.getEmailAuthenticatedCustomer(request);
-		Customer customer = null;
-		if (email != null)
-			customer = service.findCustomerByEmail(email).get();
-		return customer;
+//	@GetMapping("/c")
+//	public String accountDetail(Model model,HttpServletRequest request) {
+//		Customer customer = getAuthenticatedCustomer(request);
+//		model.addAttribute("cust",customer);
+//		return "account-detail";
+//	}
+//	private Customer getAuthenticatedCustomer(HttpServletRequest request) {
+//		String email = Utility.getEmailAuthenticatedCustomer(request);
+//		Customer customer = null;
+//		if (email != null)
+//			customer = service.findCustomerByEmail(email).get();
+//		return customer;
 
-	}
+//	}
 	//認証後のユーザーテスト用
 //	@GetMapping("/testDebug")
 //	public String testDebug() {	  

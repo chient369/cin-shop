@@ -120,12 +120,12 @@ public class OrderController {
 			}
 			email = customer.getEmail();
 		} else {
-			Customer guest = (Customer) session.getAttribute("customer");
-			order = orderService.saveOrder(guest, paymentMethod);
-			email = guest.getEmail();
+			// ゲストが入力した情報をDBに保存する又は更新する
+			Customer savedGuest = customerService.saveGuest((Customer) session.getAttribute("customer"));
+			order = orderService.saveOrder(savedGuest, paymentMethod);
+			email = savedGuest.getEmail();
 		}
-		// ゲストが入力した情報をDBに保存する又は更新する
-		Customer savedGuest = customerService.saveGuest((Customer)session.getAttribute("customer"));
+
 		mailSenderHelper.orderedNotify(email, order);
 
 		session.removeAttribute("cart");

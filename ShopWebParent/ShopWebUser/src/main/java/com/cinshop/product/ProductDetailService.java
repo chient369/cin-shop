@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Category;
 import com.cinshop.common.entity.Color;
+import com.cinshop.common.entity.FavoriteProduct;
 import com.cinshop.common.entity.ProductDetail;
 import com.cinshop.common.entity.Size;
 
@@ -28,7 +29,6 @@ public class ProductDetailService {
 
 	public Page<ProductDetail> finAll(Pageable pageable) {
 		return detailRepository.findAll(pageable);
-
 	}
 
 	public Page<ProductDetail> findByText(String txt, Pageable pageable) {

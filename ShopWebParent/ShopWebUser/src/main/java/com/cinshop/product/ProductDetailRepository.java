@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Category;
+import com.cinshop.common.entity.FavoriteProduct;
 import com.cinshop.common.entity.ProductDetail;
 
 @Repository
@@ -32,7 +33,7 @@ public interface ProductDetailRepository extends PagingAndSortingRepository<Prod
 	@Query("select distinct d from ProductDetail d  "
 			+ "inner join d.products p "
 			+ "where p.color.id = ?1")
-	Page<ProductDetail> findByColor(Integer colorId, Pageable pageable); 
+	Page<ProductDetail> findByColor(Integer colorId, Pageable pageable);
 	
 //	@Query("select distinct d from ProductDetail d  "
 //			+ "inner join d.reviews r "

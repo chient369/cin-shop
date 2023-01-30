@@ -38,7 +38,7 @@ public class Order {
 	@Column(name = "order_num", length = 16, unique = true, nullable = false)
 	private String orderNum;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 

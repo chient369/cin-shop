@@ -11,21 +11,21 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "product_image")
-public class Image {
+public class ProductImage {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "image_id")
 	private Integer id;
 
-	@Column(name = "image_name", length = 45, nullable = false, unique = true)
+	@Column(name = "image_name", length = 255, nullable = false, unique = true)
 	private String name;
 	
 	@ManyToOne
 	@JoinColumn(name = "detail_id")
 	private ProductDetail productDetail;
 
-	public Image() {
+	public ProductImage() {
 	}
 
 	public Integer getId() {

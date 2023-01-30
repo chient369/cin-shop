@@ -21,6 +21,7 @@
 
 	<!-- loginform -->
 	<form method="post" th:action="@{/login}">
+
 		<section class="bg0 p-t-104 p-b-116">
 			<div class="container">
 				<div class="flex-w flex-c">
@@ -121,6 +122,10 @@
 	<script src="js/map-custom.js"></script>
 	<!--===============================================================================================-->
 	<script src="js/main.js"></script>
+	<script>
+		const errorMsg = document.getElementById("error_msg");
+		errorMsg.style.color = "red";
+	</script>
 </body>
 
 </html>

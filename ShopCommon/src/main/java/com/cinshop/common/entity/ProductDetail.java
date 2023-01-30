@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -60,17 +59,38 @@ public class ProductDetail {
 	private Set<Product> products = new HashSet<>();
 
 	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Image> images = new ArrayList<>();
+	private List<ProductImage> images = new ArrayList<>();
 
 	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Review> reviews = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	private List<FavoriteProduct> favoriteProduct = new ArrayList<>();
+	
+	private float avgVote;
+	private boolean favoriteChecked = false;
 
 	public ProductDetail() {
 	}
 
 	public ProductDetail(Integer detailId) {
 		this.id = detailId;
+	}
+	
+	public List<FavoriteProduct> getFavoriteProduct() {
+		return favoriteProduct;
+	}
+
+	public void setFavoriteProduct(List<FavoriteProduct> favoriteProduct) {
+		this.favoriteProduct = favoriteProduct;
+	}
+	
+	public boolean isFavoriteChecked() {
+		return favoriteChecked;
+	}
+
+	public void setFavoriteChecked(boolean favoriteChecked) {
+		this.favoriteChecked = favoriteChecked;
 	}
 
 	public Integer getId() {
@@ -79,6 +99,14 @@ public class ProductDetail {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public float getAvgVote() {
+		return avgVote;
+	}
+
+	public void setAvgVote(float avgVote) {
+		this.avgVote = avgVote;
 	}
 
 	public String getCode() {
@@ -161,11 +189,11 @@ public class ProductDetail {
 		this.products = products;
 	}
 
-	public List<Image> getImages() {
+	public List<ProductImage> getImages() {
 		return images;
 	}
 
-	public void setImages(List<Image> images) {
+	public void setImages(List<ProductImage> images) {
 		this.images = images;
 	}
 

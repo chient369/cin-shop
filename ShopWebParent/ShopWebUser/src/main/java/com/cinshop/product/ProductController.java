@@ -1,27 +1,43 @@
-	package com.cinshop.product;
+package com.cinshop.product;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Category;
 import com.cinshop.common.entity.Color;
+import com.cinshop.common.entity.FavoriteProduct;
 import com.cinshop.common.entity.Product;
 import com.cinshop.common.entity.ProductDetail;
+import com.cinshop.common.entity.Review;
+import com.cinshop.customer.LoginUserDetails;
+import com.cinshop.review.ReviewService;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/p")
@@ -34,33 +50,131 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	@GetMapping("")
-	public String viewProductPage(Model model) {
+	@Autowired
+	private ReviewService rService;
 
-		return viewPage(1, model);
+	@Autowired
+	private FavoriteProductService fService;
+
+	@GetMapping("")
+	public String viewProductPage(Model model, @AuthenticationPrincipal LoginUserDetails userDetails,
+			@CookieValue(name = "key", required = false, defaultValue = "no data") String v,
+			HttpServletRequest request) {
+		return viewPageProduct(1, model, userDetails, v, request);
 	}
 
 	/* ホームページ */
 
 	@GetMapping("/page/{pnum}")
-	public String viewPage(@PathVariable Integer pnum, Model model) {
+	public String viewPageProduct(@PathVariable Integer pnum, Model model,
+			@AuthenticationPrincipal LoginUserDetails userDetails,
+			@CookieValue(name = "key", required = false, defaultValue = "no data") String v,
+			HttpServletRequest request) {
 		Pageable pageable = PageRequest.of(pnum - 1, ITEM_PER_PAGE);
 		Page<ProductDetail> page = dService.finAll(pageable);
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
 
+		// レビューの平均集計
+		avgVoteCalc(page);
+
+		// お気に入り登録しているか判定
+		List<FavoriteProduct> favoriteProduct = new ArrayList<FavoriteProduct>();
+		if (userDetails != null) {
+			favoriteProduct = fService.findByCustomer(userDetails.getCustomer().get().getId());
+			boolean detailIdMatch = false;
+			for (int i = 0; i < page.getContent().size(); i++) {
+				for (int j = 0; j < favoriteProduct.size(); j++) {
+					if (page.getContent().get(i).getId() == favoriteProduct.get(j).getProductDetail().getId()) {
+						detailIdMatch = true;
+					}
+				}
+				page.getContent().get(i).setFavoriteChecked(detailIdMatch);
+				detailIdMatch = false;
+			}
+		} else {
+			if (!v.equals("no data")) {
+				String[] values = v.split(",");
+
+				boolean detailIdMatch = false;
+				for (int i = 0; i < page.getContent().size(); i++) {
+					for (int j = 0; j < values.length; j++) {
+						if (page.getContent().get(i).getId().toString().equals(values[j])) {
+							detailIdMatch = true;
+						}
+					}
+					page.getContent().get(i).setFavoriteChecked(detailIdMatch);
+					detailIdMatch = false;
+				}
+			}
+		}
 		model.addAttribute("products", page.getContent());
 		return "product/product";
 	}
 
+	// お気に入りcookie一括削除（デバッグ・テスト用）
+	@GetMapping("/fav/remove")
+	private String remove(HttpServletRequest request, HttpServletResponse response) {
+		Cookie[] cookies = request.getCookies();
+		for (Cookie cookie : cookies) {
+			cookie.setAttribute("key", null);
+			cookie.setMaxAge(0);
+			cookie.setPath("/cinshop");
+			response.addCookie(cookie);
+		}
+		return "redirect:/p";
+	}
+
 	@GetMapping("/{pId}")
-	public String viewProduct(@PathVariable Integer pId, Model model) {
+	public String viewProduct(@PathVariable Integer pId, Model model,
+			@AuthenticationPrincipal LoginUserDetails userDetails, HttpServletRequest request,
+			@CookieValue(name = "key", required = false, defaultValue = "no data") String v) {
+		HttpSession session = request.getSession();
+
 		ProductDetail detail = dService.findById(6);
 
 		model.addAttribute("p", detail.getProducts());
 		model.addAttribute("detail", detail);
 		model.addAttribute("colors", findExistColors(detail.getProducts()));
-		model.addAttribute("sizes", dService.findAllSizes());
+
+		// レビュー用
+		float avgVote = ((float) Math.round(rService.getAvgRanking(6) * 10)) / 10;
+		model.addAttribute("review", new Review());
+		model.addAttribute("reviewList", detail.getReviews());
+		model.addAttribute("avgVote", avgVote);
+
+		// お気に入り用
+		// 会員
+		if (userDetails != null) {
+			FavoriteProduct favoriteProduct = fService
+					.findByCustomerAndDetailId(userDetails.getCustomer().get().getId(), pId);
+			if (favoriteProduct != null) {
+				model.addAttribute("favoriteProduct", favoriteProduct.getClass());
+			} else {
+				model.addAttribute("favoriteProduct", null);
+			}
+			model.addAttribute("userDetails", userDetails.getCustomer().get());
+			// ゲスト
+		} else {
+			if (!v.equals("no data")) {
+				String[] values = v.split(",");
+				for (String value : values) {
+					if (value.equals(pId.toString())) {
+						model.addAttribute("favoriteProduct", "true");
+						break;
+					} else {
+						model.addAttribute("favoriteProduct", null);
+					}
+				}
+			} else {
+				model.addAttribute("favoriteProduct", null);
+			}
+			model.addAttribute("userDetails", null);
+		}
+
+		viewedProduct(request, detail);
+
+		model.addAttribute("dId", pId);
 		return "product/product-detail";
 	}
 
@@ -68,7 +182,6 @@ public class ProductController {
 	@GetMapping("/search/text")
 	public String searchByTextFirstPage(@RequestParam("src-txt") String text, Model model) {
 		return searchByText(text, 1, model);
-
 	}
 
 	@GetMapping("/search/text/{pNum}")
@@ -80,10 +193,12 @@ public class ProductController {
 		Page<ProductDetail> page = dService.findByText(srcText, pageable);
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
-
-		model.addAttribute("products", page.getContent());
 		model.addAttribute("actionTag", "search");
 		model.addAttribute("searchTag", "text");
+
+		// レビューの平均集計
+		avgVoteCalc(page);
+		model.addAttribute("products", page.getContent());
 		return "product/product";
 	}
 
@@ -103,10 +218,13 @@ public class ProductController {
 		Page<ProductDetail> page = dService.findByCategory(catId, pageable);
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
-		model.addAttribute("products", page.getContent());
 		model.addAttribute("actionTag", "search");
 		model.addAttribute("searchTag", "cat");
 		model.addAttribute("tagId", catId);
+
+		// レビューの平均集計
+		avgVoteCalc(page);
+		model.addAttribute("products", page.getContent());
 		return "product/product";
 	}
 
@@ -126,11 +244,13 @@ public class ProductController {
 		Page<ProductDetail> page = dService.findByCategory(brandId, pageable);
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
-
-		model.addAttribute("products", page.getContent());
 		model.addAttribute("actionTag", "search");
 		model.addAttribute("searchTag", "brand");
 		model.addAttribute("tagId", brandId);
+
+		// レビューの平均集計
+		avgVoteCalc(page);
+		model.addAttribute("products", page.getContent());
 		return "product/product";
 	}
 
@@ -149,11 +269,13 @@ public class ProductController {
 		Page<ProductDetail> page = dService.findByColor(colorId, pageable);
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
-
-		model.addAttribute("products", page.getContent());
 		model.addAttribute("actionTag", "search");
 		model.addAttribute("searchTag", "color");
 		model.addAttribute("tagId", colorId);
+
+		// レビューの平均集計
+		avgVoteCalc(page);
+		model.addAttribute("products", page.getContent());
 		return "product/product";
 	}
 
@@ -173,10 +295,12 @@ public class ProductController {
 		Page<ProductDetail> page = dService.findByPrice(pFrom, pTo, pageable);
 
 		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
-
-		model.addAttribute("products", page.getContent());
 		model.addAttribute("actionTag", "search");
 		model.addAttribute("searchTag", "price");
+
+		// レビューの平均集計
+		avgVoteCalc(page);
+		model.addAttribute("products", page.getContent());
 
 		return "product/product";
 	}
@@ -198,14 +322,53 @@ public class ProductController {
 
 		Page<ProductDetail> page = dService.finAll(pageable);
 
-		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
+		// レビューの平均集計
+		avgVoteCalc(page);
 
-		model.addAttribute("products", page.getContent());
+		// レビューのソート
+		if (sortBy.equals("avgVote")) {
+			// ソート、平均評価と商品の関連付け
+			List<ProductDetail> newList = page.stream()
+					.sorted(Comparator.comparing(ProductDetail::getAvgVote, Comparator.reverseOrder())
+							.thenComparing(ProductDetail::getAvgVote))
+					.collect(Collectors.toList());
+
+			// 詰替え
+			long start = pageable.getOffset();
+			long end = (start + pageable.getPageSize()) > newList.size() ? newList.size()
+					: (start + pageable.getPageSize());
+			Page<ProductDetail> newPage = new PageImpl<ProductDetail>(newList.subList((int) start, (int) end), pageable,
+					newList.size());
+			model.addAttribute("products", newPage.getContent());
+		} else {
+			model.addAttribute("products", page.getContent());
+		}
+
+		model = responeCommonData(model, page.getNumber(), page.getTotalPages());
 		model.addAttribute("actionTag", "sort");
 		model.addAttribute("sortBy", sortBy);
 		model.addAttribute("sortDir", sortDir);
-
 		return "product/product";
+	}
+
+	private void viewedProduct(HttpServletRequest request, ProductDetail detail) {
+
+		HttpSession session = request.getSession();
+
+		if (session.getAttribute("viewed") == null) {
+			List<ProductDetail> viewDetails = new ArrayList<>();
+			viewDetails.add(detail);
+			session.setAttribute("viewed", viewDetails);
+		} else {
+			List<ProductDetail> viewDetails = (List<ProductDetail>) session.getAttribute("viewed");
+			for (ProductDetail detail2 : viewDetails) {
+				if (detail2.getId() == detail.getId())
+					break;
+
+			}
+			session.setAttribute("viewed", viewDetails);
+		}
+
 	}
 
 	private Sort initializeSort(String sortBy, String sortDir) {
@@ -243,4 +406,22 @@ public class ProductController {
 		model.addAttribute("cats", categories);
 		return model;
 	}
+
+	// ここから平均評価の集計
+	private float avgVoteCalc(Page<ProductDetail> page) {
+		float avgVote = 0.0F;
+		float totalVote = 0.0F;
+		for (int i = 0; i < page.getContent().size(); i++) {
+			for (int j = 0; j < page.getContent().get(i).getReviews().size(); j++) {
+				totalVote += page.getContent().get(i).getReviews().get(j).getVote().floatValue();
+			}
+			avgVote = totalVote / page.getContent().get(i).getReviews().size();
+			avgVote = ((float) Math.round(avgVote * 10)) / 10;
+			page.getContent().get(i).setAvgVote(avgVote);
+			totalVote = 0.0F;
+			avgVote = 0.0F;
+		}
+		return avgVote;
+	}
+
 }

@@ -14,44 +14,44 @@
 	<section class="bg0 p-t-23 p-b-140">
 		<div class="container">
 			<div class="p-b-10">
-				<h3 class="ltext-103 cl5">商品一覧</h3>
+				<h3 class="ltext-103 cl5">お気に入り商品一覧</h3>
 			</div>
 						
-			<div th:replace="~{fragments/filter-search :: filter-search}"></div>
 			<!--category, filter-->
 			<div class="row isotope-grid">
+				
 				<th:block th:each="p : ${products}">
 					<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item">
 						<div class="block2">
 							<div class="block2-pic hov-img0">
 								<!--画像-->
-								<img th:src="@{${p.mainImage}}" alt="IMG-PRODUCT">
+								<img th:src="@{${p.productDetail.mainImage}}" alt="IMG-PRODUCT">
 								<!--商品詳細modalに移行-->
-								<a th:href="@{'/p/' + ${p.id}}"
+								<a th:href="@{'/p/' + ${p.productDetail.id}}"
 									class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
 									詳細 </a>
 							</div>
 
 							<div class="block2-txt flex-w flex-t p-t-14">
 								<div class="block2-txt-child1 flex-col-l ">
-									<a th:href="@{'/p/' + ${p.id}}"
+									<a th:href="@{'/p/' + ${p.productDetail.id}}"
 										class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6"
-										th:text="${p.name}"></a> <span
-										class="stext-105 cl3" th:text="${p.priceCurrency} + '　　　　　　　　　　　　　　　評価：' + ${p.avgVote}"></span>
+										th:text="${p.productDetail.name}"></a> <span
+										class="stext-105 cl3" th:text="${p.productDetail.priceCurrency} + '　　　　　　　　　　　　　　　評価：' + ${p.productDetail.avgVote}"></span>
 								</div>
 
 								<div class="block2-txt-child2 flex-r p-t-3">
 									<button 
 										class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" id="wishlist-favorite" 
-										th:onclick="|favoriteButtonCliked('__${p.id}__','__${p.favoriteChecked}__','__${p.name}__')|"
+										th:onclick="|favoriteButtonCliked('__${p.productDetail.id}__','__${p.productDetail.favoriteChecked}__','__${p.productDetail.name}__')|"
 										<!-- お気に入り追加済み -->
-										<th:block th:if="${p.favoriteChecked == true}">
+										<th:block th:if="${p.productDetail.favoriteChecked == true}">
 												<img class="icon-heart1 dis-block trans-04"
-												th:src="@{/images/icons/icon-heart-02.png}" alt="ICON" th:id="${p.id}">
+												th:src="@{/images/icons/icon-heart-02.png}" alt="ICON" th:id="${p.productDetail.id}">
 										</th:block>
-										<th:block th:if="${p.favoriteChecked == false}">
+										<th:block th:if="${p.productDetail.favoriteChecked == false}">
 											<img class="icon-heart1 dis-block trans-04"
-												th:src="@{/images/icons/icon-heart-01.png}" alt="ICON" th:id="${p.id}">
+												th:src="@{/images/icons/icon-heart-01.png}" alt="ICON" th:id="${p.productDetail.id}">
 										</th:block>
 									</button>
 								</div>
@@ -81,6 +81,7 @@
 	<!--===============================================================================================-->
 	<div th:replace="~{fragments/js-common :: import-js}"></div>
 	<script th:inline="javascript">
+		const custId = /*[[${custId}]]*/"custId";
 		var dName = '';
 		var changedFavoriteProductList = {};
 		
@@ -107,7 +108,7 @@
 				type: "post",
 				success: function () {
 					changedFavoriteProductList[dId] = 'true';
-					document.getElementById(dId).src = "images/icons/icon-heart-02.png";
+					document.getElementById(dId).src = "../images/icons/icon-heart-02.png";
 					swal(dName, "is added to wishlist !", "success");
 				},
 				error: function () {
@@ -124,7 +125,7 @@
 				type: "post",
 				success: function () {
 					changedFavoriteProductList[dId] = 'false';
-					document.getElementById(dId).src = "images/icons/icon-heart-01.png";
+					document.getElementById(dId).src = "../images/icons/icon-heart-01.png";
 					swal(dName, "is removed to wishlist !", "success");
 				},
 				error: function () {
