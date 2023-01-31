@@ -41,6 +41,14 @@ public class DashBoardController {
 		model.addAttribute("placedOrder", orderService.countPlacedOrder());
 		model.addAttribute("memberTotal", customerService.countAllShopMember());
 		model.addAttribute("customerTotal", customerService.countAllCustomer());
+<<<<<<< HEAD
+=======
+		model.addAttribute("totalSale", orderService.totalSales());
+>>>>>>> 2ac9847a94747f5c997472b47e38966e1ab7b69a
 		return "index";
+	}
+	@GetMapping("/login")
+	public String loginPage() {
+		return "login";
 	}
 }

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:fragment="page-head($title)">
+<head th:fragment="page-head(title)">
 <meta charset="utf-8">
-<title>[[title]]</title>
+<title th:text="${title}"></title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -72,8 +72,11 @@
 				</div>
 			</div>
 			<div class="navbar-nav w-100">
-				<a th:href="@{/}" class="nav-item nav-link active"><i
-					class="fa fa-tachometer-alt me-2"></i>ダッシュボード</a> <a th:href="@{/}"
+				<a th:href="@{/}"
+					th:classappend="${#ctx.springRequestContext.requestUri =='/shopAdmin/'}?'active':''"
+					class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>ダッシュボード</a>
+				<a th:href="@{/customers}"
+					th:classappend="${#ctx.springRequestContext.requestUri =='/shopAdmin/customers'}?'active':''	"
 					class="nav-item nav-link"><i class="fa fa-duotone fa-users"></i>
 					会員管理</a>
 
@@ -87,16 +90,11 @@
 							th:href="@{/}" class="dropdown-item ms-4">カテゴリ一覧</a>
 					</div>
 				</div>
-				<div class="nav-item dropdown">
-					<a th:href="@{#}" class="nav-link dropdown-toggle"
-						data-bs-toggle="dropdown"><i
-						class="fa-sharp fa-solid fa-money-check-dollar"></i> 注文管理</a>
-					<div class="dropdown-menu bg-transparent border-0">
-						<a th:href="@{/}" class="dropdown-item ms-4">注文一覧</a> <a
-							th:href="@{/}" class="dropdown-item ms-4">未確定注文</a>
 
-					</div>
-				</div>
+				<a
+					th:classappend="${#ctx.springRequestContext.requestUri =='/shopAdmin/order'}?'active':''"
+					th:href="@{/order}" class="nav-item nav-link"><i
+					class="fa-sharp fa-solid fa-money-check-dollar"></i> 注文管理</a>
 			</div>
 		</nav>
 	</div>

@@ -3,7 +3,6 @@ package com.cinshop.admin.order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.cinshop.common.OrderStatus;
@@ -17,6 +16,40 @@ public class OrderServiceAdmin {
 
 	public Page<Order> findAll(Pageable pageable) {
 		return repository.findAll(pageable);
+	}
+
+	public Page<Order> findByOrderNum(String orderNum, Pageable pageable) {
+		return repository.findByOrderNum(orderNum, pageable);
+	}
+
+	public Page<Order> findByCustomerName(String custName, Pageable pageable) {
+		return repository.findByCustomerName(custName, pageable);
+	}
+
+	public Page<Order> findByOrdeｒStatus(String status, Pageable pageable){
+		OrderStatus orderStatus = null;
+		switch (status) {
+		case "PAID":
+			orderStatus = OrderStatus.PAID;
+			break;
+
+		case "PLACED":
+			orderStatus =  OrderStatus.PLACED;
+			break;
+
+		case "PROCESSING":
+			orderStatus =  OrderStatus.PROCESSING;
+			break;
+
+		case "DELIVERING":
+			orderStatus =  OrderStatus.DELIVERING;
+			break;
+
+		case "COMPLETED":
+			orderStatus =  OrderStatus.COMPLETED;
+			break;
+		}
+		return repository.findByStatus(orderStatus, pageable);
 	}
 
 	public Order findOrderById(Integer id) {

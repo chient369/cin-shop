@@ -50,8 +50,9 @@ public abstract class AbstractOrderService {
 		// クレジットカードで支払い場合、顧客のカード情報を格納必要がある
 		order.setPaymentMethod(paymentMethod);
 		order.setStatus(OrderStatus.PLACED);
+		order.setShippingCost(getShippingCost());
 		order.setTax(utility.getCurrentTax());
-		order.setTotal(getTotalWithTax());
+		order.setTotal(getTotal());
 
 		// 仮に1割引を設定
 		order.setDiscountPercent(0);

@@ -62,6 +62,7 @@ public class Order {
 	private Date orderTime;
 
 	private Integer total;
+	private Integer shippingCost;
 
 	public Order() {
 		String randomNum = "OD" +Calendar.getInstance().getTimeInMillis() / 60;
@@ -163,6 +164,15 @@ public class Order {
 	public Date getOrderTime() {
 		return orderTime;
 	}
+	
+
+	public Integer getShippingCost() {
+		return shippingCost;
+	}
+
+	public void setShippingCost(Integer shippingCost) {
+		this.shippingCost = shippingCost;
+	}
 
 	public void setOrderTime(Date orderTime) {
 		this.orderTime = orderTime;
@@ -179,6 +189,14 @@ public class Order {
 	public String getOrderDateString() {
 		SimpleDateFormat formatter = new SimpleDateFormat("YYYY年MM月DD日");  
 	   return formatter.format(this.orderTime);
+	}
+	@Transient
+	public Long getProductCost() {
+		Long cost = 0L;
+		for(OrderDetail detail : this.orderDetails) {
+			cost+=detail.getSubTotal();
+		}
+	   return cost;
 	}
 
 

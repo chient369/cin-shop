@@ -13,14 +13,9 @@
 	<!-- breadcrumb -->
 	<div class="container">
 		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-			<a th:href="@{/}" class="stext-109 cl8 hov-cl1 trans-04">
-				ホーム
-				<i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
-			</a>
-
-			<span class="stext-109 cl4">
-				ショッピングカート
-			</span>
+			<a th:href="@{/}" class="stext-109 cl8 hov-cl1 trans-04"> ホーム <i
+				class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+			</a> <span class="stext-109 cl4"> ショッピングカート </span>
 		</div>
 	</div>
 
@@ -36,7 +31,8 @@
 
 				</div>
 				<div th:if="${#lists.size(cartItems)} > 0">
-					<form class="bg0 p-t-50 p-b-85" th:action="@{/cart/update}" method="post">
+					<form class="bg0 p-t-50 p-b-85" th:action="@{/cart/update}"
+						method="post">
 						<div class="m-l-25 m-r--38 m-lr-0-xl">
 							<div class="wrap-table-shopping-cart">
 								<table class="table-shopping-cart">
@@ -49,7 +45,8 @@
 									</tr>
 									<th:block th:each="item : ${cartItems}">
 										<tr class="table_row">
-											<input type="hidden" th:name="productId" th:value="${item.product.id}">
+											<input type="hidden" th:name="productId"
+												th:value="${item.product.id}">
 											<th:block th:with="detail = ${item.product.productDetail}">
 												<td class="column-1">
 													<div class="how-itemcart1">
@@ -58,10 +55,10 @@
 												</td>
 												<td class="column-2" th:with="p = ${item.product}">
 													<div class="stext-301" th:text="${detail.name}"></div>
-													<div class="fs-10 p-t-2 p-l-4" th:text="'カラー :' + ${p.color.name}">
-													</div>
-													<div class="fs-10 p-t-2 p-l-4" th:text="'サイズ : '+ ${p.size.value}">
-													</div>
+													<div class="fs-10 p-t-2 p-l-4"
+														th:text="'カラー :' + ${p.color.name}"></div>
+													<div class="fs-10 p-t-2 p-l-4"
+														th:text="'サイズ : '+ ${p.size.value}"></div>
 												</td>
 												<td class="column-3" th:text="'¥ ' + ${detail.price}"></td>
 												<td class="column-4">
@@ -75,13 +72,14 @@
 															type="number" th:name="quantity"
 															th:value="${item.quantity}">
 
-														<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+														<div
+															class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
 															<i class="fs-16 zmdi zmdi-plus"></i>
 														</div>
 													</div>
 												</td>
-												<td class="column-5" th:text="'¥ '+${detail.price} * ${item.quantity}">
-												</td>
+												<td class="column-5"
+													th:text="'¥ '+${detail.price} * ${item.quantity}"></td>
 											</th:block>
 										</tr>
 									</th:block>
@@ -95,15 +93,14 @@
 								<button class="flex-w flex-m m-r-20 m-tb-5">
 									<div
 										class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
-										カート更新
-									</div>
+										カート更新</div>
 								</button>
 
-								<a class="flex-w flex-c p-t-5 p-b-5 p-lr-40 p-lr-15-sm" th:href="@{/order}">
+								<a class="flex-w flex-c p-t-5 p-b-5 p-lr-40 p-lr-15-sm"
+									th:href="@{/order}">
 									<div
 										class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
-										支払いに進む
-									</div>
+										支払いに進む</div>
 								</a>
 							</div>
 						</div>
@@ -120,11 +117,11 @@
 
 	<!-- Footer -->
 	<div th:replace="~{fragments/footer :: footer}"></div>
-
+	<div th:replace="~{fragments/js-common :: import-js}"></div>
 	<!-- Back to top -->
 	<div class="btn-back-to-top" id="myBtn">
-		<span class="symbol-btn-back-to-top">
-			<i class="zmdi zmdi-chevron-up"></i>
+		<span class="symbol-btn-back-to-top"> <i
+			class="zmdi zmdi-chevron-up"></i>
 		</span>
 	</div>
 
