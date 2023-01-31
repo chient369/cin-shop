@@ -6,7 +6,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -16,66 +15,61 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.formLogin(login -> login
-        		
-        		//ログイン情報の送信先URL
-                .loginProcessingUrl("/login")
-                
-                //ログインページ
-                .loginPage("/login")
-                
-                //ログイン後の遷移する画面
-                .defaultSuccessUrl("/", true)
-                
-                //ログインエラー用のURL
-                .failureUrl("/login?error")
-                
+	@Bean
+	 InMemoryUserDetailsManager userDetailsService() {
+	    UserDetails admin = User.withUsername("admin")
+	        .password(passwordEncoder().encode("cinshopadmin"))
+	        .roles("ADMIN")
+	        .build();
+	  
+	    return new InMemoryUserDetailsManager(admin);
+	}
+	
 
-                //ログインページは誰でも閲覧可能
-                .permitAll()
-        ).logout(logout -> logout
-        		
-        		//ログアウトするURL
-        		.logoutUrl("/logout")
-        		
-        		//ログアウト後の遷移する画面
-                .logoutSuccessUrl("/login")
-                
-        ).authorizeHttpRequests(authz -> authz
-        		
-        		//静的ファイルはログイン無しでもアクセス可能
-       		.requestMatchers("/css/**","/js/**","/lib/**","/img/**")
-               .permitAll()
+	@Bean
+	 SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.formLogin(login -> login
 
-                //ログイン無しでもアクセス可能
-                //.requestMatchers("/**").permitAll()               
-                //権限ごとにアクセス可能なURL
-                
-                
-                //他のURLはログイン後のみアクセス可能
-                .anyRequest().authenticated()
-        ).csrf()
-        .disable()
-        ;
-        return http.build();
-    }
+				// ログイン情報の送信先URL
+				.loginProcessingUrl("/login")
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-    @Bean
-    public UserDetailsService users() {
-    	UserDetails user = User.builder()
-    		.username("admin")
-    		.password("password")
-    		.roles("ADMIN")
-    		.build();
-   
-    	return new InMemoryUserDetailsManager(user);
-    }
+				// ログインページ
+				.loginPage("/login")
+
+				// ログイン後の遷移する画面
+				.defaultSuccessUrl("/", true)
+
+				// ログインエラー用のURL
+				.failureUrl("/login?error")
+
+				// ログインページは誰でも閲覧可能
+				.permitAll()).logout(logout -> logout
+
+						// ログアウトするURL
+						.logoutUrl("/logout")
+
+						// ログアウト後の遷移する画面
+					.logoutSuccessUrl("/login")
+
+		).authorizeHttpRequests(authz -> authz
+
+				// 静的ファイルはログイン無しでもアクセス可能
+				.requestMatchers("/css/**", "/js/**", "/lib/**", "/img/**").permitAll()
+
+				// ログイン無しでもアクセス可能
+				// .requestMatchers("/**").permitAll()
+				// 権限ごとにアクセス可能なURL
+
+				// 他のURLはログイン後のみアクセス可能
+				.anyRequest().authenticated()).csrf().disable();
+		return http.build();
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
 //    public static void main(String[] args) {
 //        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 //        String rawPassword = "admincinshop2022";

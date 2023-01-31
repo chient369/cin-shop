@@ -29,9 +29,9 @@ public class DashBoardController {
 	}
 	@GetMapping("/{pageNum}")
 	public String dashBoard(@PathVariable Integer pageNum, Model model) {
-
 		Pageable pageable = PageRequest.of(pageNum - 1, ITEM_PER_PAGE);
-		Page<Order> page = orderService.findAll(pageable);
+		Page<Order> page = orderService.findByOrderStatus("PLACED",pageable);
+	
 		model.addAttribute("orders", page.getContent());
 		model.addAttribute("orderTotalPages", page.getTotalPages());
 		model.addAttribute("orderCurrentPage", page.getNumber());
@@ -41,10 +41,8 @@ public class DashBoardController {
 		model.addAttribute("placedOrder", orderService.countPlacedOrder());
 		model.addAttribute("memberTotal", customerService.countAllShopMember());
 		model.addAttribute("customerTotal", customerService.countAllCustomer());
-<<<<<<< HEAD
-=======
+
 		model.addAttribute("totalSale", orderService.totalSales());
->>>>>>> 2ac9847a94747f5c997472b47e38966e1ab7b69a
 		return "index";
 	}
 	@GetMapping("/login")
