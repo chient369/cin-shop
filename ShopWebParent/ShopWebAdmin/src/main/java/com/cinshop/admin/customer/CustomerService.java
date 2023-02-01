@@ -27,5 +27,12 @@ public class CustomerService {
 	public Page<Customer> findAll(Pageable pageable){
 		return repository.findAll(pageable);
 	}
+	public void delete(Integer id) {
+		repository.deleteById(id);
+		
+	}
+	public Page<Customer> findAllByText(String txt,Pageable pageable){
+		return repository.findAllByText(txt, pageable);
+	}
 	
 }

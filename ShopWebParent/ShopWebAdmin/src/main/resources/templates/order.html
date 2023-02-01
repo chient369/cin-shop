@@ -41,43 +41,38 @@
 					<div class="col-3 mb-3">
 						<form th:action="@{/order/search}" method="post" class="mb-2">
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="注文番号"
-									name="orderNum" required>
+								<input type="text" class="form-control" placeholder="注文番号" name="orderNum" required>
 								<button class="btn btn-outline-secondary" type="submit">検索</button>
 							</div>
 						</form>
 						<form th:action="@{/order/search}" method="post" class="mb-2">
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="顧客名"
-									name=customerName>
+								<input type="text" class="form-control" placeholder="顧客名" name=customerName>
 								<button class="btn btn-outline-secondary" type="submit">検索</button>
 							</div>
 						</form>
 					</div>
 					<div class="col-3 mb-3">
 						<div class="input-group">
-							<button class="btn btn-outline-secondary dropdown-toggle"
-								type="button" data-bs-toggle="dropdown" aria-expanded="false">注文ステータスで検索</button>
+							<button class="btn btn-outline-secondary dropdown-toggle" type="button"
+								data-bs-toggle="dropdown" aria-expanded="false">注文ステータスで検索</button>
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item"
-									th:href="@{/order/search?sts=PLACED&pageNum=1}">新規</a></li>
-								<li><a class="dropdown-item"
-									th:href="@{/order/search?sts=PROCESSING&pageNum=1}">処理中</a></li>
-									<li><a class="dropdown-item"
-									th:href="@{/order/search?sts=PAID&pageNum=1}">支払い済</a></li>
-								<li><a class="dropdown-item"
-									th:href="@{/order/search?sts=DELIVERING&pageNum=1}">配送中</a></li>
-									<li><a class="dropdown-item"
-									th:href="@{/order/search?sts=COMPLETED&pageNum=1}">完了</a></li>
-									
+								<li><a class="dropdown-item" th:href="@{/order/search?sts=PLACED&pageNum=1}">新規</a></li>
+								<li><a class="dropdown-item" th:href="@{/order/search?sts=PROCESSING&pageNum=1}">処理中</a>
+								</li>
+								<li><a class="dropdown-item" th:href="@{/order/search?sts=PAID&pageNum=1}">支払い済</a></li>
+								<li><a class="dropdown-item" th:href="@{/order/search?sts=DELIVERING&pageNum=1}">配送中</a>
+								</li>
+								<li><a class="dropdown-item" th:href="@{/order/search?sts=COMPLETED&pageNum=1}">完了</a>
+								</li>
+
 							</ul>
 
 						</div>
 					</div>
 				</div>
 				<div class="table-responsive">
-					<table
-						class="table text-start align-middle table-bordered table-hover mb-0">
+					<table class="table text-start align-middle table-bordered table-hover mb-0">
 						<thead>
 							<tr class="text-dark text-center">
 								<th scope="col">注文ID</th>
@@ -94,45 +89,41 @@
 								<tr>
 									<td th:text="${order.orderNum}"></td>
 									<td th:text="${order.orderDateString}">01 Jan 2045</td>
-									<td
-										th:text="${order.customer !=null}?${order.customer.fullName}">INV-0123</td>
-									<td
-										th:text="${order.customer !=null}?${order.customer.address.fullAddress}">千葉県稲毛区穴側2-22-9</td>
+									<td th:text="${order.customer !=null}?${order.customer.fullName}">INV-0123</td>
+									<td th:text="${order.customer !=null}?${order.customer.address.fullAddress}">
+										千葉県稲毛区穴側2-22-9</td>
 									<td th:text="'¥' +${order.total}">$123</td>
 									<td th:switch="${order.status.name}" class="text-center"><span
-										th:case="'PLACED'">未確定</span> <span th:case="'PAID'">支払い済</span>
-										<span th:case="'PROCESSING'">処理中</span> <span
-										th:case="'COMPLETED'">完了</span> <span th:case="'DELIVERING'">配送中</span>
+											th:case="'PLACED'">未確定</span> <span th:case="'PAID'">支払い済</span>
+										<span th:case="'PROCESSING'">処理中</span> <span th:case="'COMPLETED'">完了</span>
+										<span th:case="'DELIVERING'">配送中</span>
 									</td>
-									<td><a class="btn btn-sm btn-primary"
-										th:href="@{'/order/' + ${order.id}}">詳細</a></td>
+									<td><a class="btn btn-sm btn-primary" th:href="@{'/order/' + ${order.id}}">詳細</a>
+									</td>
 								</tr>
 							</th:block>
 						</tbody>
 					</table>
 				</div>
-				<div class="btn-toolbar justify-content-center mt-4"
-					th:if="${searchText != null }">
-					<div class="btn-group me-2" th:each="page : ${orderTotalPages}">
-						<a
-							th:href="@{'/order/search?custName=' + ${searchText} +'&pageNum=' + ${page}}"
-							type="button" class="btn btn-secondary" th:text="${page}"
+				<div class="btn-toolbar justify-content-center mt-4" th:if="${searchText != null }">
+
+					<div class="btn-group me-2" th:each="page : ${#numbers.sequence(1,orderTotalPages)}">
+						<a th:href="@{'/order/search?custName=' + ${searchText} +'&pageNum=' + ${page}}" type="button"
+							class="btn btn-secondary" th:text="${page}"
 							th:classappend="${page == orderCurrentPage +1}?'disabled'"></a>
 					</div>
 				</div>
-				<div class="btn-toolbar justify-content-center mt-4"
-					th:if="${searchText == null}">
-					<div class="btn-group me-2" th:each="page : ${orderTotalPages}">
-						<a th:href="@{'/order/p/' + ${page}}" class="btn btn-secondary"
-							th:text="${page}"
+				<div class="btn-toolbar justify-content-center mt-4" th:if="${searchText == null}">
+					<div class="btn-group me-2" th:each="page : ${#numbers.sequence(1,orderTotalPages)}">
+						<a th:href="@{'/order/p/' + ${page}}" class="btn btn-secondary" th:text="${page}"
 							th:classappend="${page == orderCurrentPage +1}?'disabled'"></a>
 					</div>
 				</div>
-				<div class="btn-toolbar justify-content-center mt-4"
-					th:if="${sts != null}">
-					<div class="btn-group me-2" th:each="page : ${orderTotalPages}" th:if="${orderTotalPages != null}">
-						<a th:href="@{'/order/search?sts=' + ${stsName} +'&pageNum=' + ${page}}" class="btn btn-secondary"
-							th:text="${page}"
+				<div class="btn-toolbar justify-content-center mt-4" th:if="${sts != null}">
+					<div class="btn-group me-2" th:each="page : ${#numbers.sequence(1,orderTotalPages)}"
+						th:if="${orderTotalPages != null}">
+						<a th:href="@{'/order/search?sts=' + ${stsName} +'&pageNum=' + ${page}}"
+							class="btn btn-secondary" th:text="${page}"
 							th:classappend="${page == orderCurrentPage +1}?'disabled'"></a>
 					</div>
 				</div>
@@ -140,8 +131,7 @@
 		</div>
 
 		<!-- Back to Top -->
-		<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
-			class="bi bi-arrow-up"></i></a>
+		<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 	</div>
 
 	<!-- JavaScript Libraries -->

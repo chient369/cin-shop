@@ -25,7 +25,7 @@ public class OrderController {
 	private OrderServiceAdmin orderService;
 
 	@GetMapping("/order")
-	public String viewFirstOrderｓPage(Model model) {
+	public String viewFirstOrdersPage(Model model) {
 		return viewOrderｓPage(model, 1);
 	}
 
@@ -92,7 +92,7 @@ public class OrderController {
 			model.addAttribute("searchBy", "custName");
 		}
 		if (sts != null) {
-			page = orderService.findByOrdeｒStatus(sts, pageable);
+			page = orderService.findByOrderStatus(sts, pageable);
 			model.addAttribute("searchBy", "sts");
 			model.addAttribute("stsName",sts);
 		}

@@ -26,9 +26,9 @@ public class OrderServiceAdmin {
 		return repository.findByCustomerName(custName, pageable);
 	}
 
-	public Page<Order> findByOrdeｒStatus(String status, Pageable pageable){
+	public Page<Order> findByOrderStatus(String status, Pageable pageable){
 		OrderStatus orderStatus = null;
-		switch (status) {
+		switch (status.toUpperCase()) {
 		case "PAID":
 			orderStatus = OrderStatus.PAID;
 			break;
