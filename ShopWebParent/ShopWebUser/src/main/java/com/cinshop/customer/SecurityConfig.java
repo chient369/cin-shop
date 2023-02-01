@@ -43,19 +43,12 @@ public class SecurityConfig {
         ).authorizeHttpRequests(authz -> authz
         		
         		//静的ファイルはログイン無しでもアクセス可能
-                .requestMatchers("/css/**","/js/**","/vendor/**","/fonts/**","/images/**")
-               
-                .permitAll()
-                .requestMatchers("/c/**", 
-       				 "/logout").authenticated()
+                .requestMatchers("/css/**","/js/**","/vendor/**","/fonts/**","/images/**").permitAll()
+                
+                .requestMatchers("/c/**",  "/logout").authenticated()
+                
                 //ログイン無しでもアクセス可能
-                .requestMatchers("/**","/error","/login", "/register", "/create","/p/**","/cart/**","/api/**","/order/**").permitAll()
-
-                .requestMatchers("/register", "/checkAcc", "/rstp/**", "/forgotPass", "/inputEmail", "/account").permitAll()
-
-                
-                //権限ごとにアクセス可能なURL
-                
+                .requestMatchers("/**").permitAll()
                 
                 //他のURLはログイン後のみアクセス可能
                 .anyRequest().authenticated()
