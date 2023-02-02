@@ -32,6 +32,7 @@ public class ProductController {
 	
 	@GetMapping("/product/{pId}")
 	public String viewProductDetail(Model model,@PathVariable Integer pId) {
+
 		ProductDetail productDetail = productService.findById(pId);
 		model.addAttribute("productDetail", productDetail);
 		model.addAttribute("brands",productService.findAllBrands());
@@ -49,6 +50,7 @@ public class ProductController {
 		System.err.println(updatedDetail);
 		return "redirect:/product/" + productDetail.getId();
 	}
+
 
 	@GetMapping("/product/p/{pageNum}")
 	public String viewProductPage(Model model, @PathVariable Integer pageNum) {
