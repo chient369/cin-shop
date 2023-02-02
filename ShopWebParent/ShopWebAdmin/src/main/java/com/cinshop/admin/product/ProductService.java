@@ -39,4 +39,16 @@ public class ProductService {
 	public List<Category> findAllCategories() {
 		return utility.findAllCategories();
 	}
+	public ProductDetail findById(Integer pId) {
+		return productRepository.findById(pId).get();
+	}
+	public ProductDetail updateDetail(ProductDetail productDetail) {
+		ProductDetail dbDetail = productRepository.findById(productDetail.getId()).get();
+		if(productDetail.getProducts().size() == 0) {
+			productDetail.setProducts(dbDetail.getProducts());
+		}
+		if(productDetail.getImages().size()== 0) productDetail.setImages(dbDetail.getImages());
+		if(productDetail.getReviews().size() == 0) productDetail.setReviews(dbDetail.getReviews()); 
+		return productRepository.save(productDetail);
+	}
 }

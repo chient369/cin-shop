@@ -1,5 +1,7 @@
 package com.cinshop.admin.product;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -7,10 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cinshop.common.entity.Brand;
+import com.cinshop.common.entity.Category;
 import com.cinshop.common.entity.ProductDetail;
 
 @Controller
@@ -23,6 +28,26 @@ public class ProductController {
 	@GetMapping("/product")
 	public String viewProductFirstPage(Model model) {
 		return viewProductPage(model, 1);
+	}
+	
+	@GetMapping("/product/{pId}")
+	public String viewProductDetail(Model model,@PathVariable Integer pId) {
+		ProductDetail productDetail = productService.findById(pId);
+		model.addAttribute("productDetail", productDetail);
+		model.addAttribute("brands",productService.findAllBrands());
+		model.addAttribute("categories",productService.findAllCategories());
+		model.addAttribute("brand",new Brand());
+		model.addAttribute("category", new Category());
+		return "product-detail";
+	}
+	@PostMapping("/product/update")
+	public String updateDetail(Model model, @ModelAttribute ProductDetail productDetail, String brandId,String catId) {
+		productDetail.setBrand(new Brand(Integer.valueOf(brandId)));
+		productDetail.setCategory(new Category(Integer.valueOf(catId)));
+		ProductDetail updatedDetail = productService.updateDetail(productDetail);
+		System.out.println(productDetail);
+		System.err.println(updatedDetail);
+		return "redirect:/product/" + productDetail.getId();
 	}
 
 	@GetMapping("/product/p/{pageNum}")

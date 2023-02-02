@@ -1,8 +1,8 @@
 /********** Template CSS **********/
-:root { -
-	-primary: #009CFF; -
-	-light: #F3F6F9; -
-	-dark: #191C24;
+:root {
+	- -primary: #009CFF;
+	- -light: #F3F6F9;
+	- -dark: #191C24;
 }
 
 .back-to-top {
@@ -51,7 +51,9 @@
 	height: 48px;
 }
 
-.btn-square, .btn-sm-square, .btn-lg-square {
+.btn-square,
+.btn-sm-square,
+.btn-lg-square {
 	padding: 0;
 	display: inline-flex;
 	align-items: center;
@@ -86,29 +88,40 @@
 	height: 100px;
 }
 
-@media ( min-width : 992px) {
+.table-wrapper {
+	max-height: 500px;
+	overflow: auto;
+	
+}
+
+@media (min-width : 992px) {
 	.sidebar {
 		margin-left: 0;
 	}
+
 	.sidebar.open {
 		margin-left: -250px;
 	}
+
 	.content {
 		width: calc(100% - 250px);
 	}
+
 	.content.open {
 		width: 100%;
 		margin-left: 0;
 	}
 }
 
-@media ( max-width : 991.98px) {
+@media (max-width : 991.98px) {
 	.sidebar {
 		margin-left: -250px;
 	}
+
 	.sidebar.open {
 		margin-left: 0;
 	}
+
 	.content {
 		width: 100%;
 		margin-left: 0;
@@ -125,8 +138,8 @@
 	outline: none;
 }
 
-.sidebar .navbar .navbar-nav .nav-link:hover, .sidebar .navbar .navbar-nav .nav-link.active
-	{
+.sidebar .navbar .navbar-nav .nav-link:hover,
+.sidebar .navbar .navbar-nav .nav-link.active {
 	color: var(- -primary);
 	background: #FFFFFF;
 	border-color: var(- -primary);
@@ -142,8 +155,8 @@
 	border-radius: 40px;
 }
 
-.sidebar .navbar .navbar-nav .nav-link:hover i, .sidebar .navbar .navbar-nav .nav-link.active i
-	{
+.sidebar .navbar .navbar-nav .nav-link:hover i,
+.sidebar .navbar .navbar-nav .nav-link.active i {
 	background: var(- -light);
 }
 
@@ -174,13 +187,13 @@
 	outline: none;
 }
 
-.content .navbar .navbar-nav .nav-link:hover, .content .navbar .navbar-nav .nav-link.active
-	{
+.content .navbar .navbar-nav .nav-link:hover,
+.content .navbar .navbar-nav .nav-link.active {
 	color: var(- -primary);
 }
 
-.content .navbar .sidebar-toggler, .content .navbar .navbar-nav .nav-link i
-	{
+.content .navbar .sidebar-toggler,
+.content .navbar .navbar-nav .nav-link i {
 	width: 40px;
 	height: 40px;
 	display: inline-flex;
@@ -204,7 +217,7 @@
 	transform: rotate(-180deg);
 }
 
-@media ( max-width : 575.98px) {
+@media (max-width : 575.98px) {
 	.content .navbar .navbar-nav .nav-link {
 		margin-left: 15px;
 	}
@@ -229,7 +242,7 @@
 }
 
 .bootstrap-datetimepicker-widget table td.active,
-	.bootstrap-datetimepicker-widget table td.active:hover {
+.bootstrap-datetimepicker-widget table td.active:hover {
 	background: var(- -primary);
 }
 
