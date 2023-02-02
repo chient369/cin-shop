@@ -49,7 +49,7 @@ public class CustomerCartService extends AbstractCartService {
 		repo.save(cartItem);
 
 		logger.info("顧客{}がカートに商品を追加しました。", customer.getId());
-		return cartItems;
+		return findCartItems();
 	}
 
 	@Override
