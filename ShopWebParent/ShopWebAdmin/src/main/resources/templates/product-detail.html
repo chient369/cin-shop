@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments :: page-head('Home')}">
+</head>
+
+<body>
+	<div class="
+	container-xxl position-relative bg-whited-flexp-0">
+		<!-- Spinner Start -->
+		<div th:replace="~{fragments:: spinner}"></div>
+		<!-- Spinner End -->
+	</div>
+
+	<!-- Sidebar Start -->
+	<div th:replace="~{fragments:: sidebar}"></div>
+	<!-- Sidebar End -->
+
+
+	<!-- Content Start -->
+	<div class="content">
+		<!-- Navbar Start -->
+		<nav th:replace="~{fragments:: head-nav}"></nav>
+		<!-- Navbar End -->
+		<!-- Table Start -->
+		<div class="container-fluid pt-4 px-4">
+			<div class="row g-4">
+
+				<div class="bg-light rounded h-100 p-4">
+					<h4>Product Name</h4>
+					<div class="row">
+						<div class="col-5 mb-3">
+							<h3>商品説明</h3>
+							<form th:action="@{/product/search}" method="post" class="mb-2">
+								<div class="mb-3 row">
+									<label for="productId" class="col-sm-2 col-form-label">商品ID</label>
+									<div class="col-sm-8">
+										<input type="text" readonly class="form-control-plaintext"
+											id="productId" value="ABC MArt">
+
+									</div>
+									<button onclick="editAble(this)" type="button"
+										class="col-sm-2 btn btn-primary">
+										<i class="fa fa-light fa-pen-to-square "></i>修正
+									</button>
+								</div>
+								<div class="mb-3 row">
+									<label for="productName" class="col-sm-2 col-form-label">商品名</label>
+									<div class="col-sm-8">
+										<input type="text" readonly class="form-control-plaintext"
+											id="productName" value="AB asdasd">
+									</div>
+									<button onclick="editAble(this)" type="button"
+										class="col-sm-2 btn btn-primary">
+										<i class="fa fa-light fa-pen-to-square "></i>修正
+									</button>
+								</div>
+								<div class="mb-3 row">
+									<label for="productCode" class="col-sm-2 col-form-label">商品コード</label>
+									<div class="col-sm-8">
+										<input type="text" readonly class="form-control-plaintext"
+											id="productCode" value="ABC MArt">
+
+									</div>
+									<button onclick="editAble(this)" type="button"
+										class="col-sm-2 btn btn-primary">
+										<i class="fa fa-light fa-pen-to-square "></i>修正
+									</button>
+								</div>
+								<div class="mb-3 row">
+									<label for="description" class="col-sm-2 col-form-label">商品説明</label>
+									<div class="col-sm-8">
+										<textarea readonly class="form-control" id="description"
+											rows="5" value="ABC MArt"></textarea>
+
+									</div>
+									<button onclick="editAble(this)" type="button"
+										class="col-sm-2 btn btn-primary">
+										<i class="fa fa-light fa-pen-to-square "></i>修正
+									</button>
+								</div>
+								<div class="mb-3 row">
+									<label for="brand" class="col-sm-2 col-form-label">ブランド</label>
+									<div class="col-sm-8">
+										<input type="text" readonly class="form-control-plaintext"
+											id="brand" value="ABC MArt">
+
+									</div>
+									<button onclick="editAble(this)" type="button"
+										class="col-sm-2 btn btn-primary">
+										<i class="fa fa-light fa-pen-to-square "></i>修正
+									</button>
+								</div>
+								<div class="mb-3 row">
+									<label for="category" class="col-sm-2 col-form-label">カテゴリー</label>
+									<div class="col-sm-8">
+										<input type="text" readonly class="form-control-plaintext"
+											id="category" value="ABC MArt">
+
+									</div>
+									<button onclick="editAble(this)" type="button"
+										class="col-sm-2 btn btn-primary">
+										<i class="fa fa-light fa-pen-to-square "></i>修正
+									</button>
+								</div>
+								<div class="mb-3 row">
+									<label for="crt-time" class="col-sm-2 col-form-label">納品日</label>
+									<div class="col-sm-8">
+										<input type="text" readonly class="form-control-plaintext"
+											id="crt-time" value="ABC MArt">
+
+									</div>
+									<button onclick="editAble(this)" type="button"
+										class="col-sm-2 btn btn-primary">
+										<i class="fa fa-light fa-pen-to-square "></i>修正
+									</button>
+								</div>
+								<div class="mb-3 row">
+									<label for="crt-time" class="col-sm-2 col-form-label">写真</label>
+									<div class="col-sm-8">
+									
+											<img src="https://img.apim.abc-mart.biz/img/0048/0048880029/004888002901.jpg?sr.dw=713" class="img-thumbnail product-image "
+												alt="product-image">
+									
+									
+											<img src="https://img.apim.abc-mart.biz/img/6235/6235760006/623576000601.jpg?sr.dw=713" class="img-thumbnail product-image "
+												alt="product-image">
+												<img src="https://img.apim.abc-mart.biz/img/6235/6235760006/623576000601.jpg?sr.dw=713" class="img-thumbnail product-image "
+												alt="product-image">
+												<img src="https://img.apim.abc-mart.biz/img/6235/6235760006/623576000601.jpg?sr.dw=713" class="img-thumbnail product-image "
+												alt="product-image">
+												<img src="https://img.apim.abc-mart.biz/img/6235/6235760006/623576000601.jpg?sr.dw=713" class="img-thumbnail product-image "
+												alt="product-image">
+									
+									</div>
+
+								</div>
+							</form>
+						</div>
+						<div class="col-8"></div>
+					</div>
+
+					<div class="btn-toolbar justify-content-center mt-4"
+						th:if="${searchTxt == null && totalPages>=1}">
+						<div class="btn-group me-2"
+							th:each="page : ${#numbers.sequence(1,totalPages)}">
+							<a th:href="@{'/product/p/' + ${page}}" class="btn btn-secondary"
+								th:text="${page}"
+								th:classappend="${page == currentPage +1}?'disabled'"></a>
+						</div>
+					</div>
+					<div class="btn-toolbar justify-content-center mt-4"
+						th:if="${searchTxt != null}">
+						<div class="btn-group me-2"
+							th:each="page : ${#numbers.sequence(1,totalPages)}">
+							<a
+								th:href="@{'/product/search?s-txt='+${searchTxt} +'&pageNum=' + ${page}}"
+								class="btn btn-secondary" th:text="${page}"
+								th:classappend="${page == currentPage +1}?'disabled'"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Content End -->
+			<!--Modal start-->
+			<div class="modal fade" id="deleteModal">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Delete Confirm</h4>
+						</div>
+						<div class="modal-body">
+							<p>Are you sure delete user with ID:</p>
+						</div>
+						<div class="modal-footer">
+							<a href="" class="btn btn-success">Yes</a>
+							<button type="button" class="btn btn-danger"
+								data-bs-dismiss="modal">Close</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<!--Modal end-->
+
+		</div>
+	</div>
+	<!-- Table End -->
+
+	</div>
+
+
+	<!-- JavaScript Libraries -->
+	<div th:replace="~{fragments::common-js}"></div>
+	<!-- <script>
+            $(document).ready(function() {
+                //Delete confirm modal
+                $("#deleteBtn").on('click', function(e) {
+                    e.preventDefault();
+                    $("#deleteModal").modal('show');
+                })
+            })
+        </script> -->
+</body>
+
+</html>

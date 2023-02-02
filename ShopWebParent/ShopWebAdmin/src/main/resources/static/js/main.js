@@ -209,5 +209,18 @@
         }
     });
 
+/*******product of js */
+
 
 })(jQuery);
+
+function editAble(e){
+	var parent = $(e).parent();
+	var inputEle = $(parent).find("input");
+	if($(inputEle).attr('id') == undefined) inputEle = $(parent).find("textarea");
+	$(inputEle).removeAttr("readonly");
+	$(inputEle).removeClass("form-control-plaintext");
+	$(inputEle).addClass("form-control");
+	
+	
+}

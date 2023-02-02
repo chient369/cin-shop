@@ -24,6 +24,11 @@ public class ProductController {
 	public String viewProductFirstPage(Model model) {
 		return viewProductPage(model, 1);
 	}
+	
+	@GetMapping("/product/{pId}")
+	public String viewProductDetail(Model model,@PathVariable Integer pId) {
+		return "product-detail";
+	}
 
 	@GetMapping("/product/p/{pageNum}")
 	public String viewProductPage(Model model, @PathVariable Integer pageNum) {
