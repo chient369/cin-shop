@@ -191,24 +191,6 @@ $(document).ready(function() {
 	});
 
 
-
-	$("#add-cart-alert").hide();
-	/*==================================================================
-	[ Cart ]*/
-	$(".add-cart-btn").on('click', (e) => {
-		let color = $("input[name ='color']").val();
-		let size = $("#select-size").val()
-
-		if (size == 0 || color <= 0) {
-			$("#add-cart-alert").toggle();
-			e.preventDefault();
-			return;
-		}
-		$(".add-cart-btn").submit()
-	})
-	$(".close").click(function() {
-		$("#add-cart-alert").toggle();
-	});
 	/*==================================================================
 	[ +/- num product ]*/
 	$(".u-cart-alert").hide();

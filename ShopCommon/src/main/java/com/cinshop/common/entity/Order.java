@@ -38,13 +38,12 @@ public class Order {
 	@Column(name = "order_num", length = 16, unique = true, nullable = false)
 	private String orderNum;
 
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
+
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
 	private Integer discountPercent;
-	
-	private Integer shippingCost;
 
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "tax_id")
@@ -64,6 +63,7 @@ public class Order {
 	private Date orderTime;
 
 	private Integer total;
+	private Integer shippingCost;
 
 	public Order() {
 		String randomNum = "OD" +Calendar.getInstance().getTimeInMillis() / 60;
@@ -181,6 +181,14 @@ public class Order {
 	}
 
 	@Transient
+	public String getCustomerName() {
+		return this.customer.getFullName();
+	}
+	@Transient
+	public String getFullAddress() {
+		return this.customer.getAddress().getFullAddress();
+	}
+	@Transient
 	public String getOrderDateString() {
 		SimpleDateFormat formatter = new SimpleDateFormat("YYYY年MM月dd日");  
 	   return formatter.format(this.orderTime);
@@ -193,7 +201,15 @@ public class Order {
 				+ ", orderDetails=" + orderDetails + ", orderTime=" + orderTime + ", total=" + total + "]";
 	}
 	
-	
+	@Transient
+	public Long getProductCost() {
+		Long cost = 0L;
+		for(OrderDetail detail : this.orderDetails) {
+			cost+=detail.getSubTotal();
+		}
+	   return cost;
+	}
+
 
 	
 

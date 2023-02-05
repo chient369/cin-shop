@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments :: page-head('Home')}">
+</head>
+
+<body>
+	<div class="
+	container-xxl position-relative bg-whited-flexp-0">
+		<!-- Spinner Start -->
+		<div th:replace="~{fragments:: spinner}"></div>
+		<!-- Spinner End -->
+	</div>
+
+	<!-- Sidebar Start -->
+	<div th:replace="~{fragments:: sidebar}"></div>
+	<!-- Sidebar End -->
+
+
+	<!-- Content Start -->
+	<div class="content">
+		<!-- Navbar Start -->
+		<nav th:replace="~{fragments:: head-nav}"></nav>
+		<!-- Navbar End -->
+		<!-- Table Start -->
+		<div class="container-fluid pt-4 px-4">
+			<div class="row g-4">
+
+				<div class="bg-light rounded h-100 p-4">
+					<h4>会員</h4>
+
+					<form th:action="@{/customers/search}" method="post">
+						<div class="input-group mb-3 w-25 py-2">
+							<input type="text" name="text" class="form-control" placeholder="検索文字"
+								aria-label="検索" aria-describedby="search-btn">
+							<button class="btn btn-outline-primary" type="submit"
+								id="search-btn">検索</button>
+						</div>
+					</form>
+
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">姓</th>
+								<th scope="col">名</th>
+								<th scope="col">メール</th>
+								<th scope="col">ロール</th>
+								<th scope="col">ステータス</th>
+								<th scope="col">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="cust :${customers}">
+								<tr>
+									<th scope="row" th:text="${cust.id}">1</th>
+									<td th:text="${cust.firstName}">John</td>
+									<td th:text="${cust.lastName}">Doe</td>
+									<td th:text="${cust.email}">jhon@email.com</td>
+									<td th:text="${cust.role == 'ROLE_GUEST'}?'ゲスト':'会員'">guest</td>
+									<td>
+										<div class="form-check form-switch">
+											<input class="form-check-input" type="checkbox"
+												id="flexSwitchCheckChecked" checked>
+										</div>
+									</td>
+									<td class="justify-content-around"><a id="deleteBtn" href="" th:onclick="'deleteUser(' + ${cust.id}+')'"
+										class="h4 text-danger" data-bs-target="#deleteModal" data-bs-toggle="modal" title="Delete"><i
+											class="fa-solid fa-trash"></i></a>&nbsp;&nbsp; <a href="#"
+										class="h4 text-succes" data-bs-toggle="tooltip" title="Edit"><i
+											class="fa-solid fa-user-pen"></i></a></td>
+
+								</tr>
+							</th:block>
+
+
+						</tbody>
+					</table>
+					<div class="btn-toolbar justify-content-center mt-4" th:if="${searchTxt == null}">
+						<div class="btn-group me-2" th:each="page : ${#numbers.sequence(1,totalPages)}">
+							<a th:href="@{'/customers/p/' + ${page}}"
+								class="btn btn-secondary" th:text="${page}"
+								th:classappend="${page == currentPage +1}?'disabled'"></a>
+						</div>
+					</div>
+					<div class="btn-toolbar justify-content-center mt-4" th:if="${searchTxt != null}">
+						<div class="btn-group me-2" th:each="page : ${#numbers.sequence(1,totalPages)}">
+							<a th:href="@{'/customers/search?text=' + ${searchTxt} + '&pageNum=' + ${page}}"
+								class="btn btn-secondary" th:text="${page}"
+								th:classappend="${page == currentPage +1}?'disabled'"></a>
+						</div>
+					</div>	
+				</div>
+				<!-- Content End -->
+				<!--Modal start-->
+				<div class="modal fade" id="deleteModal">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title text-danger">ユーザー削除の確認</h4>
+							</div>
+							<div class="modal-body">
+								<p id="modal-content"></p>
+							</div>
+							<div class="modal-footer">
+								<a id="deleteLink" href="" class="btn btn-success">Yes</a>
+								<button type="button" class="btn btn-danger"
+									data-bs-dismiss="modal">Close</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- Table End -->
+
+
+		<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
+			class="bi bi-arrow-up"></i></a>
+	</div>
+
+	<!-- JavaScript Libraries -->
+	<div th:replace="~{fragments::common-js}"></div>
+</body>
+<script>
+	let path =[[@{/}]]
+	function deleteUser(id){
+		let deleteURL = path+"customers/d/"+id;
+		$('#deleteLink').attr("href",deleteURL);
+		$('#modal-content').text("ユーザーID"+id+"削除します!よろしいでしょうか。")
+				$("#deleteBtn").preventDefault();
+	}
+	
+</script>
+
+</html>

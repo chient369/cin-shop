@@ -6,6 +6,7 @@ import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -57,7 +58,7 @@ public class Customer {
 	@JoinColumn(name = "address_id")
 	private Address address;
 	
-	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "customer",fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<Order> order = new HashSet<>();
 	
 	
@@ -177,12 +178,12 @@ public class Customer {
 		return this.firstName + " " + this.lastName;
 	}
 
-	@Override
-	public String toString() {
-		return "Customer [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", password=" + password + ", role=" + role + ", sex=" + sex + ", enable=" + enable + ", image="
-				+ image + ", phoneNumber=" + phoneNumber + ", point=" + point + ", address=" + address + ", order="
-				+ order + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Customer [id=" + id + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
+//				+ ", password=" + password + ", role=" + role + ", sex=" + sex + ", enable=" + enable + ", image="
+//				+ image + ", phoneNumber=" + phoneNumber + ", point=" + point + ", address=" + address + ", order="
+//				+ order + "]";
+//	}
 	
 }

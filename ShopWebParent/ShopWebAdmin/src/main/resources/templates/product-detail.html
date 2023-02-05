@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments :: page-head('Home')}">
+</head>
+
+<body>
+	<div class="
+	container-xxl position-relative bg-whited-flexp-0">
+		<!-- Spinner Start -->
+		<div th:replace="~{fragments:: spinner}"></div>
+		<!-- Spinner End -->
+	</div>
+
+	<!-- Sidebar Start -->
+	<div th:replace="~{fragments:: sidebar}"></div>
+	<!-- Sidebar End -->
+
+
+	<!-- Content Start -->
+	<div class="content">
+		<!-- Navbar Start -->
+		<nav th:replace="~{fragments:: head-nav}"></nav>
+		<!-- Navbar End -->
+		<!-- Table Start -->
+		<div class="container-fluid pt-4 px-4">
+			<div class="row g-4">
+
+				<div class="bg-light rounded h-100 p-4">
+					<h4 class="mb-">Product Name</h4>
+					<div class="row mb-2 " th:with="d = ${productDetail}">
+						<div class="col-6 pe-3 mb-3">
+							<h3>商品説明</h3>
+							<form th:action="@{/product/update}" method="post" class="mb-2"
+								th:object="${productDetail}">
+								<div class="mb-3 row">
+									<label for="productId" class="col-sm-3 col-form-label">商品ID</label>
+									<div class="col-sm-7">
+										<input type="text" readonly class="form-control" id="productId"
+											th:value="${d.id}" th:field="*{id}">
+
+									</div>
+								</div>
+								<div class="mb-3 row">
+									<label for="productName" class="col-sm-3 col-form-label">商品名</label>
+									<div class="col-sm-7">
+										<input type="text" readonly class="form-control" id="productName"
+											th:value="${d.name}" th:field="*{name}" required>
+									</div>
+									<button onclick="editAble(this)" type="button" class="col-sm-2 btn btn-primary">
+										<i class="fa fa-light fa-pen-to-square "></i>
+									</button>
+								</div>
+								<div class="mb-3 row">
+									<label for="productCode" class="col-sm-3 col-form-label">商品コード</label>
+									<div class="col-sm-7">
+										<input type="text" readonly class="form-control" id="productCode"
+											th:value="${d.code}" th:field="*{code}" required>
+
+									</div>
+									<button onclick="editAble(this)" type="button" class="col-sm-2 btn btn-primary">
+										<i class="fa fa-light fa-pen-to-square "></i>
+									</button>
+								</div>
+								<div class="mb-3 row">
+									<label for="description" class="col-sm-3 col-form-label">商品説明</label>
+									<div class="col-sm-7">
+										<textarea readonly class="form-control" id="description" rows="5"
+											th:value="${d.description}" th:field="*{description}"></textarea>
+
+									</div>
+									<button onclick="editAble(this)" type="button" class="col-sm-2 btn btn-primary">
+										<i class="fa fa-light fa-pen-to-square "></i>
+									</button>
+								</div>
+								<div class="mb-3 row">
+									<label for="price" class="col-sm-3 col-form-label">値段</label>
+									<div class="col-sm-7">
+										<div class="input-group flex-nowrap">
+											<span class="input-group-text">¥</span>
+											<input type="text" readonly class="form-control" id="price"
+												th:value="${d.price}" th:field="*{price}" required>
+										</div>
+									</div>
+
+									<button onclick="editAble(this)" type="button" class="col-sm-2 btn btn-primary">
+										<i class="fa fa-light fa-pen-to-square "></i>
+									</button>
+								</div>
+
+								<div class="mb-3 row">
+									<label for="brand" class="col-sm-3 col-form-label">ブランド</label>
+									<div class="col-sm-7">
+										<select class="form-select" aria-label="Brand"
+											name="brandId">
+											<th:block th:each="b : ${brands}">
+												<option th:selected="${b.id == d.brand.id}" th:value="${b.id}" th:text="${b.name}"></option>
+												
+											</th:block>
+										</select>
+
+									</div>
+									
+								</div>
+								<div class="mb-3 row">
+									<label for="category" class="col-sm-3 col-form-label">カテゴリー</label>
+									<div class="col-sm-7">
+										<select class="form-select" aria-label="Category"
+											name="catId">
+											<th:block th:each="cat : ${categories}">
+												<option th:selected="${cat.id == d.category.id}" th:value="${cat.id}" th:text="${cat.name}"></option>
+											</th:block>
+										</select>
+
+									</div>
+								
+								</div>
+								<div class="mb-3 row">
+									<label for="crt-time" class="col-sm-3 col-form-label">納品日</label>
+									<div class="col-sm-7">
+										<input type="date" readonly class="form-control" id="crt-time"
+											th:value="${d.createDate}" th:field="*{createTime}" required>
+
+									</div>
+									<button onclick="editAble(this)" type="button" class="col-sm-2 btn btn-primary">
+										<i class="fa fa-light fa-pen-to-square "></i>
+									</button>
+								</div>
+								<div class="mb-3 row">
+									<label for="crt-time" class="col-sm-3 col-form-label">写真</label>
+									<div class="col-sm-9">
+										<input type="hidden" th:value="${d.mainImage}" th:field="*{mainImage}">
+										<img th:src="${d.mainImage}"
+											class="img-thumbnail product-image border border-success"
+											alt="product-image">
+										<th:block th:each="img : ${d.images}">
+											<img th:src="${img.name}" class="img-thumbnail product-image "
+												alt="product-image">
+										</th:block>
+									</div>
+								</div>
+								<div class="d-flex justify-content-center"><input type="submit"
+										class="btn btn-primary btn-lg px-4" value="更新"></div>
+							</form>
+						</div>
+						<div class="col-6 px-3">
+							<h3>在庫</h3>
+							<div class="table-wrapper">
+								<table class="table table-hover overflow-auto">
+									<thead>
+										<tr>
+											<th scope="col">ID</th>
+											<th scope="col">カラー</th>
+											<th scope="col">サイズ</th>
+											<th scope="col">在庫数</th>
+											<th scope="col">更新日</th>
+											<th scope="col">ステータス</th>
+											<th scope="col">操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										<th:block th:each="p :${productDetail.products}">
+											<tr>
+												<th scope="row" th:text="${p.id}">1</th>
+												<td>
+													<i th:style="|color : ${p.color.colorCode}|"
+														class="fa fa-thin fa-circle"></i>
+													<span th:text="${p.color.name}"></span>
+												</td>
+												<td th:text="${p.size.value}">Doe</td>
+												<td th:text="${p.stockAmount}">jhon@email.com</td>
+												<td>guest</td>
+												<td>
+													<div class="form-check form-switch">
+														<input class="form-check-input" type="checkbox"
+															id="flexSwitchCheckChecked" checked>
+													</div>
+												</td>
+												<td class="justify-content-around"><a id="deleteBtn" href=""
+														class="h4 text-danger" data-bs-target="#deleteModal"
+														data-bs-toggle="modal" title="Delete"><i
+															class="fa-solid fa-trash"></i></a>&nbsp;&nbsp; <a href="#"
+														class="h4 text-succes" data-bs-toggle="tooltip" title="Edit"><i
+															class="fa-solid fa-user-pen"></i></a></td>
+
+											</tr>
+										</th:block>
+
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="btn-toolbar justify-content-center mt-4" th:if="${searchTxt == null && totalPages>=1}">
+						<div class="btn-group me-2" th:each="page : ${#numbers.sequence(1,totalPages)}">
+							<a th:href="@{'/product/p/' + ${page}}" class="btn btn-secondary" th:text="${page}"
+								th:classappend="${page == currentPage +1}?'disabled'"></a>
+						</div>
+					</div>
+					<div class="btn-toolbar justify-content-center mt-4" th:if="${searchTxt != null}">
+						<div class="btn-group me-2" th:each="page : ${#numbers.sequence(1,totalPages)}">
+							<a th:href="@{'/product/search?s-txt='+${searchTxt} +'&pageNum=' + ${page}}"
+								class="btn btn-secondary" th:text="${page}"
+								th:classappend="${page == currentPage +1}?'disabled'"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Content End -->
+			<!--Modal start-->
+			<div class="modal fade" id="deleteModal">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Delete Confirm</h4>
+						</div>
+						<div class="modal-body">
+							<p>Are you sure delete user with ID:</p>
+						</div>
+						<div class="modal-footer">
+							<a href="" class="btn btn-success">Yes</a>
+							<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<!--Modal end-->
+
+		</div>
+	</div>
+	<!-- Table End -->
+
+	</div>
+
+
+	<!-- JavaScript Libraries -->
+	<div th:replace="~{fragments::common-js}"></div>
+	<!-- <script>
+            $(document).ready(function() {
+                //Delete confirm modal
+                $("#deleteBtn").on('click', function(e) {
+                    e.preventDefault();
+                    $("#deleteModal").modal('show');
+                })
+            })
+        </script> -->
+</body>
+
+</html>
