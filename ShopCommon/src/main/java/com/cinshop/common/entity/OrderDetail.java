@@ -2,6 +2,7 @@ package com.cinshop.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,8 +19,8 @@ public class OrderDetail {
 	@Column(name = "order_detail_id")
 	private Integer id;
 
-	@ManyToOne
-	@JoinColumn(name = "order_num")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "order_id")
 	private Order order;
 
 	@OneToOne

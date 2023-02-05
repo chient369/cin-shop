@@ -2,6 +2,7 @@ package com.cinshop.common.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,8 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -40,8 +41,8 @@ public class Customer {
 	@JoinColumn(name="sex_id")
 	private Sex sex;
 	
-	@Column(name = "enable", length = 1)
-	private byte enable;
+	@Column(name = "enable", length = 1,columnDefinition = "boolean default false")
+	private Boolean enable;
 	
 	@Column(name = "image", length = 64)
 	private String image;
@@ -131,11 +132,12 @@ public class Customer {
 		this.sex = sex;
 	}
 
-	public byte getEnable() {
+
+	public Boolean getEnable() {
 		return enable;
 	}
 
-	public void setEnable(byte enable) {
+	public void setEnable(Boolean enable) {
 		this.enable = enable;
 	}
 

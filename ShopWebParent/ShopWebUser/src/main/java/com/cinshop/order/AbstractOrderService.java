@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,59 +20,27 @@ import com.cinshop.common.entity.Order;
 import com.cinshop.common.entity.OrderDetail;
 import com.cinshop.common.entity.PaymentMethod;
 import com.cinshop.common.entity.Tax;
+import com.cinshop.utility.MailSenderHelper;
 
 @Service
 public abstract class AbstractOrderService {
-	private Logger logger = LoggerFactory.getLogger(AbstractOrderService.class);
-
-	private AbstractCartService cartService;
+	protected AbstractCartService cartService;
+	protected final String PAYMENT_METHOD = "paymentMethod";
+	protected final String CREDIT_DETAIL = "creditDetail";
 
 	@Autowired
 	protected OrderService orderService;
 
 	@Autowired
-	private OrderUtility utility;
+	protected OrderUtility utility;
 
-	private Order order;
-	private List<OrderDetail> details = new ArrayList<>();
+	@Autowired
+	protected MailSenderHelper mailSenderHelper;
 
-	public Order saveOrder(Customer customer, PaymentMethod paymentMethod) {
-		details = saveOrderDetail();
-		Iterator<OrderDetail> it = details.iterator();
+	public abstract Order saveOrder(Map<String, Object> orderInfo) ;
 
-		// 各注文詳細データを注文に保存する
-		while (it.hasNext()) {
-			OrderDetail detail = it.next();
-			order.addOrderDetail(detail);
-		}
-		order.setCustomer(customer);
-		order.setOrderTime(new Date());
-		// クレジットカードで支払い場合、顧客のカード情報を格納必要がある
-		order.setPaymentMethod(paymentMethod);
-		order.setStatus(OrderStatus.PLACED);
-		order.setShippingCost(getShippingCost());
-		order.setTax(utility.getCurrentTax());
-		order.setTotal(getTotal());
-
-
-		// 仮に1割引を設定
-		order.setDiscountPercent(0);
-		try {
-			orderService.saveOrder(order);
-		
-			logger.info("注文{}の詳細を格納した", this.order.getOrderNum());
-			logger.info("{}の注文詳細を保存完了", customer.getFullName());
-			cartService.deleteCart();
-		} catch (Exception e) {
-			logger.error("{}の注文詳細を保存失敗", customer.getFullName());
-			e.printStackTrace();
-		}
-		return this.order;
-	
-
-	}
-
-	private List<OrderDetail> saveOrderDetail() {
+	protected List<OrderDetail> saveOrderDetail(Order order) {
+		List<OrderDetail> details = new ArrayList<>();
 		List<CartItem> cartItems = cartService.findCartItems();
 		Iterator<CartItem> it = cartItems.iterator();
 		while (it.hasNext()) {
@@ -99,7 +68,7 @@ public abstract class AbstractOrderService {
 
 	public Integer getTotalWithTax() {
 		Tax tax = utility.getCurrentTax();
-		return getTotalIgnoretax() +( getTotalIgnoretax() * tax.getTax() / 100);
+		return getTotalIgnoretax() + (getTotalIgnoretax() * tax.getTax() / 100);
 	}
 
 	public Integer getTotal() {
@@ -122,11 +91,6 @@ public abstract class AbstractOrderService {
 
 	}
 
-	public void saveCreditDetails(Credit credit) {
-		utility.saveCreditDetail(credit);
-		logger.info("顧客ID{}のクレジットカード情報を格納した.", credit.getCustomer().getId());
-	}
-
 	/* setter - getter */
 
 	public AbstractCartService getCartService() {
@@ -134,7 +98,6 @@ public abstract class AbstractOrderService {
 	}
 
 	public void setCartService(AbstractCartService cartService) {
-		this.order = new Order();
 		this.cartService = cartService;
 	}
 

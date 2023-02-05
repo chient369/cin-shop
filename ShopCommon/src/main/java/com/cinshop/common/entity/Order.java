@@ -38,7 +38,7 @@ public class Order {
 	@Column(name = "order_num", length = 16, unique = true, nullable = false)
 	private String orderNum;
 
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
@@ -57,7 +57,7 @@ public class Order {
 	@JoinColumn(name = "payment_method")
 	private PaymentMethod paymentMethod;
 
-	@OneToMany(mappedBy = "order", orphanRemoval = true)
+	@OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
 	private List<OrderDetail> orderDetails = new ArrayList<>();
 
 	@Temporal(TemporalType.DATE)
@@ -182,7 +182,7 @@ public class Order {
 
 	@Transient
 	public String getOrderDateString() {
-		SimpleDateFormat formatter = new SimpleDateFormat("YYYY年MM月DD日");  
+		SimpleDateFormat formatter = new SimpleDateFormat("YYYY年MM月dd日");  
 	   return formatter.format(this.orderTime);
 	}
 

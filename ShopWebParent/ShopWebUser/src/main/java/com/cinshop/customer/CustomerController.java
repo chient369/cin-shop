@@ -22,6 +22,7 @@ import com.cinshop.common.entity.Address;
 import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.Sex;
 import com.cinshop.utility.MailSenderHelper;
+import com.cinshop.utility.Utility;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -117,7 +118,7 @@ public class CustomerController {
 			
 			customer.setSex(sex);
 			customer.setPassword(encodePassword);
-			customer.setEnable((byte)1);
+			customer.setEnable(true);
 			customer.setPoint(0);
 			customer.setImage("img/xxx.jpg");	//あとでかえるかも
 			customer.setRole("ROLE_USER");
@@ -151,7 +152,7 @@ public class CustomerController {
 			model.addAttribute("email", email);
 			
 			//URLを送信する。
-			helper.sendEmail(email, "http://localhost:8085/cinshop/rstp?custId=" + cust.get().getId() + "&auth=" + authCode);
+			helper.sendEmail(email, authCode,cust.get().getId());
 		} else {
 			model.addAttribute("email", null);
 		}
@@ -256,7 +257,7 @@ public class CustomerController {
 
 		customer.setSex(sex);
 		customer.setPassword(encodePassword);
-		customer.setEnable((byte)1);
+		customer.setEnable(true);
 		customer.setPoint(0);
 		customer.setImage("img/xxx.jpg");	//あとでかえるかも
 		customer.setRole("ROLE_USER");
@@ -266,26 +267,23 @@ public class CustomerController {
 	
 		logger.info("{}がアカウントを登録しました",customer.getFullName());
 		
-		return "redirect:/account";
+		return "redirect:/c";
 	}
 	
-//	@GetMapping("/c")
-//	public String accountDetail(Model model,HttpServletRequest request) {
-//		Customer customer = getAuthenticatedCustomer(request);
-//		model.addAttribute("cust",customer);
-//		return "account-detail";
-//	}
-//	private Customer getAuthenticatedCustomer(HttpServletRequest request) {
-//		String email = Utility.getEmailAuthenticatedCustomer(request);
-//		Customer customer = null;
-//		if (email != null)
-//			customer = service.findCustomerByEmail(email).get();
-//		return customer;
+	@GetMapping("/c/leave")
+	public String accountDetail(Model model,HttpServletRequest request) {
+		Customer customer = getAuthenticatedCustomer(request);
+		customer.setEnable(false);
+		service.save(customer);
+		return "redirect:/logout";
+	}
+	private Customer getAuthenticatedCustomer(HttpServletRequest request) {
+		String email = Utility.getEmailAuthenticatedCustomer(request);
+		Customer customer = null;
+		if (email != null)
+			customer = service.findCustomerByEmail(email).get();
+		return customer;
 
-//	}
-	//認証後のユーザーテスト用
-//	@GetMapping("/testDebug")
-//	public String testDebug() {	  
-//		return "testDebug";
-//	}
+}
+
 }

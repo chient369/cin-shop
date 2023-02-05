@@ -43,7 +43,7 @@ public class CustomerTest {
 		customer.setPassword("$2a$08$KAfQk5Ix8xCnIpYsAUT2yeCdKBe3Cnw9vU5VVEIQDR3x3n0F7Pntq");	//encode前の値は"admin"
 		customer.setRole("ROLE_USER");
 		customer.setSex(sex);
-		customer.setEnable((byte)1);
+		customer.setEnable(true);
 		customer.setImage("img/xxx.jpg");
 		customer.setPhoneNumber("xxx-xxxx-xxxx");
 		customer.setPoint(100);

@@ -1,6 +1,9 @@
 package com.cinshop.order;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class OrderController {
-	private static final Integer CREDIT_METHOD = 4;
+
 	private final Integer ITEM_PER_PAGE = 3;
 
 	@Autowired
@@ -43,9 +46,6 @@ public class OrderController {
 
 	@Autowired
 	private CartServiceFactory cartServiceFactory;
-
-	@Autowired
-	private MailSenderHelper mailSenderHelper;
 
 	@GetMapping("/order")
 	public String checkout(Model model, HttpServletRequest request) {
@@ -104,30 +104,16 @@ public class OrderController {
 
 		AbstractOrderService orderService = orderServiceFactory.getOrderService(cartService);
 
-		// 支払方法を決定処理
+		Map<String, Object> orderInfo = new HashMap<>();
+		orderInfo.put("paymentMethod", getPaymentMethod(request));
+		orderInfo.put("creditDetail", getCreditDetail(request));
 
-		Order order;
-		String email;
-		PaymentMethod paymentMethod = getPaymentMethod(request);
-		// 会員で場合、クレジットカードの情報を格納する
-
-		if (cartService instanceof CustomerCartService) {
-			order = orderService.saveOrder(customer, paymentMethod);
-			if (paymentMethod.getId() == CREDIT_METHOD) {
-				Credit credit = getCreditDetail(request);
-				credit.setCustomer(customer);
-				orderService.saveCreditDetails(credit);
-			}
-			email = customer.getEmail();
-		} else {
-			// ゲストが入力した情報をDBに保存する又は更新する
-			Customer savedGuest = customerService.saveGuest((Customer) session.getAttribute("customer"));
-			order = orderService.saveOrder(savedGuest, paymentMethod);
-			email = savedGuest.getEmail();
+		try {
+			orderService.saveOrder(orderInfo);
+		} catch (Exception e) {
+			return "error/404";
 		}
-
-		mailSenderHelper.orderedNotify(email, order);
-
+		//カート削除
 		session.removeAttribute("cart");
 		return "order-success";
 	}
@@ -144,7 +130,7 @@ public class OrderController {
 		if (customer == null) {
 			throw new NotLoginException("Deny Access!!");
 		}
-		CustomerOrderService orderService = orderServiceFactory.getCustomerService();
+		CustomerOrderService orderService = orderServiceFactory.getCustomerOrderService();
 		Pageable pageable = PageRequest.of(pNum - 1, ITEM_PER_PAGE);
 		Page<Order> orders = orderService.findOrderByCustomerId(customer.getId(), pageable);
 		model.addAttribute("orders", orders.getContent());
@@ -169,15 +155,15 @@ public class OrderController {
 	}
 
 	private Credit getCreditDetail(HttpServletRequest request) {
+
 		Map<String, String[]> methods = request.getParameterMap();
 		Credit credit = new Credit();
-		String crdNum = methods.get("crd-num")[0];
-		String crdOwner = methods.get("crd-name")[0];
-		Integer MM = Integer.parseInt(methods.get("crd-month")[0]);
-		Integer YYYY = Integer.parseInt(methods.get("crd-year")[0]);
-		String securCode = methods.get("secur-code")[0];
-		boolean checkValidValues = methods.values().stream().allMatch((param) -> param.length > 0);
-		if (checkValidValues) {
+		if (isInvalidParam(methods.values())) {
+			String crdNum = methods.get("crd-num")[0];
+			String crdOwner = methods.get("crd-name")[0];
+			Integer MM = Integer.parseInt(methods.get("crd-month")[0]);
+			Integer YYYY = Integer.parseInt(methods.get("crd-year")[0]);
+			String securCode = methods.get("secur-code")[0];
 			credit.setCardNum(crdNum);
 			credit.setCustomer(null);
 			credit.setOwnerName(crdOwner);
@@ -185,8 +171,16 @@ public class OrderController {
 			Calendar date = Calendar.getInstance();
 			date.set(YYYY, MM, 1);
 			credit.setExpiry(date.getTime());
+
+			return credit;
 		}
-		return credit;
+		return null;
+
+	}
+
+	private boolean isInvalidParam(Collection<String[]> str) {
+		boolean checkValidValues = str.stream().allMatch((param) -> param[0] != "");
+		return checkValidValues;
 	}
 
 }

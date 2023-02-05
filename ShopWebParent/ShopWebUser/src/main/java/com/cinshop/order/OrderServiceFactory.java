@@ -24,7 +24,7 @@ public class OrderServiceFactory {
 			return guestOrderService;
 		}
 	}
-	public CustomerOrderService getCustomerService() {
+	public CustomerOrderService getCustomerOrderService() {
 		return customerOrderService;
 	}
 }

@@ -17,13 +17,12 @@ public class LoginUserService implements UserDetailsService{
 	@Autowired
 	public CustomerRepository custRepo;
 	
-	private List<Customer> roleCust;
 	private List<String> roleStr = new ArrayList<String>();
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Optional<Customer> userOp = custRepo.findCustomerByEmail(email);
-		if (!userOp.isEmpty()) {
+		if (!userOp.isEmpty() && userOp.get().getEnable()) {
 			roleStr.add("ROLE_USER");
 			return new LoginUserDetails(userOp, roleStr);
 		} else {

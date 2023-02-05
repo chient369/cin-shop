@@ -27,6 +27,9 @@ public class MailSenderHelper {
 	private Logger logger = LoggerFactory.getLogger(MailSenderHelper.class);
 	@Value("${spring.mail.username}")
 	private String FROM;
+	
+	@Value("${cinshop.requestURI}")
+	private String baseUrl;
 
 	@Autowired
 	private JavaMailSender mailSender;
@@ -63,13 +66,14 @@ public class MailSenderHelper {
 		}
 	}
 	@Async
-	public void sendEmail(String toEmail, String auth) {
+	public void sendEmail(String toEmail, String auth, Integer custId) {
 		MimeMessage message = mailSender.createMimeMessage();
+		String resetUrl = baseUrl + "/rstp?custId=" + custId + "&auth=" + auth;
 		String text = "<html>"
 					+ "<head></head>"
 					+ "<body>"
 					+ "<p>認証URLをクリックして、パスワードの変更を完了させてください。</p>"
-					+ "<p><a href='" + auth + "'></a>" + auth + "</p>"
+					+ "<p><a href='" + resetUrl + "'></a>" + resetUrl + "</p>"
 					+ "</body>"
 					+ "</html>";
 	    try {

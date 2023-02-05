@@ -37,38 +37,31 @@
 							アカウント
 						</h4>
 
-						<div class="bor12 p-b-13 hov-cl1 m-b-18 ">
-							<a class="size-208" href="account-detail.html" th:href="@{/account}">
-								<span class="stext-110 cl2">
+						<div class="bor12 py-3 hov-cl1  ">
+							<a class="size-208" th:href="@{/c}">
+								<p class="stext-110 cl2">
 									アカウント情報
-								</span>
+								</p>
 							</a>
 
 						</div>
-						<div class="bor12 p-b-13 hov-cl1 m-b-18 bg6">
-							<a class="size-208" href="order-history.html">
-								<span class="stext-110 cl2">
+						<div class="bor12 py-3 hov-cl1  bg6">
+							<a class="size-208" th:href="@{/order/history}">
+								<p class="stext-110 cl2">
 									購入履歴
-								</span>
+								</p>
 							</a>
 
 						</div>
-						<div class="bor12 p-b-13 hov-cl1 m-b-18">
-							<a class="size-208" href="#">
-								<span class="stext-110 cl2">
-									設定
-								</span>
+						<div class="bor12 py-3 hov-cl1 ">
+							<a class="size-208" th:href="@{/c/leave}">
+								<p class="stext-110 cl2">
+									退会
+								</p>
 							</a>
 
 						</div>
-						<div class="bor12 p-b-13 hov-cl1 m-b-18">
-							<a class="size-208" href="#">
-								<span class="stext-110 cl2">
-									〇〇〇〇
-								</span>
-							</a>
 
-						</div>
 
 					</div>
 				</div>
@@ -131,13 +124,15 @@
 							</div>
 						</div>
 					</th:block>
-					<div class="flex-c-m flex-w w-full p-t-38">
-				<th:block th:each="p:${#numbers.sequence(0,totalPages-1)}">
-					<a th:href="@{'/order/history/' + ${p +1}}"
-						class="flex-c-m how-pagination1 trans-04 m-all-7 "
-						th:classappend="${currentPage == p}?active-pagination1"> [[${p
-						+1 }]] </a>
-			</div>
+					<h3 class="text-center py-5">データなし</h3>
+					<div class="flex-c-m flex-w w-full p-t-38" th:if="${#lists.size(orders) != 0}">
+						<th:block th:each="p:${#numbers.sequence(0,totalPages-1)}">
+							<a th:href="@{'/order/history/' + ${p +1}}"
+								class="flex-c-m how-pagination1 trans-04 m-all-7 "
+								th:classappend="${currentPage == p}?active-pagination1"> [[${p
+								+1 }]] </a>
+						</th:block>
+					</div>
 				</div>
 
 			</div>
