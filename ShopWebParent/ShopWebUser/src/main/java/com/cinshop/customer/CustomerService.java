@@ -37,6 +37,7 @@ public class CustomerService {
 			//既に会員登録したユーザーを確認
 			if (existAcc.getEnable()) {
 				guest.setPassword(existAcc.getPassword());
+				guest.setRole(existAcc.getRole());
 			}
 
 			// DBに情報を更新するために、フォームから受け取ったインスタンスをDBにある顧客IDを設定する
