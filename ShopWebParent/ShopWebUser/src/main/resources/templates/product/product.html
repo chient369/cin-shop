@@ -9,14 +9,14 @@
 
 	<!-- Header -->
 	<div th:replace="~{fragments/nav-header :: nav-header}"></div>
-	
+
 	<!-- Product -->
 	<section class="bg0 p-t-23 p-b-140">
 		<div class="container">
 			<div class="p-b-10">
 				<h3 class="ltext-103 cl5">商品一覧</h3>
 			</div>
-						
+
 			<div th:replace="~{fragments/filter-search :: filter-search}"></div>
 			<!--category, filter-->
 			<div class="row isotope-grid">
@@ -36,22 +36,25 @@
 								<div class="block2-txt-child1 flex-col-l ">
 									<a th:href="@{'/p/' + ${p.id}}"
 										class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6"
-										th:text="${p.name}"></a> <span
-										class="stext-105 cl3" th:text="${p.priceCurrency} + '　　　　　　　　　　　　　　　評価：' + ${p.avgVote}"></span>
+										th:text="${p.name}"></a> <span class="stext-105 cl3"
+										th:text="${p.priceCurrency} + '　　　　　　　　　　　　　　　評価：' + ${p.avgVote}"></span>
 								</div>
 
 								<div class="block2-txt-child2 flex-r p-t-3">
-									<button 
-										class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" id="wishlist-favorite" 
+									<button
+										class="btn-addwish-b2 dis-block pos-relative js-addwish-b2"
+										id="wishlist-favorite"
 										th:onclick="|favoriteButtonCliked('__${p.id}__','__${p.favoriteChecked}__','__${p.name}__')|"
 										<!-- お気に入り追加済み -->
 										<th:block th:if="${p.favoriteChecked == true}">
-												<img class="icon-heart1 dis-block trans-04"
-												th:src="@{/images/icons/icon-heart-02.png}" alt="ICON" th:id="${p.id}">
+											<img class="icon-heart1 dis-block trans-04"
+												th:src="@{/images/icons/icon-heart-02.png}" alt="ICON"
+												th:id="${p.id}">
 										</th:block>
 										<th:block th:if="${p.favoriteChecked == false}">
 											<img class="icon-heart1 dis-block trans-04"
-												th:src="@{/images/icons/icon-heart-01.png}" alt="ICON" th:id="${p.id}">
+												th:src="@{/images/icons/icon-heart-01.png}" alt="ICON"
+												th:id="${p.id}">
 										</th:block>
 									</button>
 								</div>
@@ -60,7 +63,7 @@
 					</div>
 				</th:block>
 			</div>
-			
+
 			<!--Load more -->
 			<div th:replace="~{fragments/pagination :: pagination}"></div>
 		</div>
@@ -81,6 +84,8 @@
 	<!--===============================================================================================-->
 	<div th:replace="~{fragments/js-common :: import-js}"></div>
 	<script th:inline="javascript">
+	
+	    let path = window.location.protocol + "//" +window.location.hostname;
 		var dName = '';
 		var changedFavoriteProductList = {};
 		
@@ -133,5 +138,5 @@
 			})
 		}
 	</script>
-	</body>
+</body>
 </html>
