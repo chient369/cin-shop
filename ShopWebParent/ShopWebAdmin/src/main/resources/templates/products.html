@@ -46,7 +46,7 @@
 								<div class="input-group">
 									<select class="form-select" aria-label="Category"
 										name="category">
-										<option selected>カテゴリー</option>
+										<option value="0" selected>カテゴリー</option>
 										<th:block th:each="cat : ${categories}">
 											<option th:value="${cat.id}" th:text="${cat.name}">Three</option>
 										</th:block>
@@ -57,7 +57,7 @@
 							<div class="col-2 mb-3">
 								<div class="input-group">
 									<select class="form-select" aria-label="Brand" name="brand">
-										<option selected>ブランド</option>
+										<option value="0" selected>ブランド</option>
 										<th:block th:each="b : ${brands}">
 											<option th:value="${b.id}" th:text="${b.name}">Three</option>
 										</th:block>

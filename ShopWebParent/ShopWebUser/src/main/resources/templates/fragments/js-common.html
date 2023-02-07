@@ -73,12 +73,11 @@
 	<!--===============================================================================================-->
 	<script th:src="@{/js/main.js}"></script>
 
+	<input id="pagePath" type="hidden" th:value="${@environment.getProperty('cinshop.requestURI')}">
 	<script>
 		/*ブランド一覧を表示する */
-		let URL = "http://localhost:8085/cinshop/api/p/gb"
-		/*公開する時に使うリンク */
-		//let path = window.location.protocol + "//" +window.location.hostname;
-		//let URL =path+ "/cinshop/api/p/gb";
+		const path = $('#pagePath').val();
+		let URL = path + "/api/p/gb";
 		$.ajax({
 			url: URL,
 			success: function (data) {
@@ -104,6 +103,61 @@
 				)
 			}
 		}
+		
+		/*favourite module*/
+		//const path = $('#pagePath').val();
+		var dName = '';
+		var changedFavoriteProductList = {};
+
+		//同画面上でお気に入りの追加/削除を動的に行うためのメソッド
+		function favoriteButtonCliked(dId, TF, name) {
+			var checkedFavoriteProductTF = TF;
+			if (changedFavoriteProductList.length != 0 && changedFavoriteProductList[dId] != null) {
+				checkedFavoriteProductTF = changedFavoriteProductList[dId];
+			}
+			if (checkedFavoriteProductTF == 'true') {
+				removeFavoriteProduct(dId);
+			} else {
+				addFavoriteProduct(dId);
+			}
+			//商品名を代入
+			dName = name;
+		}
+
+		//お気に入りボタンクリック時（追加）
+		function addFavoriteProduct(dId) {
+			let URL = path + "/api/p/fav?dId=" + dId
+			$.ajax({
+				url: URL,
+				type: "post",
+				success: function () {
+					changedFavoriteProductList[dId] = 'true';
+					document.getElementById(dId).src = "images/icons/icon-heart-02.png";
+					swal(dName, "お気に入りに追加しました !", "success");
+				},
+				error: function () {
+					console.log("access error fav post (add)")
+				}
+			})
+		}
+
+		//お気に入りボタンクリック時（削除）
+		function removeFavoriteProduct(dId) {
+			let URL = path + "/api/p/fav/remove?dId=" + dId
+			$.ajax({
+				url: URL,
+				type: "post",
+				success: function () {
+					changedFavoriteProductList[dId] = 'false';
+					document.getElementById(dId).src = "images/icons/icon-heart-01.png";
+					swal(dName, "お気に入りから削除した ", "success");
+				},
+				error: function () {
+					console.log("access error fav post (remove)")
+				}
+			})
+		}
 	</script>
 </div>
+
 </html>

@@ -8,7 +8,6 @@
 		<artifactId>ShopWebParent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-
 	<artifactId>ShopWebAdmin</artifactId>
 	<name>ShopWebAdmin</name>
 	<description>shop web for admin</description>
@@ -16,9 +15,11 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -27,5 +28,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

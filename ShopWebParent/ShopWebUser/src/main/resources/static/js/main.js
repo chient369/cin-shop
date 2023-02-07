@@ -294,14 +294,13 @@ $(document).ready(function() {
 
 	/*==================================================================
    [ Render all size of product  ]*/
+   const path = $('#pagePath').val();
 	$('.radio-custom').on('click', () => {
 
 		let colorId = $("input[name = 'color']:checked").val();
 		let detailId = $("#detail-id").val();
-		let URL = "http://localhost:8085/cinshop/api/p/gs?cId=" + colorId + "&dId=" + detailId;
-		/*公開する時に使うリンク */
-		//let path = window.location.protocol + "//" +window.location.hostname;
-		//let URL =path+ "/cinshop/api/p/gs?cId="  + colorId + "&dId=" + detailId;
+		let URL = path + "/api/p/gs?cId=" + colorId + "&dId=" + detailId;
+
 		$.ajax({
 			url: URL,
 			success: function(data) {
