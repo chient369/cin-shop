@@ -90,6 +90,7 @@ public class OrderController {
 			return "/order-confirm";
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println(e);
 			return "404";
 		}
 	}

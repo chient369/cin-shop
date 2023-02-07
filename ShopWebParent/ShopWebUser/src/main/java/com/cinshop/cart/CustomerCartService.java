@@ -48,7 +48,7 @@ public class CustomerCartService extends AbstractCartService {
 		repo.save(cartItem);
 
 		logger.info("顧客{}がカートに商品を追加しました。", customer.getId());
-		return cartItems;
+		return findCartItems();
 	}
 
 	@Override
@@ -74,6 +74,14 @@ public class CustomerCartService extends AbstractCartService {
 		
 		logger.info("顧客{}がカートを更新した", customer.getId());
 		return cartItems;
+	}
+	
+	@Override
+	@Transactional
+	public List<CartItem> deleteCartItem(Integer pId) {
+		repo.removeItem(this.customer.getId(), pId);
+		logger.info("顧客{}がカートを削除した", this.customer.getId());
+		return findCartItems();
 	}
 
 	@Override

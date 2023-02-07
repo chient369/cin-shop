@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cinshop.common.entity.CartItem;
 import com.cinshop.common.entity.Customer;
@@ -80,6 +81,24 @@ public class CartController {
 
 			AbstractCartService cartService = factory.getCartService(customer, session);
 			List<CartItem> cartItems = cartService.updateCartItem(request);
+			
+			session.setAttribute("cart", cartItems);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "404";
+		}
+		return "redirect:/cart";
+	}
+	
+	@GetMapping("/delete")
+	public String deleteCartItem(HttpServletRequest request, @RequestParam("pId") Integer pId) {
+		try {
+			Customer customer = getAuthenticatedCustomer(request);
+			HttpSession session = request.getSession();
+
+			AbstractCartService cartService = factory.getCartService(customer, session);
+			List<CartItem> cartItems = cartService.deleteCartItem(pId);
 			
 			session.setAttribute("cart", cartItems);
 

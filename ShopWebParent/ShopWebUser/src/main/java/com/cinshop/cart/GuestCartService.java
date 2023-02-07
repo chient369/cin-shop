@@ -71,6 +71,12 @@ public class GuestCartService extends AbstractCartService {
 		return cartItems;
 
 	}
+	
+	@Override
+	public List<CartItem> deleteCartItem(Integer pId) {
+		cartItems.removeIf(item -> item.getProduct().getId() == pId);
+		return cartItems;
+	}
 
 	@Override
 	public void deleteCart() {

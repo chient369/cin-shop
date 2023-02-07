@@ -129,7 +129,6 @@ public class ProductController {
 	public String viewProduct(@PathVariable Integer pId, Model model,
 			@AuthenticationPrincipal LoginUserDetails userDetails, HttpServletRequest request,
 			@CookieValue(name = "key", required = false, defaultValue = "no data") String v) {
-		HttpSession session = request.getSession();
 
 		ProductDetail detail = dService.findById(6);
 

@@ -213,9 +213,9 @@ public class CustomerController {
 		model.addAttribute("emailDBValue", cust.get().getEmail());
 		model.addAttribute("passwordDBValue", cust.get().getPassword());
 		if (cust.get().getSex().getSex_id() != 3) {
-			model.addAttribute("sexDBValue", cust.get().getSex().getSex_id());
+			model.addAttribute("genderDBValue", cust.get().getSex().getSex_id());
 		} else {
-			model.addAttribute("sexDBValue", "3");
+			model.addAttribute("genderDBValue", "3");
 		}
 		model.addAttribute("firstNameDBValue", cust.get().getFirstName());
 		model.addAttribute("lastNameDBValue", cust.get().getLastName());
@@ -242,19 +242,14 @@ public class CustomerController {
 		String encodePassword = passwordEncoder.encode(customer.getPassword());
 		
 		//性別をセットする
-		if (gender != null) {
-			if (gender.equals("1")) {
-				sex.setSex_id(1);
-				sex.setSexName("男");
-			} else if (gender.equals("2")){
-				sex.setSex_id(2);
-				sex.setSexName("女");
-			}
+		if (gender.equals("1")) {
+			sex.setSex_id(1);
+		} else if (gender.equals("2")){
+			sex.setSex_id(2);
 		} else {
 			sex.setSex_id(3);
-			sex.setSexName("未登録");
 		}
-
+		
 		customer.setSex(sex);
 		customer.setPassword(encodePassword);
 		customer.setEnable(true);
