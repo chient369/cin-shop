@@ -39,14 +39,11 @@
 						<div class="slick3 gallery-lb">
 
 							<th:block th:each="img : ${detail.images}">
-
-
-
-								<div class="item-slick3" th:data-thumb="${img.name}">
+								<div class="item-slick3" th:data-thumb="@{${img.name}}">
 									<div class="wrap-pic-w pos-relative">
-										<img th:src="${img.name}" alt="IMG-PRODUCT"> <a
+										<img th:src="@{${img.name}}" alt="IMG-PRODUCT"> <a
 											class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-											th:href="${img.name}"> <i class="fa fa-expand"></i>
+											th:href="@{${img.name}}"> <i class="fa fa-expand"></i>
 										</a>
 									</div>
 								</div>

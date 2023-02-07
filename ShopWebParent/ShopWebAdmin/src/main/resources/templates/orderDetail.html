@@ -125,7 +125,7 @@
 									<td class="text-center" th:text="${p.id}"></td>
 									<td class="text-center" th:text="${p.name}">01 Jan 2045</td>
 									<td class="text-center"><img class="img-thumbnail product-image"
-											th:src="${p.mainImage}"></img></td>
+											th:src="@{${p.mainImage}}"></img></td>
 									<td class="text-center" th:style="|color : ${p.color.colorCode}|"><i
 											class="fa fa-thin fa-circle fa-2x"></i></td>
 									<td class="text-center" th:text="${p.size.value}">$123</td>
