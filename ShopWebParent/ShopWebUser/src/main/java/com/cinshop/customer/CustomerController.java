@@ -152,7 +152,7 @@ public class CustomerController {
 			model.addAttribute("email", email);
 			
 			//URLを送信する。
-			helper.sendEmail(email, authCode,cust.get().getId());
+			helper.sendEmail(email, authCode, cust.get().getId());
 		} else {
 			model.addAttribute("email", null);
 		}
