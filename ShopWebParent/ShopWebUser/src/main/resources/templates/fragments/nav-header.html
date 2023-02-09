@@ -14,23 +14,23 @@
 						</div>
 
 						<div class="right-top-bar flex-w h-full" sec:authorize="!isAuthenticated()">
-								<a th:href="@{/login}" class="flex-c-m trans-04 p-lr-25">
-									ログイン
-								</a>
-								<a th:href="@{/register}" class="flex-c-m trans-04 p-lr-25">
-									新規登録
-								</a>							
+							<a th:href="@{/login}" class="flex-c-m trans-04 p-lr-25">
+								ログイン
+							</a>
+							<a th:href="@{/register}" class="flex-c-m trans-04 p-lr-25">
+								新規登録
+							</a>
 						</div>
-						
+
 						<div class="right-top-bar flex-w h-full" sec:authorize="isAuthenticated()">
-								<a th:href="@{/c}" class="flex-c-m trans-04 p-lr-25" >
-									<span sec:authentication="principal.fullName" class="p-r-5"></span>
-									<span class="lnr lnr-user fs-14" ></span>
-								</a>
-								
-								<a th:href="@{/logout}" class="flex-c-m trans-04 p-lr-25">
-									ログアウト
-								</a>							
+							<a th:href="@{/c}" class="flex-c-m trans-04 p-lr-25">
+								<span sec:authentication="principal.fullName" class="p-r-5"></span>
+								<span class="lnr lnr-user fs-14"></span>
+							</a>
+
+							<a th:href="@{/logout}" class="flex-c-m trans-04 p-lr-25">
+								ログアウト
+							</a>
 						</div>
 					</div>
 				</div>
@@ -70,7 +70,7 @@
 								<i class="zmdi zmdi-shopping-cart"></i>
 							</a>
 
-							<div id = "favorite"></div>	
+							<div id="favorite"></div>
 						</div>
 					</nav>
 				</div>
@@ -115,18 +115,24 @@
 					</li>
 
 					<li>
-						<div class="right-top-bar flex-w h-full">
-
-
-							<a th:href="@{/account}" class="flex-c-m p-lr-10 trans-04">
-								アカウント
+						<div class="right-top-bar flex-w h-full" sec:authorize="!isAuthenticated()">
+							<a th:href="@{/login}" class="flex-c-m trans-04 p-lr-25">
+								ログイン
 							</a>
-
-							<a th:href="@{/register}" class="flex-c-m p-lr-10 trans-04">
+							<a th:href="@{/register}" class="flex-c-m trans-04 p-lr-25">
 								新規登録
 							</a>
+						</div>
 
+						<div class="right-top-bar flex-w h-full" sec:authorize="isAuthenticated()">
+							<a th:href="@{/c}" class="flex-c-m trans-04 p-lr-25">
+								<span sec:authentication="principal.fullName" class="p-r-5"></span>
+								<span class="lnr lnr-user fs-14"></span>
+							</a>
 
+							<a th:href="@{/logout}" class="flex-c-m trans-04 p-lr-25">
+								ログアウト
+							</a>
 						</div>
 					</li>
 				</ul>
@@ -168,8 +174,9 @@
 				</div>
 			</div>
 		</header>
-		<!--Header End-->	
+		<!--Header End-->
 		<script th:replace="~{fragments/favoriteLength :: favoriteLength}"></script>
-	</div>	
+	</div>
 </body>
+
 </html>

@@ -36,6 +36,7 @@ public class CustomerService {
 			Customer existAcc = custRepo.findCustomerByEmail(guest.getEmail()).get();
 			//既に会員登録したユーザーを確認
 			if (existAcc.getEnable()) {
+				guest.setEnable(true);
 				guest.setPassword(existAcc.getPassword());
 				guest.setRole(existAcc.getRole());
 			}

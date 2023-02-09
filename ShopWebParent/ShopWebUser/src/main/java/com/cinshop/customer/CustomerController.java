@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cinshop.common.entity.Address;
 import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.Sex;
+import com.cinshop.notification.NotifyDTO;
+import com.cinshop.notification.NotifyDTO.NotifyType;
+import com.cinshop.notification.UserShopNotify;
 import com.cinshop.utility.MailSenderHelper;
 import com.cinshop.utility.Utility;
 
@@ -42,6 +45,9 @@ public class CustomerController {
 	
 	@Autowired
 	AuthStorage authStorage;
+	
+	@Autowired
+	private UserShopNotify notify;
 	
 	//新規登録画面を表示
 	@GetMapping("/register")
@@ -125,7 +131,13 @@ public class CustomerController {
 			customer.setAddress(address);
 			
 			//顧客情報をDBに登録
-			service.save(customer);
+			Customer savedCustomer = service.save(customer);
+			
+			//Admin Pageに通知を送信
+			NotifyDTO dto = new NotifyDTO();
+			dto.setType(NotifyType.USER);
+			dto.getInfo().put("msg", savedCustomer.getFullName()+"登録しました");
+			notify.sendNotify(dto);
 			
 			return "redirect:/login";
 		}

@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.cinshop.common.OrderStatus;
 
 import jakarta.persistence.CascadeType;
@@ -13,7 +15,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -59,7 +60,8 @@ public class Order {
 	@OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
 	private List<OrderDetail> orderDetails = new ArrayList<>();
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date orderTime;
 
 	private Integer total;
@@ -190,7 +192,7 @@ public class Order {
 	}
 	@Transient
 	public String getOrderDateString() {
-		SimpleDateFormat formatter = new SimpleDateFormat("YYYY年MM月dd日");  
+		SimpleDateFormat formatter = new SimpleDateFormat("YYYY年MM月dd日 HH:MM");  
 	   return formatter.format(this.orderTime);
 	}
 
