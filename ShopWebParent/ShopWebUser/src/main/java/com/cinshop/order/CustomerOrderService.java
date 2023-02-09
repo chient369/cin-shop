@@ -24,18 +24,20 @@ public class CustomerOrderService extends AbstractOrderService {
 	private static final Integer CREDIT_METHOD = 4;
 	private Logger logger = LoggerFactory.getLogger(CustomerOrderService.class);
 
-	public Page<Order> findOrderByCustomerId(Integer id,Pageable pageable) {
-		return orderService.findOrderByCustomerId(id,pageable);
+	public Page<Order> findOrderByCustomerId(Integer id, Pageable pageable) {
+		return orderService.findOrderByCustomerId(id, pageable);
 	}
+
 	public Order findOrderById(Integer id) {
 		return orderService.findOrderById(id);
 	}
+
 	@Override
-	public Order saveOrder(Map<String, Object> orderInfo) {	
-		CustomerCartService cartService = (CustomerCartService)super.cartService;
+	public Order saveOrder(Map<String, Object> orderInfo) {
+		CustomerCartService cartService = (CustomerCartService) super.cartService;
 		Customer customer = cartService.getCustomer();
-		
-		PaymentMethod paymentMethod = (PaymentMethod) orderInfo.get(PAYMENT_METHOD);		
+
+		PaymentMethod paymentMethod = (PaymentMethod) orderInfo.get(PAYMENT_METHOD);
 		Order order = new Order();
 		List<OrderDetail> details = saveOrderDetail(order);
 		Iterator<OrderDetail> it = details.iterator();
@@ -45,7 +47,7 @@ public class CustomerOrderService extends AbstractOrderService {
 			OrderDetail detail = it.next();
 			order.addOrderDetail(detail);
 		}
-		//注文情報設定
+		// 注文情報設定
 		order.setCustomer(customer);
 		order.setOrderTime(new Date());
 		order.setPaymentMethod(paymentMethod);
@@ -60,14 +62,15 @@ public class CustomerOrderService extends AbstractOrderService {
 			Order savedOrder = orderService.saveOrder(order);
 			logger.info("注文{}の詳細を格納した", order.getOrderNum());
 			logger.info("{}の注文詳細を保存完了", customer.getFullName());
-			
+
 			if (paymentMethod.getId() == CREDIT_METHOD) {
 				Credit credit = (Credit) orderInfo.get(CREDIT_DETAIL);
 				credit.setCustomer(customer);
 				saveCreditDetails(credit);
 			}
-			
+
 			mailSenderHelper.orderedNotify(customer.getEmail(), savedOrder);
+			sendNotidy(savedOrder);
 			cartService.deleteCart();
 		} catch (Exception e) {
 			logger.error("{}の注文詳細を保存失敗", customer.getFullName());
@@ -76,9 +79,9 @@ public class CustomerOrderService extends AbstractOrderService {
 		return order;
 
 	}
+
 	public void saveCreditDetails(Credit credit) {
 		utility.saveCreditDetail(credit);
 	}
-	
 
 }

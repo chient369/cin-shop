@@ -60,6 +60,8 @@ public class GuestOrderService extends AbstractOrderService {
 			logger.info("注文{}の詳細を格納した", order.getOrderNum());			
 			
 			mailSenderHelper.orderedNotify(customer.getEmail(), savedOrder);
+			
+			sendNotidy(savedOrder);
 			cartService.deleteCart();
 		} catch (Exception e) {
 			logger.error("{}の注文詳細を保存失敗", customer.getFullName());
