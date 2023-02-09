@@ -260,13 +260,13 @@ public class CustomerController {
 		
 		service.save(customer);
 	
-		logger.info("{}がアカウントを登録しました",customer.getFullName());
+		logger.info("{}がアカウントを変更しました",customer.getFullName());
 		
 		return "redirect:/c";
 	}
 	
 	@GetMapping("/c/leave")
-	public String accountDetail(Model model,HttpServletRequest request) {
+	public String leaveAccount(Model model,HttpServletRequest request) {
 		Customer customer = getAuthenticatedCustomer(request);
 		customer.setEnable(false);
 		service.save(customer);
