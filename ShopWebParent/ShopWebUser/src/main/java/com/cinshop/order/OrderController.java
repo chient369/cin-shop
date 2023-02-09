@@ -109,11 +109,14 @@ public class OrderController {
 		orderInfo.put("creditDetail", getCreditDetail(request));
 
 		try {
+			if (cartService.getCartItems().size() == 0) {
+				return "error/403";
+			}
 			orderService.saveOrder(orderInfo);
 		} catch (Exception e) {
 			return "error/404";
 		}
-		//カート削除
+		// カート削除
 		session.removeAttribute("cart");
 		return "order-success";
 	}

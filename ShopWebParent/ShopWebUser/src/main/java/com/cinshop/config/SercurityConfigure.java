@@ -50,7 +50,7 @@ public class SercurityConfigure {
                 //ログイン無しでもアクセス可能
                 .requestMatchers("/**","/error","/login", "/register", "/create","/p/**","/cart/**","/api/**","/order/**").permitAll()
 
-                .requestMatchers("/register", "/checkAcc", "/rstp/**", "/forgotPass", "/inputEmail", "/account").permitAll()
+                .requestMatchers("/ws/**","/register", "/checkAcc", "/rstp/**", "/forgotPass", "/inputEmail", "/account").permitAll()
 
                 
                 //権限ごとにアクセス可能なURL

@@ -53,7 +53,7 @@ public class SecurityConfig {
 		).authorizeHttpRequests(authz -> authz
 
 				// 静的ファイルはログイン無しでもアクセス可能
-				.requestMatchers("/css/**", "/js/**", "/lib/**", "/img/**").permitAll()
+				.requestMatchers("/css/**", "/js/**", "/lib/**", "/img/**","product-images/**").permitAll()
 
 				// ログイン無しでもアクセス可能
 				// .requestMatchers("/**").permitAll()

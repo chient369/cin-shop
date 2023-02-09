@@ -30,9 +30,16 @@ public class MailSenderHelper {
 	
 	@Value("${cinshop.requestURI}")
 	private String baseUrl;
+	
+	@Value("${cinshop.shopAdmin.path}")
+	private String adminShopPath;
+	
+	@Value("${cinshop.admin.email}")
+	private String adminEmail;
 
 	@Autowired
 	private JavaMailSender mailSender;
+	
 	@Autowired
 	private SpringTemplateEngine template;
 
@@ -60,6 +67,7 @@ public class MailSenderHelper {
 			helper.setSubject("[Cin-Shopより、ご注文の内容を確認]");
 
 			mailSender.send(message);
+			sendtoAdminEmail();
 			logger.info("Order Notify mail send successfull");
 		} catch (MessagingException e) {
 			logger.error("Order Notify of email send with error :" + e.getMessage());
@@ -84,6 +92,32 @@ public class MailSenderHelper {
 	      //helper.setCc("xxxxx@xxx.xx");
 	      //helper.setBcc("xxxxx@xxx.xx");
 	      helper.setSubject("【重要】パスワード再設定のお知らせ");
+	      helper.setText(text, true);
+	      //メール送信
+	      mailSender.send(message);
+	    } catch(MessagingException e) {
+	      e.printStackTrace();
+	    }
+	}
+	@Async
+	public void sendtoAdminEmail() {
+		MimeMessage message = mailSender.createMimeMessage();
+		String adminShop = adminShopPath +"/order";
+		String text = "<html>"
+					+ "<head></head>"
+					+ "<body>"
+					+ "<p>新規注文がありました。確認してください</p>"
+					+ "<p><a href='" + adminShop + "'></a>" + adminShop + "</p>"
+					+ "</body>"
+					+ "</html>";
+	    try {
+	      //送信情報設定
+	      MimeMessageHelper helper = new MimeMessageHelper(message, true);
+	      helper.setFrom(FROM);
+	      helper.setTo(adminEmail);
+	      //helper.setCc("xxxxx@xxx.xx");
+	      //helper.setBcc("xxxxx@xxx.xx");
+	      helper.setSubject("【重要】新規注文のお知らせ");
 	      helper.setText(text, true);
 	      //メール送信
 	      mailSender.send(message);

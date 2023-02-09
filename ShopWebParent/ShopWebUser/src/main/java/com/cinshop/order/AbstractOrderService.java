@@ -14,6 +14,9 @@ import com.cinshop.common.entity.Order;
 import com.cinshop.common.entity.OrderDetail;
 import com.cinshop.common.entity.PaymentMethod;
 import com.cinshop.common.entity.Tax;
+import com.cinshop.notification.NotifyDTO;
+import com.cinshop.notification.UserShopNotify;
+import com.cinshop.notification.NotifyDTO.NotifyType;
 import com.cinshop.utility.MailSenderHelper;
 
 @Service
@@ -24,6 +27,9 @@ public abstract class AbstractOrderService {
 
 	@Autowired
 	protected OrderService orderService;
+	
+	@Autowired
+	private UserShopNotify notify;
 
 	@Autowired
 	protected OrderUtility utility;
@@ -94,6 +100,15 @@ public abstract class AbstractOrderService {
 
 	public void setCartService(AbstractCartService cartService) {
 		this.cartService = cartService;
+	}
+	
+	public void sendNotidy(Order order) {
+		NotifyDTO dto = new NotifyDTO();
+		dto.setType(NotifyType.ORDER);
+		dto.getInfo().put("orderId", order.getId());
+		dto.getInfo().put("msg", "新規の注文があります");
+		
+		notify.sendNotify(dto);
 	}
 
 }

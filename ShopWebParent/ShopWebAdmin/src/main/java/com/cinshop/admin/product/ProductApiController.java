@@ -18,6 +18,7 @@ import com.cinshop.admin.utility.ProductImageService;
 @RequestMapping("/api/p")
 public class ProductApiController {
 
+	private static final String IMAGE_SOURCE_PATH = "/product-images";
 	@Autowired
 	private ProductImageService imageService;
 
@@ -42,7 +43,9 @@ public class ProductApiController {
 	@GetMapping("/img/delete")
 	public Integer deleteImage(@RequestParam("imgName") String imageName) throws IOException {
 		try {
-			FileUploadUtil.deleteImage(imageName);
+			if (imageName.contains(IMAGE_SOURCE_PATH)) {
+				FileUploadUtil.deleteImage(imageName);
+			}
 			imageService.delete(imageName);
 			return 1;
 		} catch (Exception e) {
