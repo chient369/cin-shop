@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments :: page-head('Home')}">
+</head>
+
+<body>
+	<div class="
+	container-xxl position-relative bg-whited-flexp-0">
+		<!-- Spinner Start -->
+		<div th:replace="~{fragments:: spinner}"></div>
+		<!-- Spinner End -->
+	</div>
+
+	<!-- Sidebar Start -->
+	<div th:replace="~{fragments:: sidebar}"></div>
+	<!-- Sidebar End -->
+
+
+	<!-- Content Start -->
+	<div class="content">
+		<!-- Navbar Start -->
+		<nav th:replace="~{fragments:: head-nav}"></nav>
+		<!-- Navbar End -->
+		<!-- Table Start -->
+		<div class="container-fluid pt-4 px-4">
+			<div class="row g-4">
+				<div class="bg-light rounded h-100 p-4">
+					<div class="row mb-2 justify-content-center">
+						<h3 class="mb-3">新規登録</h3>
+						<div class="col-lg-6 pe-3 mb-3">
+							<form th:action="@{/product/update}" method="post" class="mb-2"
+								th:object="${productDetail}" 　enctype="multipart/form-data">
+								<div class="mb-3 row">
+									<label for="productName" class="col-sm-3 col-form-label">商品名</label>
+									<div class="col-sm-7">
+										<input type="text" class="form-control" id="productName"
+											th:field="*{name}" required>
+									</div>
+
+								</div>
+								<div class="mb-3 row">
+									<label for="productCode" class="col-sm-3 col-form-label">商品コード</label>
+									<div class="col-sm-7">
+										<input type="text" class="form-control" id="productCode"
+											th:field="*{code}" required>
+
+									</div>
+
+								</div>
+								<div class="mb-3 row">
+									<label for="description" class="col-sm-3 col-form-label">商品説明</label>
+									<div class="col-sm-7">
+										<textarea class="form-control" id="description" rows="5"
+											th:field="*{description}"></textarea>
+
+									</div>
+
+								</div>
+								<div class="mb-3 row">
+									<label for="price" class="col-sm-3 col-form-label">値段</label>
+									<div class="col-sm-7">
+										<div class="input-group flex-nowrap">
+											<span class="input-group-text">¥</span> <input type="text"
+												class="form-control" id="price" th:field="*{price}" required>
+										</div>
+									</div>
+
+
+								</div>
+
+								<div class="mb-3 row">
+									<label for="brand" class="col-sm-3 col-form-label">ブランド</label>
+									<div class="col-sm-7">
+										<select class="form-select" aria-label="Brand" name="brandId">
+											<option>ブランド</option>
+											<th:block th:each="b : ${brands}">
+												<option th:value="${b.id}" th:text="${b.name}"></option>
+
+											</th:block>
+										</select>
+
+									</div>
+
+								</div>
+								<div class="mb-3 row">
+									<label for="category" class="col-sm-3 col-form-label">カテゴリー</label>
+									<div class="col-sm-7">
+										<select class="form-select" aria-label="Category" name="catId">
+											<option>カテゴリー</option>
+											<th:block th:each="cat : ${categories}">
+												<option th:value="${cat.id}" th:text="${cat.name}"></option>
+											</th:block>
+										</select>
+
+									</div>
+
+								</div>
+								<div class="mb-3 row">
+									<label for="crt-time" class="col-sm-3 col-form-label">納品日</label>
+									<div class="col-sm-7">
+										<input type="date" class="form-control" id="crt-time"
+											th:field="*{createTime}" required>
+
+									</div>
+
+								</div>
+								<div class="mb-3 row">
+									<label for="crt-time" class="col-sm-3 col-form-label">マイン写真</label>
+									<div class="col-sm-7" id="detail_image">
+										<div class="avatar-upload p-0 m-0">
+											<div class="avatar-edit">
+												<input type='file' id="imageUpload"
+													accept=".png, .jpg, .jpeg" onchange="readURL(this)"
+													name="mainImage" /> <label for="imageUpload"></label>
+											</div>
+											<div class="avatar-preview">
+												<div id="imagePreview"
+													th:style="|background-image: url(@{/img/add-image.png});|">
+												</div>
+											</div>
+										</div>
+									</div>
+
+								</div>
+								<div class="mb-3 row">
+									<label for="crt-time" class="col-sm-3 col-form-label">エクストラ写真</label>
+									<div class="col-sm-7" id="detail_image">
+										<div class="extras-image">
+											<div class="extras-edit">
+												<img th:src="@{/img/add-image.png}"
+													class="img-thumbnail product-image border border-success extras-img"
+													alt="product-image"> <input type='file'
+													accept=".png, .jpg, .jpeg" onchange="readURL(this)"
+													name="mainImage" /> <label for="imageUpload"></label>
+											</div>
+										</div>
+
+
+									</div>
+
+								</div>
+						</div>
+						<div class="d-flex justify-content-center">
+							<input type="submit" class="btn btn-primary btn-lg px-4"
+								value="更新">
+						</div>
+						</form>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+	<!-- Content End -->
+	<!--Modal start-->
+	<!--image change confirm modal start-->
+	<!--add image modal-->
+	<div class="modal fade" id="add-image" tabindex="-1"
+		aria-labelledby="Add image" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="add-image">画像を追加</h5>
+				</div>
+				<div class="modal-body">
+					<div class="avatar-upload">
+						<div class="avatar-edit">
+							<input type='file' id="imageUpload" accept=".png, .jpg, .jpeg"
+								onchange="readURL(this)" /> <label for="imageUpload"></label>
+						</div>
+						<div class="avatar-preview">
+							<div id="imagePreview"
+								th:style="|background-image: url(@{/img/default-image.jpg});|">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">閉じる</button>
+					<button type="button" class="btn btn-primary"
+						　data-bs-dismiss="modal" onclick="saveImage()">追加</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</div>
+	</div>
+	<!-- Table End -->
+
+	</div>
+
+
+	<!-- JavaScript Libraries -->
+	<div th:replace="~{fragments::common-js}"></div>
+	<!-- <script>
+            $(document).ready(function() {
+                //Delete confirm modal
+                $("#deleteBtn").on('click', function(e) {
+                    e.preventDefault();
+                    $("#deleteModal").modal('show');
+                })
+            })
+        </script> -->
+</body>
+
+</html>

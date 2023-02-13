@@ -66,9 +66,9 @@ function renderNotifies() {
 
 	var notifyStorage = window.localStorage.getItem("notify");
 	var notifies = JSON.parse(notifyStorage);
+	if (notifies == null) return;
 	var countNotify = notifies.length > 0 ? notifies.length : 0;
 	$(".notify-num").text(countNotify);
-	if (notifies == null) return;
 
 	notifies.forEach((item, index) => {
 		var notify = JSON.parse(item);

@@ -1,8 +1,8 @@
 /********** Template CSS **********/
 :root {
-	 -primary: #009CFF;
-	 -light: #F3F6F9;
-	 -dark: #191C24;
+	-primary: #009CFF;
+	-light: #F3F6F9;
+	-dark: #191C24;
 }
 
 .back-to-top {
@@ -78,12 +78,53 @@
 	background-position: center;
 }
 
-.dropdown-menu {
-  max-height: 400px;
-  overflow-y: scroll;
+.extras-edit {
+	position: relative;
 }
 
+.extras-edit input {
+	display: none;
+	height: 25px;
+	width: 25px;
+}
 
+.extras-edit input+label {
+	display: inline-block;
+	width: 60px;
+	height: 60px;
+	margin-bottom: 0;
+	border-radius: 100%;
+	background: #fff;
+	border: 1px solid transparent;
+	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+	cursor: pointer;
+	font-weight: normal;
+	transition: all 0.2s ease-in-out;
+}
+
+.extras-edit input+label:after {
+	content: "\2b";
+	font-family: 'Font Awesome 5 Free';
+	font-size: 36px;
+	color: #757575;
+	position: absolute;
+	top: 4px;
+	left: 0;
+	right: 0;
+	text-align: center;
+	margin: auto;
+}
+
+.extras-image-review {
+	position: relative;
+	border: 6px solid #f8f8f8;
+	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu {
+	max-height: 400px;
+	overflow-y: scroll;
+}
 
 .how-image {
 	position: relative;
@@ -124,7 +165,6 @@
 	opacity: 1;
 }
 
-
 /*** Spinner ***/
 #spinner {
 	opacity: 0;
@@ -163,9 +203,7 @@
 	height: 48px;
 }
 
-.btn-square,
-.btn-sm-square,
-.btn-lg-square {
+.btn-square, .btn-sm-square, .btn-lg-square {
 	padding: 0;
 	display: inline-flex;
 	align-items: center;
@@ -203,37 +241,31 @@
 .table-wrapper {
 	max-height: 500px;
 	overflow: auto;
-
 }
 
-@media (min-width : 992px) {
+@media ( min-width : 992px) {
 	.sidebar {
 		margin-left: 0;
 	}
-
 	.sidebar.open {
 		margin-left: -250px;
 	}
-
 	.content {
 		width: calc(100% - 250px);
 	}
-
 	.content.open {
 		width: 100%;
 		margin-left: 0;
 	}
 }
 
-@media (max-width : 991.98px) {
+@media ( max-width : 991.98px) {
 	.sidebar {
 		margin-left: -250px;
 	}
-
 	.sidebar.open {
 		margin-left: 0;
 	}
-
 	.content {
 		width: 100%;
 		margin-left: 0;
@@ -250,8 +282,8 @@
 	outline: none;
 }
 
-.sidebar .navbar .navbar-nav .nav-link:hover,
-.sidebar .navbar .navbar-nav .nav-link.active {
+.sidebar .navbar .navbar-nav .nav-link:hover, .sidebar .navbar .navbar-nav .nav-link.active
+	{
 	color: var(- -primary);
 	background: #FFFFFF;
 	border-color: var(- -primary);
@@ -267,8 +299,8 @@
 	border-radius: 40px;
 }
 
-.sidebar .navbar .navbar-nav .nav-link:hover i,
-.sidebar .navbar .navbar-nav .nav-link.active i {
+.sidebar .navbar .navbar-nav .nav-link:hover i, .sidebar .navbar .navbar-nav .nav-link.active i
+	{
 	background: var(- -light);
 }
 
@@ -299,13 +331,13 @@
 	outline: none;
 }
 
-.content .navbar .navbar-nav .nav-link:hover,
-.content .navbar .navbar-nav .nav-link.active {
+.content .navbar .navbar-nav .nav-link:hover, .content .navbar .navbar-nav .nav-link.active
+	{
 	color: var(- -primary);
 }
 
-.content .navbar .sidebar-toggler,
-.content .navbar .navbar-nav .nav-link i {
+.content .navbar .sidebar-toggler, .content .navbar .navbar-nav .nav-link i
+	{
 	width: 40px;
 	height: 40px;
 	display: inline-flex;
@@ -329,7 +361,7 @@
 	transform: rotate(-180deg);
 }
 
-@media (max-width : 575.98px) {
+@media ( max-width : 575.98px) {
 	.content .navbar .navbar-nav .nav-link {
 		margin-left: 15px;
 	}
@@ -354,7 +386,7 @@
 }
 
 .bootstrap-datetimepicker-widget table td.active,
-.bootstrap-datetimepicker-widget table td.active:hover {
+	.bootstrap-datetimepicker-widget table td.active:hover {
 	background: var(- -primary);
 }
 
