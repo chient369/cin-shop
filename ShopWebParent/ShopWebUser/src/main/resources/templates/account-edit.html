@@ -35,13 +35,14 @@
 			<div class="row">
 
 				<!--left-nav-Start-->
-					<div class="col-lg-3 m-b-50">
+				<div class="col-lg-3 m-b-50">
 					<div class=" p-lr-40 p-t-30 p-b-40   m-lr-0-xl p-lr-15-sm">
 						<h4 class="mtext-112 cl2 p-b-30">
 							アカウント
 						</h4>
 
-						<div class="bor12 py-3 hov-cl1  ">
+						<div class="bor12 py-3 hov-cl1"
+							th:classappend="${#ctx.springRequestContext.requestUri =='/cinshop/c'}?'bg6':''	">
 							<a class="size-208" th:href="@{/c}">
 								<p class="stext-110 cl2">
 									アカウント情報
@@ -49,7 +50,8 @@
 							</a>
 
 						</div>
-						<div class="bor12 py-3 hov-cl1  bg6">
+						<div class="bor12 py-3 hov-cl1"
+							th:classappend="${#ctx.springRequestContext.requestUri =='/cinshop/order/history'}?'bg6':''	">
 							<a class="size-208" th:href="@{/order/history}">
 								<p class="stext-110 cl2">
 									購入履歴
@@ -65,7 +67,7 @@
 							</a>
 
 						</div>
-						
+
 
 					</div>
 				</div>
@@ -80,7 +82,8 @@
 						</div>
 
 						<div class="size-204">
-							<span class="stext-111 cl2 plh3 size-111  p-l-10" th:text="${emailDBValue}">cin@gmail.com</span>
+							<span class="stext-111 cl2 plh3 size-111  p-l-10"
+								th:text="${emailDBValue}">cin@gmail.com</span>
 						</div>
 					</div>
 					<div class="flex-w flex-m m-b-10 p-b-13">
@@ -91,11 +94,12 @@
 						</div>
 
 						<div class="size-204">
-							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="password" name="password" id="password" th:field="*{password}" oninput="confirmPassword(); nullCheck();">
+							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="password" name="password"
+								id="password" th:field="*{password}" oninput="confirmPassword(); nullCheck();">
 						</div>
 					</div>
 					<!-- エラーメッセージ表示-->
-					<b id = "passwordError_msg"></b>
+					<b id="passwordError_msg"></b>
 					<!-- エラーメッセージ表示-->
 					<div class="flex-w flex-m m-b-10 p-b-13 ">
 						<div class="size-203">
@@ -105,7 +109,8 @@
 						</div>
 
 						<div class="size-204">
-							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="password" name="rePassword" id="rePassword" oninput="confirmPassword(); nullCheck();">
+							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="password" name="rePassword"
+								id="rePassword" oninput="confirmPassword(); nullCheck();">
 						</div>
 					</div>
 					<div class="flex-w flex-m m-b-10 p-b-13">
@@ -141,8 +146,8 @@
 
 						<div class="size-204">
 							<div class="flex-w flex-sa-m">
-								<span class="flex-w"><input class="stext-111 p-lr-10" type="radio" name="gender" id="gender"
-										value="1" th:checked="${sexDBValue == 1}">男性</span>
+								<span class="flex-w"><input class="stext-111 p-lr-10" type="radio" name="gender"
+										id="gender" value="1" th:checked="${sexDBValue == 1}">男性</span>
 								<span class="flex-w"><input class="stext-111" type="radio" name="gender" id="gender"
 										value="2" th:checked="${sexDBValue == 2}">女性</span>
 							</div>
@@ -158,7 +163,8 @@
 
 						<div class="size-204">
 							<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="phoneNumber"
-								placeholder="000-0000-0000" id="phoneNumber" th:field="*{phoneNumber}" oninput="nullCheck();">
+								placeholder="000-0000-0000" id="phoneNumber" th:field="*{phoneNumber}"
+								oninput="nullCheck();">
 						</div>
 					</div>
 					<div th:object="${address}">
@@ -168,7 +174,7 @@
 									郵便番号
 								</span>
 							</div>
-	
+
 							<div class="size-204">
 								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="postCode"
 									placeholder="123-4567" id="postCode" th:field="*{postCode}" oninput="nullCheck();">
@@ -180,10 +186,11 @@
 									住所
 								</span>
 							</div>
-	
+
 							<div class="size-204">
 								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="firstAddress"
-									placeholder="市区町" id="firstAddress" th:field="*{firstAddress}" oninput="nullCheck();">
+									placeholder="市区町" id="firstAddress" th:field="*{firstAddress}"
+									oninput="nullCheck();">
 							</div>
 						</div>
 						<div class="flex-w flex-m m-b-10 p-b-13">
@@ -192,14 +199,16 @@
 									住所
 								</span>
 							</div>
-	
+
 							<div class="size-204">
 								<input class="stext-111 cl2 plh3 size-111 bor10 p-l-10" type="text" name="lastAddress"
-									placeholder="番地,マンション名" id="lastAddress" th:field="*{lastAddress}" oninput="nullCheck();">
+									placeholder="番地,マンション名" id="lastAddress" th:field="*{lastAddress}"
+									oninput="nullCheck();">
 							</div>
 						</div>
 					</div>
-					<button id="button_" disabled class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer m-t-50">
+					<button id="button_" disabled
+						class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer m-t-50">
 						保存
 					</button>
 				</div>
@@ -226,12 +235,12 @@
 
 	<!--===============================================================================================-->
 	<div th:replace="~{fragments/js-common :: import-js}"></div>
-		<!--========================================ここから追加したやつ==========================================-->
+	<!--========================================ここから追加したやつ==========================================-->
 	<script th:inline="javascript">
-		
+
 		//ボタン制御
 		var passwordCheck = false;	//パスワードが一致したらtrue
-		
+
 		const custId = document.getElementById('custId');
 		const email = document.getElementById('email');
 		let gender = document.getElementsByName('gender');
@@ -242,7 +251,7 @@
 		const firstAddress = document.getElementById('firstAddress');
 		const lastAddress = document.getElementById('lastAddress');
 		const button = document.getElementById('button_');
-		
+
 		const custIdDBValue = /*[[${custIdDBValue}]]*/"custIdDBValue";
 		const emailDBValue = /*[[${emailDBValue}]]*/"emailDBValue";
 		const genderDBValue = /*[[${genderDBValue}]]*/"genderDBValue";
@@ -253,51 +262,51 @@
 		const firstAddressDBValue = /*[[${firstAddressDBValue}]]*/"firstAddressDBValue";
 		const lastAddressDBValue = /*[[${lastAddressDBValue}]]*/"lastAddressDBValue";
 		console.log(custIdDBValue);
-		
-		if (!custIdDBValue == "")custId.defaultValue = custIdDBValue;
-		if (!emailDBValue == "")email.defaultValue = emailDBValue;
+
+		if (!custIdDBValue == "") custId.defaultValue = custIdDBValue;
+		if (!emailDBValue == "") email.defaultValue = emailDBValue;
 		if (genderDBValue == 1) {
 			gender[0].checked = true;
 		} else if (genderDBValue == 2) {
 			gender[1].checked = true;
 		}
-		if (!firstNameDBValue == "")firstName.defaultValue = firstNameDBValue;
-		if (!lastNameDBValue == "")lastName.defaultValue = lastNameDBValue;
-		if (!phoneNumberDBValue == "")phoneNumber.defaultValue = phoneNumberDBValue;
-		if (!postCodeDBValue == "")postCode.defaultValue = postCodeDBValue;
-		if (!firstAddressDBValue == "")firstAddress.defaultValue = firstAddressDBValue;
-		if (!lastAddressDBValue == "")lastAddress.defaultValue = lastAddressDBValue;
-		
-		
+		if (!firstNameDBValue == "") firstName.defaultValue = firstNameDBValue;
+		if (!lastNameDBValue == "") lastName.defaultValue = lastNameDBValue;
+		if (!phoneNumberDBValue == "") phoneNumber.defaultValue = phoneNumberDBValue;
+		if (!postCodeDBValue == "") postCode.defaultValue = postCodeDBValue;
+		if (!firstAddressDBValue == "") firstAddress.defaultValue = firstAddressDBValue;
+		if (!lastAddressDBValue == "") lastAddress.defaultValue = lastAddressDBValue;
+
+
 		//新規登録画面ロードした瞬間にボタンを灰色にする
 		window.addEventListener('load', (event) => {
-  			button.style.backgroundColor = "gray";
+			button.style.backgroundColor = "gray";
 		});
-		
-		
+
+
 		//入力するたびにパスワード一致チェック
 		function confirmPassword() {
-  			const password = document.getElementById('password').value;
-  			const confirmPassword = document.getElementById('rePassword').value;
-            const errorMsg = document.getElementById('passwordError_msg');
-            
-            if (password != "") {
+			const password = document.getElementById('password').value;
+			const confirmPassword = document.getElementById('rePassword').value;
+			const errorMsg = document.getElementById('passwordError_msg');
+
+			if (password != "") {
 				if (password == confirmPassword) {
-	                errorMsg.innerText = "";
-	                passwordCheck = true;
-	            } else {
-	                errorMsg.innerText = "パスワードが一致しません";
-	                passwordCheck = false;
-	            }
+					errorMsg.innerText = "";
+					passwordCheck = true;
+				} else {
+					errorMsg.innerText = "パスワードが一致しません";
+					passwordCheck = false;
+				}
 			} else {
 				errorMsg.innerText = "パスワードを入力してください";
 				passwordCheck = false;
 			}
 			errorMsg.style.color = "red";
-        }
-        
-        
-        //入力するたびに必須項目のNULLチェック
+		}
+
+
+		//入力するたびに必須項目のNULLチェック
 		function nullCheck() {
 			const password = document.getElementById('password').value;
 			const rePassword = document.getElementById('rePassword').value;
@@ -307,11 +316,11 @@
 			const postCode = document.getElementById('postCode').value;
 			const firstAddress = document.getElementById('firstAddress').value;
 			const lastAddress = document.getElementById('lastAddress').value;
-			
-			if(!password == "" && !rePassword == "" && !firstName == "" && !lastName == "" && 
-               !phoneNumber == "" && !postCode == "" && !firstAddress == "" && !lastAddress == "" && passwordCheck == true) {
-			    button.disabled = null;		//ボタンを押せるようにする。
-			    button.style.backgroundColor = "black";
+
+			if (!password == "" && !rePassword == "" && !firstName == "" && !lastName == "" &&
+				!phoneNumber == "" && !postCode == "" && !firstAddress == "" && !lastAddress == "" && passwordCheck == true) {
+				button.disabled = null;		//ボタンを押せるようにする。
+				button.style.backgroundColor = "black";
 			} else {
 				button.disabled = "disabled";	//ボタンを押せないようにする。
 				button.style.backgroundColor = "gray";
@@ -319,4 +328,5 @@
 		}
 	</script>
 </body>
+
 </html>

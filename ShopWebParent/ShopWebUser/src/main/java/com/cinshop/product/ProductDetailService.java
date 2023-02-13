@@ -36,11 +36,11 @@ public class ProductDetailService {
 	}
 
 	public Page<ProductDetail> findByBrand(Integer id, Pageable pageable) {
-		return detailRepository.findByBrand(new Brand(id), pageable);
+		return detailRepository.findByBrand(id, pageable);
 	}
 
 	public Page<ProductDetail> findByCategory(Integer catId, Pageable pageable) {
-		return detailRepository.findByCategory(new Category(catId), pageable);
+		return detailRepository.findByCategory(catId, pageable);
 	}
 
 	public Page<ProductDetail> findByPrice(Integer pFrom, Integer pTo, Pageable pageable) {

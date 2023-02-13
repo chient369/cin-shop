@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -105,7 +106,7 @@ public class OrderController {
 		AbstractOrderService orderService = orderServiceFactory.getOrderService(cartService);
 
 		Map<String, Object> orderInfo = new HashMap<>();
-		orderInfo.put("paymentMethod", getPaymentMethod(request));
+		orderInfo.put("paymentMethod", getPaymentMethodId(request));
 		orderInfo.put("creditDetail", getCreditDetail(request));
 
 		try {
@@ -125,6 +126,11 @@ public class OrderController {
 	public String orderHistoryFirstpage(Model model, HttpServletRequest request) throws NotLoginException {
 		return orderHistory(model, request, 1);
 	}
+	
+	@GetMapping("/scc")
+	public String sse(Model model) throws NotLoginException {
+		return "order-success";
+	}
 
 	@GetMapping("/order/history/{pNum}")
 	public String orderHistory(Model model, HttpServletRequest request, @PathVariable Integer pNum)
@@ -134,7 +140,8 @@ public class OrderController {
 			throw new NotLoginException("Deny Access!!");
 		}
 		CustomerOrderService orderService = orderServiceFactory.getCustomerOrderService();
-		Pageable pageable = PageRequest.of(pNum - 1, ITEM_PER_PAGE);
+		Sort sort = Sort.by("orderTime").descending();
+		Pageable pageable = PageRequest.of(pNum - 1, ITEM_PER_PAGE,sort);
 		Page<Order> orders = orderService.findOrderByCustomerId(customer.getId(), pageable);
 		model.addAttribute("orders", orders.getContent());
 		model.addAttribute("totalPages", orders.getTotalPages());
@@ -150,10 +157,10 @@ public class OrderController {
 		return customer;
 	}
 
-	private PaymentMethod getPaymentMethod(HttpServletRequest request) {
+	private Integer getPaymentMethodId(HttpServletRequest request) {
 		Map<String, String[]> methods = request.getParameterMap();
 		Integer methodId = Integer.parseInt(methods.get("paymentMethod")[0]);
-		return new PaymentMethod(methodId);
+		return methodId;
 
 	}
 

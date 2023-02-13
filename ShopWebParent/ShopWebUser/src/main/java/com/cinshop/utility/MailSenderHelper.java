@@ -65,7 +65,8 @@ public class MailSenderHelper {
 			helper.setTo(order.getCustomer().getEmail());
 			helper.setText(htmlTemplate, true);
 			helper.setSubject("[Cin-Shopより、ご注文の内容を確認]");
-
+System.err.println(order.getPaymentMethod().getNameJa());
+System.err.println(order.getPaymentMethod().getId());
 			mailSender.send(message);
 			sendtoAdminEmail();
 			logger.info("Order Notify mail send successfull");

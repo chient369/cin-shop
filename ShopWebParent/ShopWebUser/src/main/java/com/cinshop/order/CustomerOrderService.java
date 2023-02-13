@@ -37,7 +37,7 @@ public class CustomerOrderService extends AbstractOrderService {
 		CustomerCartService cartService = (CustomerCartService) super.cartService;
 		Customer customer = cartService.getCustomer();
 
-		PaymentMethod paymentMethod = (PaymentMethod) orderInfo.get(PAYMENT_METHOD);
+		PaymentMethod paymentMethod = getPaymentMethod((Integer)orderInfo.get(PAYMENT_METHOD));
 		Order order = new Order();
 		List<OrderDetail> details = saveOrderDetail(order);
 		Iterator<OrderDetail> it = details.iterator();
@@ -58,24 +58,20 @@ public class CustomerOrderService extends AbstractOrderService {
 
 		// 仮に0割引を設定
 		order.setDiscountPercent(0);
-		try {
-			Order savedOrder = orderService.saveOrder(order);
-			logger.info("注文{}の詳細を格納した", order.getOrderNum());
-			logger.info("{}の注文詳細を保存完了", customer.getFullName());
 
-			if (paymentMethod.getId() == CREDIT_METHOD) {
-				Credit credit = (Credit) orderInfo.get(CREDIT_DETAIL);
-				credit.setCustomer(customer);
-				saveCreditDetails(credit);
-			}
+		Order savedOrder = orderService.saveOrder(order);
+		logger.info("注文{}の詳細を格納した", order.getOrderNum());
+		logger.info("{}の注文詳細を保存完了", customer.getFullName());
 
-			mailSenderHelper.orderedNotify(customer.getEmail(), savedOrder);
-			sendNotidy(savedOrder);
-			cartService.deleteCart();
-		} catch (Exception e) {
-			logger.error("{}の注文詳細を保存失敗", customer.getFullName());
-			e.printStackTrace();
+		if (paymentMethod.getId() == CREDIT_METHOD) {
+			Credit credit = (Credit) orderInfo.get(CREDIT_DETAIL);
+			credit.setCustomer(customer);
+			saveCreditDetails(credit);
 		}
+
+		mailSenderHelper.orderedNotify(customer.getEmail(), savedOrder);
+		sendNotidy(savedOrder);
+		cartService.deleteCart();
 		return order;
 
 	}

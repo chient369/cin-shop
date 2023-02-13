@@ -27,7 +27,7 @@ public abstract class AbstractOrderService {
 
 	@Autowired
 	protected OrderService orderService;
-	
+
 	@Autowired
 	private UserShopNotify notify;
 
@@ -37,8 +37,7 @@ public abstract class AbstractOrderService {
 	@Autowired
 	protected MailSenderHelper mailSenderHelper;
 
-	public abstract Order saveOrder(Map<String, Object> orderInfo) ;
-
+	public abstract Order saveOrder(Map<String, Object> orderInfo);
 
 	protected List<OrderDetail> saveOrderDetail(Order order) {
 		List<OrderDetail> details = new ArrayList<>();
@@ -101,14 +100,20 @@ public abstract class AbstractOrderService {
 	public void setCartService(AbstractCartService cartService) {
 		this.cartService = cartService;
 	}
-	
+
 	public void sendNotidy(Order order) {
 		NotifyDTO dto = new NotifyDTO();
 		dto.setType(NotifyType.ORDER);
 		dto.getInfo().put("orderId", order.getId());
 		dto.getInfo().put("msg", "新規の注文があります");
-		
+
 		notify.sendNotify(dto);
+	}
+
+	protected PaymentMethod getPaymentMethod(Integer paymentId) {
+		return utility.findAllPaymentMethods().stream()
+				.filter(p -> p.getId()== paymentId)
+				.findFirst().get();
 	}
 
 }

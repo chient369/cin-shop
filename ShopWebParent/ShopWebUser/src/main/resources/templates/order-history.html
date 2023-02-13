@@ -37,7 +37,7 @@
 							アカウント
 						</h4>
 
-						<div class="bor12 py-3 hov-cl1  ">
+						<div class="bor12 py-3 hov-cl1" th:classappend="${#ctx.springRequestContext.requestUri =='/cinshop/c'}?'bg6':''	">
 							<a class="size-208" th:href="@{/c}">
 								<p class="stext-110 cl2">
 									アカウント情報
@@ -45,7 +45,7 @@
 							</a>
 
 						</div>
-						<div class="bor12 py-3 hov-cl1  bg6">
+						<div class="bor12 py-3 hov-cl1" th:classappend="${#ctx.springRequestContext.requestUri =='/cinshop/order/history'}?'bg6':''	">
 							<a class="size-208" th:href="@{/order/history}">
 								<p class="stext-110 cl2">
 									購入履歴
@@ -124,7 +124,7 @@
 							</div>
 						</div>
 					</th:block>
-					<h3 class="text-center py-5">データなし</h3>
+					<h3 class="text-center py-5" th:if="${#lists.size(orders) == 0}">データなし</h3>
 					<div class="flex-c-m flex-w w-full p-t-38" th:if="${#lists.size(orders) != 0}">
 						<th:block th:each="p:${#numbers.sequence(0,totalPages-1)}">
 							<a th:href="@{'/order/history/' + ${p +1}}"

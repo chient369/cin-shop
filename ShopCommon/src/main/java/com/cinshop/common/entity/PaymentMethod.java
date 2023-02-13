@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 public class PaymentMethod {
 
 	@Id
+	@Column(name = "payment_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 

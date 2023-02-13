@@ -15,6 +15,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -53,15 +54,15 @@ public class Order {
 	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
 
-	@OneToOne
-	@JoinColumn(name = "payment_method")
+	@OneToOne(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
+	@JoinColumn(name = "payment_id")
 	private PaymentMethod paymentMethod;
 
 	@OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
 	private List<OrderDetail> orderDetails = new ArrayList<>();
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date orderTime;
 
 	private Integer total;
@@ -192,7 +193,7 @@ public class Order {
 	}
 	@Transient
 	public String getOrderDateString() {
-		SimpleDateFormat formatter = new SimpleDateFormat("YYYY年MM月dd日 HH:MM");  
+		SimpleDateFormat formatter = new SimpleDateFormat("YYYY年MM月dd日 HH:mm");  
 	   return formatter.format(this.orderTime);
 	}
 
