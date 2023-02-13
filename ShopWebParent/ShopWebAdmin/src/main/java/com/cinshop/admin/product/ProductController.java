@@ -29,20 +29,21 @@ public class ProductController {
 	public String viewProductFirstPage(Model model) {
 		return viewProductPage(model, 1);
 	}
-	
+
 	@GetMapping("/product/{pId}")
-	public String viewProductDetail(Model model,@PathVariable Integer pId) {
+	public String viewProductDetail(Model model, @PathVariable Integer pId) {
 
 		ProductDetail productDetail = productService.findById(pId);
 		model.addAttribute("productDetail", productDetail);
-		model.addAttribute("brands",productService.findAllBrands());
-		model.addAttribute("categories",productService.findAllCategories());
-		model.addAttribute("brand",new Brand());
+		model.addAttribute("brands", productService.findAllBrands());
+		model.addAttribute("categories", productService.findAllCategories());
+		model.addAttribute("brand", new Brand());
 		model.addAttribute("category", new Category());
 		return "product-detail";
 	}
+
 	@PostMapping("/product/update")
-	public String updateDetail(Model model, @ModelAttribute ProductDetail productDetail, String brandId,String catId) {
+	public String updateDetail(Model model, @ModelAttribute ProductDetail productDetail, String brandId, String catId) {
 		productDetail.setBrand(new Brand(Integer.valueOf(brandId)));
 		productDetail.setCategory(new Category(Integer.valueOf(catId)));
 		ProductDetail updatedDetail = productService.updateDetail(productDetail);
@@ -51,66 +52,82 @@ public class ProductController {
 		return "redirect:/product/" + productDetail.getId();
 	}
 
-
 	@GetMapping("/product/p/{pageNum}")
 	public String viewProductPage(Model model, @PathVariable Integer pageNum) {
-		if(pageNum <1) pageNum =1;
+		if (pageNum < 1)
+			pageNum = 1;
 		Pageable pageable = PageRequest.of(pageNum - 1, ITEM_PER_PAGE);
 		Page<ProductDetail> page = productService.findAll(pageable);
 
 		model.addAttribute("productDetails", page.getContent());
 		model.addAttribute("brands", productService.findAllBrands());
 		model.addAttribute("categories", productService.findAllCategories());
-		
+
 		model.addAttribute("totalPages", page.getTotalPages());
 		model.addAttribute("currentPage", page.getNumber());
 		return "products";
 	}
-	
+
 	@PostMapping("/product/search")
 	public String searchByTextFirstPage(Model model, String searchTxt) {
 		return searchByText(model, searchTxt, 1);
-		
+
 	}
-	
+
 	@GetMapping("/product/search")
-	public String searchByText(Model model,@RequestParam("s-txt") String text,@RequestParam("pageNum") Integer pageNum) {
-		if(pageNum <1) pageNum =1;
+	public String searchByText(Model model, @RequestParam("s-txt") String text,
+			@RequestParam("pageNum") Integer pageNum) {
+		if (pageNum < 1)
+			pageNum = 1;
 		Pageable pageable = PageRequest.of(pageNum - 1, ITEM_PER_PAGE);
 		Page<ProductDetail> page = productService.findByText(text, pageable);
 
 		model.addAttribute("productDetails", page.getContent());
 		model.addAttribute("brands", productService.findAllBrands());
 		model.addAttribute("categories", productService.findAllCategories());
-		
+
 		model.addAttribute("totalPages", page.getTotalPages());
 		model.addAttribute("currentPage", page.getNumber());
-		model.addAttribute("searchTxt",text);
+		model.addAttribute("searchTxt", text);
 		return "products";
-		
+
 	}
-	
+
 	@PostMapping("/product/search/fillter")
-	public String searchWithBrandAndCatFirstPage(Model model, Integer brand,Integer category) {
+	public String searchWithBrandAndCatFirstPage(Model model, Integer brand, Integer category) {
 		return searchWithBrandAndCat(model, brand, category, 1);
-		
+
 	}
-	
+
 	@GetMapping("/product/search/fillter")
-	public String searchWithBrandAndCat(Model model,@RequestParam("bId") Integer brandId,@RequestParam("catId") Integer catId,@RequestParam("pageNum") Integer pageNum) {
-		if(pageNum <1) pageNum =1;
+	public String searchWithBrandAndCat(Model model, @RequestParam("bId") Integer brandId,
+			@RequestParam("catId") Integer catId, @RequestParam("pageNum") Integer pageNum) {
+		if (pageNum < 1)
+			pageNum = 1;
 		Pageable pageable = PageRequest.of(pageNum - 1, ITEM_PER_PAGE);
 		Page<ProductDetail> page = productService.findByBrandOrCategory(brandId, catId, pageable);
 
 		model.addAttribute("productDetails", page.getContent());
 		model.addAttribute("brands", productService.findAllBrands());
 		model.addAttribute("categories", productService.findAllCategories());
-		
+
 		model.addAttribute("totalPages", page.getTotalPages());
 		model.addAttribute("currentPage", page.getNumber());
-		model.addAttribute("catId",catId);
-		model.addAttribute("brandId",brandId);
+		model.addAttribute("catId", catId);
+		model.addAttribute("brandId", brandId);
 		return "products";
-		
+
 	}
+
+	@GetMapping("/product/crt")
+	public String createNewProduct(Model model) {
+		model.addAttribute("productDetail", new ProductDetail());
+		model.addAttribute("brands", productService.findAllBrands());
+		model.addAttribute("categories", productService.findAllCategories());
+		model.addAttribute("colors", productService.findAllColors());
+		model.addAttribute("sizes", productService.findAllSizes());
+		model.addAttribute("categories", productService.findAllCategories());
+		return "product-create";
+	}
+
 }

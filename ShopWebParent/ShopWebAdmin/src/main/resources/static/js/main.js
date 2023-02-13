@@ -236,6 +236,17 @@ function readURL(input) {
 	}
 }
 
+function readURLExtrasImage(input) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			var imgTag = $(input).parent().find('.extras-img');
+			$(imgTag).attr('src',  e.target.result);
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+
 function saveImage() {
 	const PATH = "/shopAdmin"
 	var fileInput = $('#imageUpload').prop('files')[0];

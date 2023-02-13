@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Category;
+import com.cinshop.common.entity.Color;
 import com.cinshop.common.entity.ProductDetail;
+import com.cinshop.common.entity.Size;
 
 @Service
 public class ProductService {
@@ -38,6 +40,13 @@ public class ProductService {
 
 	public List<Category> findAllCategories() {
 		return utility.findAllCategories();
+	}
+	public List<Color>  findAllColors(){
+		return utility.findAllColors();
+		
+	}
+	public List<Size> findAllSizes(){
+		return utility.findAllSizes();
 	}
 	public ProductDetail findById(Integer pId) {
 		return productRepository.findById(pId).get();
