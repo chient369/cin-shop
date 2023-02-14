@@ -29,6 +29,14 @@ public class ProductImage {
 	public ProductImage() {
 	}
 	
+	
+
+	public ProductImage(String name) {
+		super();
+		this.name = name;
+	}
+
+
 
 	public ProductImage(String name, ProductDetail productDetail) {
 		super();

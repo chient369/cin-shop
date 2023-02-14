@@ -80,6 +80,7 @@
 
 .extras-edit {
 	position: relative;
+	max-width: 110px
 }
 
 .extras-edit input {
@@ -90,8 +91,8 @@
 
 .extras-edit input+label {
 	display: inline-block;
-	width: 60px;
-	height: 60px;
+	width: 100px;
+	height: 100px;
 	margin-bottom: 0;
 	border-radius: 100%;
 	background: #fff;
@@ -100,19 +101,6 @@
 	cursor: pointer;
 	font-weight: normal;
 	transition: all 0.2s ease-in-out;
-}
-
-.extras-edit input+label:after {
-	content: "\2b";
-	font-family: 'Font Awesome 5 Free';
-	font-size: 36px;
-	color: #757575;
-	position: absolute;
-	top: 4px;
-	left: 0;
-	right: 0;
-	text-align: center;
-	margin: auto;
 }
 
 .extras-image-review {

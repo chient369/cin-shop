@@ -66,11 +66,12 @@ public class ProductDetail {
 	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Set<Product> products = new HashSet<>();
 
-	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL)
 	private List<ProductImage> images = new ArrayList<>();
 
 	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<Review> reviews = new ArrayList<>();
+	
 	
 	@OneToMany(mappedBy = "productDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<FavoriteProduct> favoriteProduct = new ArrayList<>();

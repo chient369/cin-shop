@@ -28,7 +28,7 @@
 
 				<div class="bg-light rounded h-100 p-4">
 					<h4>商品一覧</h4>
-					<a class="my-4 d-block" href="addUser.html">商品新規追加</a>
+					<a class="my-4 d-block" th:href="@{/product/crt}">商品新規追加</a>
 					<div class="row">
 						<div class="col-3 mb-3">
 							<form th:action="@{/product/search}" method="post" class="mb-2">
