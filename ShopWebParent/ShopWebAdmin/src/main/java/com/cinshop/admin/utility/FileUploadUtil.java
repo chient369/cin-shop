@@ -41,14 +41,18 @@ public class FileUploadUtil {
 		}
 		return true;
 	}
-	public static List<String> saveExtraImage(Integer detailId,MultipartFile[] extraImages) throws IOException{
+
+	public static List<String> saveExtraImage(Integer detailId, MultipartFile[] extraImages) throws IOException {
 		Path uploadPath = Paths.get("../product-images");
 		if (!Files.exists(uploadPath)) {
 			Files.createDirectories(uploadPath);
 		}
 		List<String> uploadedFileName = new ArrayList<>();
-		for(MultipartFile multipartFile : extraImages) {
-			if(multipartFile.getSize() <= 0) continue;
+		for (MultipartFile multipartFile : extraImages) {
+
+			if (multipartFile.getSize() <= 0)
+				continue;
+
 			String randomCode = RandomStringUtils.randomAlphanumeric(8);
 			String fileName = detailId + "_" + randomCode;
 			try (InputStream inputStream = multipartFile.getInputStream()) {
@@ -57,19 +61,20 @@ public class FileUploadUtil {
 			} catch (IOException ioe) {
 				throw new IOException("Could not save file: " + fileName, ioe);
 			}
-			
+
 			uploadedFileName.add(fileName);
 		}
 
 		return uploadedFileName;
 	}
+
 	public static String saveMainImage(MultipartFile multipartFile) throws IOException {
 		Path uploadPath = Paths.get("../product-images");
 		if (!Files.exists(uploadPath)) {
 			Files.createDirectories(uploadPath);
 		}
 		String randomCode = RandomStringUtils.randomAlphanumeric(8);
-		String uploadedFileName ="_" + randomCode;
+		String uploadedFileName = "_" + randomCode;
 		try (InputStream inputStream = multipartFile.getInputStream()) {
 			Path filePath = uploadPath.resolve(uploadedFileName);
 			Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);

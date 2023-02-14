@@ -47,9 +47,7 @@ public class ProductService {
 
 	public ProductDetail createNewProductDetail(ProductDetail detail, MultipartFile mainImage,
 			MultipartFile[] extraImages) throws IOException {
-		String mainImageName = IMAGE_PATH + FileUploadUtil.saveMainImage(mainImage);
-		
-		
+		String mainImageName = IMAGE_PATH + FileUploadUtil.saveMainImage(mainImage);		
 		detail.setMainImage(mainImageName);
 		ProductDetail savedDetail = productRepository.save(detail);
 		List<String> extraImageNames = FileUploadUtil.saveExtraImage(detail.getId(), extraImages);
@@ -68,8 +66,10 @@ public class ProductService {
 
 		while (it.hasNext()) {
 			String imageName = it.next();
+
 			String imagePath = IMAGE_PATH + imageName;
 			ProductImage image = new ProductImage(imagePath, detail);
+
 			images.add(image);
 		}
 

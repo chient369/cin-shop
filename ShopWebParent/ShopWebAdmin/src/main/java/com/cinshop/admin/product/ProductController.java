@@ -130,22 +130,21 @@ public class ProductController {
 		model.addAttribute("categories", productService.findAllCategories());
 		return "product-create";
 	}
-	
+
 	@PostMapping("/product/crt")
-	public String createNewProductPost(Model model,@ModelAttribute ProductDetail detail,
-			@RequestParam("brandId") Integer brandId,
-			@RequestParam("catId") Integer catId,
-			@RequestParam(name ="mainImage1",required = false) MultipartFile mainImage,
-			@RequestParam(name ="extraImage",required = false) MultipartFile[] extraImages) throws IOException {
+	public String createNewProductPost(Model model, @ModelAttribute ProductDetail detail,
+			@RequestParam("brandId") Integer brandId, @RequestParam("catId") Integer catId,
+			@RequestParam(name = "mainImage1", required = false) MultipartFile mainImage,
+			@RequestParam(name = "extraImage", required = false) MultipartFile[] extraImages) throws IOException {
+
 		detail.setBrand(new Brand(brandId));
 		detail.setCategory(new Category(catId));
-		ProductDetail savedDetail  =  productService.createNewProductDetail(detail, mainImage, extraImages);
-		
-		if(savedDetail == null) return "404";
-		
-		return "redirect:/product/"+savedDetail.getId();
-	}
-	
-	
+		ProductDetail savedDetail = productService.createNewProductDetail(detail, mainImage, extraImages);
 
+		if (savedDetail == null)
+			return "404";
+
+		return "redirect:/product/" + savedDetail.getId();
+
+	}
 }
