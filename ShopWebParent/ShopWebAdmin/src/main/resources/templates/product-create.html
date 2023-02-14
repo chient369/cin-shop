@@ -29,7 +29,7 @@
 					<div class="row mb-2 justify-content-center">
 						<h3 class="mb-3">新規登録</h3>
 						<div class="col-lg-6 pe-3 mb-3">
-							<form th:action="@{/product/update}" method="post" class="mb-2"
+							<form th:action="@{/product/crt}" method="post" class="mb-2"
 								th:object="${productDetail}" 　enctype="multipart/form-data">
 								<div class="mb-3 row">
 									<label for="productName" class="col-sm-3 col-form-label">商品名</label>
@@ -103,6 +103,16 @@
 											th:field="*{createTime}" required>
 
 									</div>
+								</div>
+								<div class="mb-3 row">
+									<label for="crt-time" class="col-sm-3 col-form-label">販売中</label>
+									<div class="col-sm-7">
+										<div class="form-check form-switch">
+											<input class="form-check-input" type="checkbox"
+												th:field="*{enable}" id="flexSwitchCheckChecked" checked>
+										</div>
+
+									</div>
 
 								</div>
 								<div class="mb-3 row">
@@ -112,7 +122,7 @@
 											<div class="avatar-edit">
 												<input type='file' id="imageUpload"
 													accept=".png, .jpg, .jpeg" onchange="readURL(this)"
-													name="mainImage" /> <label for="imageUpload"></label>
+													name="mainImage1" /> <label for="imageUpload"></label>
 											</div>
 											<div class="avatar-preview">
 												<div id="imagePreview"
@@ -126,14 +136,40 @@
 								<div class="mb-3 row">
 									<label for="crt-time" class="col-sm-3 col-form-label">エクストラ写真</label>
 									<div class="col-sm-7" id="detail_image">
-										<div class="extras-image">
+										<div class="row extras-image">
 											<div class="extras-edit">
-												<img th:src="@{/img/add-image.png}"
+												<input type='file' id="extraImage1"
+													accept=".png, .jpg, .jpeg" onchange="readURLExtrasImage(this)"
+													name="extraImage" /> <label for="extraImage1">
+													<img th:src="@{/img/add-image.png}"
 													class="img-thumbnail product-image border border-success extras-img"
-													alt="product-image"> <input type='file'
-													accept=".png, .jpg, .jpeg" onchange="readURL(this)"
-													name="mainImage" /> <label for="imageUpload"></label>
+													alt="product-image"> </label>
 											</div>
+											<div class="extras-edit">
+												<input type='file' id="extraImage2"
+													accept=".png, .jpg, .jpeg" onchange="readURLExtrasImage(this)"
+													name="extraImage" /> <label for="extraImage2">
+													<img th:src="@{/img/add-image.png}"
+													class="img-thumbnail product-image border border-success extras-img"
+													alt="product-image"> </label>
+											</div>
+											<div class="extras-edit">
+												<input type='file' id="extraImage3"
+													accept=".png, .jpg, .jpeg" onchange="readURLExtrasImage(this)"
+													name="extraImage" /> <label for="extraImage3">
+													<img th:src="@{/img/add-image.png}"
+													class="img-thumbnail product-image border border-success extras-img"
+													alt="product-image"> </label>
+											</div>
+											<div class="extras-edit">
+												<input type='file' id="extraImage4"
+													accept=".png, .jpg, .jpeg" onchange="readURLExtrasImage(this)"
+													name="extraImage" /> <label for="extraImage4">
+													<img th:src="@{/img/add-image.png}"
+													class="img-thumbnail product-image border border-success extras-img"
+													alt="product-image"> </label>
+											</div>
+											
 										</div>
 
 

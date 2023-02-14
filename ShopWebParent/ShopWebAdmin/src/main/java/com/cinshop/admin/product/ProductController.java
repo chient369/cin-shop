@@ -1,7 +1,8 @@
 package com.cinshop.admin.product;
 
-import java.util.Date;
+import java.io.IOException;
 
+import org.apache.catalina.startup.Catalina;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Category;
@@ -47,8 +49,6 @@ public class ProductController {
 		productDetail.setBrand(new Brand(Integer.valueOf(brandId)));
 		productDetail.setCategory(new Category(Integer.valueOf(catId)));
 		ProductDetail updatedDetail = productService.updateDetail(productDetail);
-		System.out.println(productDetail);
-		System.err.println(updatedDetail);
 		return "redirect:/product/" + productDetail.getId();
 	}
 
@@ -120,7 +120,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/product/crt")
-	public String createNewProduct(Model model) {
+	public String createNewProductGet(Model model) {
 		model.addAttribute("productDetail", new ProductDetail());
 		model.addAttribute("brands", productService.findAllBrands());
 		model.addAttribute("categories", productService.findAllCategories());
@@ -129,5 +129,23 @@ public class ProductController {
 		model.addAttribute("categories", productService.findAllCategories());
 		return "product-create";
 	}
+	
+	@PostMapping("/product/crt")
+	public String createNewProductPost(Model model,@ModelAttribute ProductDetail detail,
+			@RequestParam("brandId") Integer brandId,
+			@RequestParam("catId") Integer catId,
+			@RequestParam(name ="mainImage1",required = false) MultipartFile mainImage,
+			@RequestParam(name ="extraImage",required = false) MultipartFile[] extraImages) throws IOException {
+		
+		detail.setBrand(new Brand(brandId));
+		detail.setCategory(new Category(catId));
+		ProductDetail savedDetail  =  productService.createNewProductDetail(detail, mainImage, extraImages);
+		
+		if(savedDetail == null) return "404";
+		
+		return viewProductDetail(model, savedDetail.getId());
+	}
+	
+	
 
 }
