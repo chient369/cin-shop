@@ -86,7 +86,7 @@ public class FavoriteProductController {
 	}
 
 	// ここから平均評価の集計
-	private float avgVoteCalc(Page<FavoriteProduct> page) {
+	private void avgVoteCalc(Page<FavoriteProduct> page) {
 		float avgVote = 0.0F;
 		float totalVote = 0.0F;
 		for (int i = 0; i < page.getContent().size(); i++) {
@@ -99,6 +99,5 @@ public class FavoriteProductController {
 			totalVote = 0.0F;
 			avgVote = 0.0F;
 		}
-		return avgVote;
 	}
 }

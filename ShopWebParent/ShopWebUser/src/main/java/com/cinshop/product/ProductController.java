@@ -112,32 +112,19 @@ public class ProductController {
 		return "product/product";
 	}
 
-	// お気に入りcookie一括削除（デバッグ・テスト用）
-	@GetMapping("/fav/remove")
-	private String remove(HttpServletRequest request, HttpServletResponse response) {
-		Cookie[] cookies = request.getCookies();
-		for (Cookie cookie : cookies) {
-			cookie.setAttribute("key", null);
-			cookie.setMaxAge(0);
-			cookie.setPath("/cinshop");
-			response.addCookie(cookie);
-		}
-		return "redirect:/p";
-	}
-
 	@GetMapping("/{pId}")
 	public String viewProduct(@PathVariable Integer pId, Model model,
 			@AuthenticationPrincipal LoginUserDetails userDetails, HttpServletRequest request,
 			@CookieValue(name = "key", required = false, defaultValue = "no data") String v) {
 
-		ProductDetail detail = dService.findById(6);
+		ProductDetail detail = dService.findById(pId);
 
 		model.addAttribute("p", detail.getProducts());
 		model.addAttribute("detail", detail);
 		model.addAttribute("colors", findExistColors(detail.getProducts()));
 
 		// レビュー用
-		float avgVote = ((float) Math.round(rService.getAvgRanking(6) * 10)) / 10;
+		float avgVote = ((float) Math.round(rService.getAvgRanking(pId) * 10)) / 10;
 		model.addAttribute("review", new Review());
 		model.addAttribute("reviewList", detail.getReviews());
 		model.addAttribute("avgVote", avgVote);
