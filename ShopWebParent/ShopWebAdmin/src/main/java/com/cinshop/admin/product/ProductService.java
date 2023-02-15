@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import com.cinshop.admin.utility.FileUploadUtil;
 import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Category;
 import com.cinshop.common.entity.Color;
+import com.cinshop.common.entity.Product;
 import com.cinshop.common.entity.ProductDetail;
 import com.cinshop.common.entity.ProductImage;
 import com.cinshop.common.entity.Size;
@@ -47,13 +49,13 @@ public class ProductService {
 
 	public ProductDetail createNewProductDetail(ProductDetail detail, MultipartFile mainImage,
 			MultipartFile[] extraImages) throws IOException {
-		String mainImageName = IMAGE_PATH + FileUploadUtil.saveMainImage(mainImage);		
+		String mainImageName = IMAGE_PATH + FileUploadUtil.saveMainImage(mainImage);
 		detail.setMainImage(mainImageName);
 		ProductDetail savedDetail = productRepository.save(detail);
 		List<String> extraImageNames = FileUploadUtil.saveExtraImage(detail.getId(), extraImages);
 
 		ProductDetail updatedDetail = updateProductDetailImage(savedDetail, mainImageName, extraImageNames);
-		
+
 		return updatedDetail;
 	}
 
@@ -79,6 +81,24 @@ public class ProductService {
 	}
 
 	/* ========================================== */
+
+	public ProductDetail addNewProduct(Integer colorId, Integer sizeId, Integer stockAmount, Integer detailId) {
+		ProductDetail DBProduct = findById(detailId);
+		Product newItem = new Product(DBProduct, new Color(colorId), new Size(sizeId), stockAmount);
+		DBProduct.getProducts().add(newItem);
+		ProductDetail savedDetail = updateDetail(DBProduct);
+		return savedDetail;
+	}
+	public ProductDetail deleteProduct(Integer detailId, Integer productId) {
+		ProductDetail DBProduct = findById(detailId);
+		Set<Product> products = DBProduct.getProducts();
+		
+		products.remove(new Product(productId));
+		
+		
+		ProductDetail savedDetail = updateDetail(DBProduct);
+		return savedDetail;
+	}
 
 	public List<Category> findAllCategories() {
 		return utility.findAllCategories();

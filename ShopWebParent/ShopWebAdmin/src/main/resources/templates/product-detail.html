@@ -36,37 +36,42 @@
 								<div class="mb-3 row">
 									<label for="productId" class="col-sm-3 col-form-label">商品ID</label>
 									<div class="col-sm-7">
-										<input type="text" readonly class="form-control" id="productId"
-											th:value="${d.id}" th:field="*{id}">
+										<input type="text" readonly class="form-control"
+											id="productId" th:value="${d.id}" th:field="*{id}">
 
 									</div>
 								</div>
 								<div class="mb-3 row">
 									<label for="productName" class="col-sm-3 col-form-label">商品名</label>
 									<div class="col-sm-7">
-										<input type="text" readonly class="form-control" id="productName"
-											th:value="${d.name}" th:field="*{name}" required>
+										<input type="text" readonly class="form-control"
+											id="productName" th:value="${d.name}" th:field="*{name}"
+											required>
 									</div>
-									<button onclick="editAble(this)" type="button" class="col-sm-2 btn btn-primary">
+									<button onclick="editAble(this)" type="button"
+										class="col-sm-2 btn btn-primary">
 										<i class="fa fa-light fa-pen-to-square "></i>
 									</button>
 								</div>
 								<div class="mb-3 row">
 									<label for="productCode" class="col-sm-3 col-form-label">商品コード</label>
 									<div class="col-sm-7">
-										<input type="text" readonly class="form-control" id="productCode"
-											th:value="${d.code}" th:field="*{code}" required>
+										<input type="text" readonly class="form-control"
+											id="productCode" th:value="${d.code}" th:field="*{code}"
+											required>
 
 									</div>
-									<button onclick="editAble(this)" type="button" class="col-sm-2 btn btn-primary">
+									<button onclick="editAble(this)" type="button"
+										class="col-sm-2 btn btn-primary">
 										<i class="fa fa-light fa-pen-to-square "></i>
 									</button>
 								</div>
 								<div class="mb-3 row">
 									<label for="description" class="col-sm-3 col-form-label">商品説明</label>
 									<div class="col-sm-7">
-										<textarea readonly class="form-control" id="description" rows="5"
-											th:value="${d.description}" th:field="*{description}"></textarea>
+										<textarea readonly class="form-control" id="description"
+											rows="5" th:value="${d.description}"
+											th:field="*{description}"></textarea>
 
 									</div>
 									<button onclick="editAble(this)" type="button"
@@ -78,13 +83,14 @@
 									<label for="price" class="col-sm-3 col-form-label">値段</label>
 									<div class="col-sm-7">
 										<div class="input-group flex-nowrap">
-											<span class="input-group-text">¥</span>
-											<input type="text" readonly class="form-control" id="price"
+											<span class="input-group-text">¥</span> <input type="text"
+												readonly class="form-control" id="price"
 												th:value="${d.price}" th:field="*{price}" required>
 										</div>
 									</div>
 
-									<button onclick="editAble(this)" type="button" class="col-sm-2 btn btn-primary">
+									<button onclick="editAble(this)" type="button"
+										class="col-sm-2 btn btn-primary">
 										<i class="fa fa-light fa-pen-to-square "></i>
 									</button>
 								</div>
@@ -94,8 +100,8 @@
 									<div class="col-sm-7">
 										<select class="form-select" aria-label="Brand" name="brandId">
 											<th:block th:each="b : ${brands}">
-												<option th:selected="${b.id == d.brand.id}" th:value="${b.id}"
-													th:text="${b.name}"></option>
+												<option th:selected="${b.id == d.brand.id}"
+													th:value="${b.id}" th:text="${b.name}"></option>
 
 											</th:block>
 										</select>
@@ -108,8 +114,8 @@
 									<div class="col-sm-7">
 										<select class="form-select" aria-label="Category" name="catId">
 											<th:block th:each="cat : ${categories}">
-												<option th:selected="${cat.id == d.category.id}" th:value="${cat.id}"
-													th:text="${cat.name}"></option>
+												<option th:selected="${cat.id == d.category.id}"
+													th:value="${cat.id}" th:text="${cat.name}"></option>
 											</th:block>
 										</select>
 
@@ -123,7 +129,8 @@
 											th:value="${d.createDate}" th:field="*{createTime}" required>
 
 									</div>
-									<button onclick="editAble(this)" type="button" class="col-sm-2 btn btn-primary">
+									<button onclick="editAble(this)" type="button"
+										class="col-sm-2 btn btn-primary">
 										<i class="fa fa-light fa-pen-to-square "></i>
 									</button>
 								</div>
@@ -132,7 +139,8 @@
 									<div class="col-sm-7">
 										<div class="form-check form-switch">
 											<input class="form-check-input" type="checkbox"
-											th:field="*{enable}" th:value="*{enable}" id="flexSwitchCheckChecked">
+												th:field="*{enable}" th:value="*{enable}"
+												id="flexSwitchCheckChecked">
 										</div>
 
 									</div>
@@ -141,24 +149,27 @@
 								<div class="mb-3 row">
 									<label for="crt-time" class="col-sm-3 col-form-label">写真</label>
 									<div class="col-sm-7" id="detail_image">
-										<input type="hidden" th:value="${d.mainImage}" th:field="*{mainImage}">
-										<img th:src="@{${d.mainImage}}"
+										<input type="hidden" th:value="${d.mainImage}"
+											th:field="*{mainImage}"> <img
+											th:src="@{${d.mainImage}}"
 											class="img-thumbnail product-image border border-success"
-											alt="product-image" data-bs-toggle="tooltip" data-bs-placement="top"
-											title="マイン画像">
+											alt="product-image" data-bs-toggle="tooltip"
+											data-bs-placement="top" title="マイン画像">
 										<th:block th:each="img : ${d.images}">
-											<img th:src="@{${img.name}}" class="img-thumbnail product-image "
-												alt="product-image">
+											<img th:src="@{${img.name}}"
+												class="img-thumbnail product-image " alt="product-image">
 										</th:block>
 									</div>
 									<button onclick="editAble(this)" type="button"
-										class="col-sm-2 btn btn-primary h-100 align-self-center" data-bs-toggle="modal"
-										data-bs-target="#image-edit-modal">
+										class="col-sm-2 btn btn-primary h-100 align-self-center"
+										data-bs-toggle="modal" data-bs-target="#image-edit-modal">
 										<i class="fa fa-light fa-pen-to-square "></i>
 									</button>
 								</div>
-								<div class="d-flex justify-content-center"><input type="submit"
-										class="btn btn-primary btn-lg px-4" value="更新"></div>
+								<div class="d-flex justify-content-center">
+									<input type="submit" class="btn btn-primary btn-lg px-4"
+										value="更新">
+								</div>
 							</form>
 						</div>
 						<div class="col-lg-6 px-3">
@@ -171,8 +182,6 @@
 											<th scope="col">カラー</th>
 											<th scope="col">サイズ</th>
 											<th scope="col">在庫数</th>
-											<th scope="col">更新日</th>
-											<th scope="col">ステータス</th>
 											<th scope="col">操作</th>
 										</tr>
 									</thead>
@@ -180,29 +189,21 @@
 										<th:block th:each="p :${productDetail.products}">
 											<tr>
 												<th scope="row" th:text="${p.id}">1</th>
-												<td>
-													<i th:style="|color : ${p.color.colorCode}|"
-														class="fa fa-thin fa-circle"></i>
-													<span th:text="${p.color.name}"></span>
-												</td>
+												<td><i th:style="|color : ${p.color.colorCode}|"
+													class="fa fa-thin fa-circle"></i> <span
+													th:text="${p.color.name}"></span></td>
 												<td th:text="${p.size.value}">Doe</td>
 												<td th:text="${p.stockAmount}">jhon@email.com</td>
-												<td>guest</td>
-												<td>
-													<div class="form-check form-switch">
-														<input class="form-check-input" type="checkbox"
-															id="flexSwitchCheckChecked" checked>
-													</div>
-												</td>
-												<td class="justify-content-around"><a id="deleteBtn" href=""
-														class="h4 text-danger" data-bs-target="#deleteModal"
-														data-bs-toggle="modal" title="Delete"><i
-															class="fa-solid fa-trash"></i></a>&nbsp;&nbsp; <a href="#"
-														class="h4 text-succes" data-bs-toggle="tooltip" title="Edit"><i
-															class="fa-solid fa-user-pen"></i></a></td>
+												<td class="justify-content-around"><button id="deleteBtn" th:onclick="'delItem('+${p.id}+')'"
+													type="button" class="btn text-danger fs-4" title="Delete"><i class="fa-solid fa-trash"></i></button>&nbsp;&nbsp;
+													<a href="#" class="h4 text-succes" data-bs-toggle="tooltip"
+													title="Edit"><i class="fa-solid fa-user-pen"></i></a></td>
 
 											</tr>
 										</th:block>
+
+										<button class="btn btn-primary" type="button" data-bs-target="#addItem" data-bs-toggle="modal" >追加</button>
+
 
 
 									</tbody>
@@ -211,15 +212,21 @@
 						</div>
 					</div>
 
-					<div class="btn-toolbar justify-content-center mt-4" th:if="${searchTxt == null && totalPages>=1}">
-						<div class="btn-group me-2" th:each="page : ${#numbers.sequence(1,totalPages)}">
-							<a th:href="@{'/product/p/' + ${page}}" class="btn btn-secondary" th:text="${page}"
+					<div class="btn-toolbar justify-content-center mt-4"
+						th:if="${searchTxt == null && totalPages>=1}">
+						<div class="btn-group me-2"
+							th:each="page : ${#numbers.sequence(1,totalPages)}">
+							<a th:href="@{'/product/p/' + ${page}}" class="btn btn-secondary"
+								th:text="${page}"
 								th:classappend="${page == currentPage +1}?'disabled'"></a>
 						</div>
 					</div>
-					<div class="btn-toolbar justify-content-center mt-4" th:if="${searchTxt != null}">
-						<div class="btn-group me-2" th:each="page : ${#numbers.sequence(1,totalPages)}">
-							<a th:href="@{'/product/search?s-txt='+${searchTxt} +'&pageNum=' + ${page}}"
+					<div class="btn-toolbar justify-content-center mt-4"
+						th:if="${searchTxt != null}">
+						<div class="btn-group me-2"
+							th:each="page : ${#numbers.sequence(1,totalPages)}">
+							<a
+								th:href="@{'/product/search?s-txt='+${searchTxt} +'&pageNum=' + ${page}}"
 								class="btn btn-secondary" th:text="${page}"
 								th:classappend="${page == currentPage +1}?'disabled'"></a>
 						</div>
@@ -229,21 +236,76 @@
 			<!-- Content End -->
 			<!--Modal start-->
 			<!--Delete confirm modal start-->
-			<div class="modal fade" id="deleteModal">
+			<div class="modal fade" id="deleteItem">
 				<div class="modal-dialog">
 					<!-- Modal content-->
 					<div class="modal-content">
 						<div class="modal-header">
-							<h4 class="modal-title">Delete Confirm</h4>
+							<h4 class="modal-title text-danger">警告</h4>
 						</div>
 						<div class="modal-body">
-							<p>Are you sure delete user with ID:</p>
+							<p></p>
 						</div>
 						<div class="modal-footer">
-							<a href="" class="btn btn-success">Yes</a>
-							<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+							<a th:href="@{'/product/' + ${productDetail.id}}" class="btn btn-success">削除</a>
+							<button type="button" class="btn btn-danger"
+								data-bs-dismiss="modal">キャンセル</button>
 
 						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="modal fade" id="addItem">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">追加</h4>
+						</div>
+						<form th:action="@{/product/addItem}" method= "POST">
+							<div class="modal-body">
+								<div class="mb-3 row">
+								<input type="hidden" name ="detailId" th:value="${productDetail.id}">
+									<label for="brand" class="col-sm-3 col-form-label">カラー</label>
+									<div class="col-sm-7">
+										<select class="form-select" aria-label="Color" name="colorId">
+											<th:block th:each="c : ${colors}">
+												<option th:value="${c.id}" th:text="${c.name}"></option>
+											</th:block>
+										</select>
+
+									</div>
+
+								</div>
+								<div class="mb-3 row">
+									<label for="category" class="col-sm-3 col-form-label">サイズ</label>
+									<div class="col-sm-7">
+										<select class="form-select" aria-label="size" name="sizeId">
+											<th:block th:each="s : ${sizes}">
+												<option th:value="${s.id}" th:text="${s.value}"></option>
+											</th:block>
+										</select>
+
+									</div>
+
+								</div>
+								<div class="mb-3 row">
+									<label for="productName" class="col-sm-3 col-form-label">在庫数</label>
+									<div class="col-sm-7">
+										<input type="number" class="form-control" id="stockAmount" name="stockAmount"
+											required>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-success">登録</button>
+								<button type="button" class="btn btn-danger"
+									data-bs-dismiss="modal">閉じる</button>
+
+							</div>
+						</form>
 					</div>
 
 				</div>
@@ -251,21 +313,25 @@
 			<!--Delete confirm modal end-->
 
 			<!--image change confirm modal start-->
-			<div class="modal fade" id="image-edit-modal" tabindex="-1" aria-labelledby="Image edit" aria-hidden="true">
+			<div class="modal fade" id="image-edit-modal" tabindex="-1"
+				aria-labelledby="Image edit" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title" id="exampleModalLabel">画像</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
 							<h3 for="crt-time" class="mb-3">写真</h3>
-							<div class="row" th:with="d = ${productDetail}" id="product_image-box">
+							<div class="row" th:with="d = ${productDetail}"
+								id="product_image-box">
 
 								<div class="px-2 col-3">
 									<img th:src="@{${d.mainImage}}"
-										class="img-thumbnail product-image border border-success" alt="product-image"
-										data-bs-toggle="tooltip" data-bs-placement="top" title="マイン画像">
+										class="img-thumbnail product-image border border-success"
+										alt="product-image" data-bs-toggle="tooltip"
+										data-bs-placement="top" title="マイン画像">
 									<div class="py-2">
 										<input type="radio" name="mainImage" th:value="${d.mainImage}"
 											class="mx-auto d-block">
@@ -274,8 +340,8 @@
 								<th:block th:each="img : ${d.images}">
 									<div class="px-2 col-3">
 										<div class="how-image" onclick="deleteImage(this)">
-											<img th:src="@{${img.name}}" class="img-thumbnail product-image"
-												alt="product-image">
+											<img th:src="@{${img.name}}"
+												class="img-thumbnail product-image" alt="product-image">
 										</div>
 										<div class="py-2">
 											<input type="radio" name="mainImage" th:value="${img.id}"
@@ -287,8 +353,8 @@
 
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-								data-bs-target="#add-image">追加</button>
+							<button type="button" class="btn btn-primary"
+								data-bs-toggle="modal" data-bs-target="#add-image">追加</button>
 							</button>
 						</div>
 					</div>
@@ -297,7 +363,8 @@
 			<!--Modal end-->
 
 			<!--add image modal-->
-			<div class="modal fade" id="add-image" tabindex="-1" aria-labelledby="Add image" aria-hidden="true">
+			<div class="modal fade" id="add-image" tabindex="-1"
+				aria-labelledby="Add image" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -307,8 +374,7 @@
 							<div class="avatar-upload">
 								<div class="avatar-edit">
 									<input type='file' id="imageUpload" accept=".png, .jpg, .jpeg"
-										onchange="readURL(this)" />
-									<label for="imageUpload"></label>
+										onchange="readURL(this)" /> <label for="imageUpload"></label>
 								</div>
 								<div class="avatar-preview">
 									<div id="imagePreview"
@@ -318,8 +384,10 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
-							<button type="button" class="btn btn-primary"　data-bs-dismiss="modal" onclick="saveImage()">保存</button>
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">閉じる</button>
+							<button type="button" class="btn btn-primary"
+								　data-bs-dismiss="modal" onclick="saveImage()">保存</button>
 						</div>
 					</div>
 				</div>

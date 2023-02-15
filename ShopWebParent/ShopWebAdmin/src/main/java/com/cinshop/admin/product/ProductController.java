@@ -2,14 +2,12 @@ package com.cinshop.admin.product;
 
 import java.io.IOException;
 
-import org.apache.catalina.startup.Catalina;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Category;
+import com.cinshop.common.entity.Color;
+import com.cinshop.common.entity.Product;
 import com.cinshop.common.entity.ProductDetail;
+import com.cinshop.common.entity.Size;
 
 @Controller
 public class ProductController {
@@ -40,8 +41,8 @@ public class ProductController {
 		model.addAttribute("productDetail", productDetail);
 		model.addAttribute("brands", productService.findAllBrands());
 		model.addAttribute("categories", productService.findAllCategories());
-		model.addAttribute("brand", new Brand());
-		model.addAttribute("category", new Category());
+		model.addAttribute("colors",productService.findAllColors());
+		model.addAttribute("sizes", productService.findAllSizes());
 		return "product-detail";
 	}
 
@@ -144,6 +145,22 @@ public class ProductController {
 		if (savedDetail == null)
 			return "404";
 
+		return "redirect:/product/" + savedDetail.getId();
+
+	}
+	
+	/*ADD NEW PRODUCT ITEM*/
+	@PostMapping("/product/addItem")
+	public String addNewItemPost(Model model, Integer colorId, Integer sizeId,Integer stockAmount,Integer detailId){
+		ProductDetail savedDetail = productService.addNewProduct(colorId, sizeId, stockAmount, detailId);
+	
+		return "redirect:/product/" + savedDetail.getId();
+
+	}
+	@GetMapping("/product/{detailId}/del/{pId}")
+	public String deleteProduct(Model model, @PathVariable("detailId") Integer detailId,@PathVariable("pId") Integer productId){
+		ProductDetail savedDetail = productService.deleteProduct(detailId, productId);
+		
 		return "redirect:/product/" + savedDetail.getId();
 
 	}

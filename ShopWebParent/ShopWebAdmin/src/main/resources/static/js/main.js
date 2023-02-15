@@ -323,3 +323,11 @@ function deleteImage(e) {
 		}
 	})
 }
+
+function delItem(itemId){
+	var path = $("#deleteItem").find("a").attr("href");
+	var delLink = path + "/del/" + itemId;
+	$("#deleteItem").find(".modal-body").html("商品ID<strong>"+itemId+"</strong>を削除します。よろしいでしょうか");
+	$("#deleteItem").find("a").attr("href",delLink);
+	$("#deleteItem").modal("show")
+}

@@ -27,11 +27,11 @@ public class Product {
 	@JoinColumn(name = "detail_id")
 	private ProductDetail productDetail;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "color_id")
 	private Color color;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "size_id")
 	private Size size;
 
@@ -40,6 +40,15 @@ public class Product {
 	public Product() {
 
 	}
+
+	public Product(ProductDetail productDetail, Color color, Size size, Integer stockAmount) {
+		super();
+		this.productDetail = productDetail;
+		this.color = color;
+		this.size = size;
+		this.stockAmount = stockAmount;
+	}
+
 
 	public Product(Integer id) {
 		super();
@@ -100,7 +109,10 @@ public class Product {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(color, productDetail, size);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -112,9 +124,15 @@ public class Product {
 		if (getClass() != obj.getClass())
 			return false;
 		Product other = (Product) obj;
-		return Objects.equals(color, other.color) && Objects.equals(productDetail, other.productDetail)
-				&& Objects.equals(size, other.size);
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
+
+	
 
 	
 	

@@ -68,7 +68,10 @@
 								feugiat.</p> -->
 
 					<!--Custom-->
-					<form th:action="@{/cart/a}" method="post">
+					<h2 class="p-all-10 ltext-103"
+						th:if="${#lists.size(colors) == 0}">品切り</h2>
+					<form th:action="@{/cart/a}" method="post"
+						th:if="${#lists.size(colors) != 0}">
 						<div class="p-t-33">
 							<!--Colors-->
 							<input type="hidden" th:value="${detail.id}" name="detailId"
@@ -87,7 +90,6 @@
 
 								</div>
 								<div class="size-203 flex-c-m respon6">サイズ</div>
-
 
 								<div class="size-204 respon6-next">
 									<div class="rs1-select2 bor8 bg0">
@@ -299,11 +301,12 @@
 										</div>
 									</div>
 
-									
-											<p class="stext-102 cl6 p-tb-12 text-center" sec:authorize="!isAuthenticated()">
-												<a th:href="@{/login}">ログインした上、評価する</a>
-											</p>
-											
+
+									<p class="stext-102 cl6 p-tb-12 text-center"
+										sec:authorize="!isAuthenticated()">
+										<a th:href="@{/login}">ログインした上、評価する</a>
+									</p>
+
 
 									<!-- Add review -->
 									<div th:if="${userDetails != null}">

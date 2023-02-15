@@ -23,6 +23,13 @@ public class Size {
 	public Size() {
 
 	}
+	
+
+	public Size(Integer id) {
+		super();
+		this.id = id;
+	}
+
 
 	public Integer getId() {
 		return id;
