@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cinshop.common.entity.Customer;
 
@@ -33,6 +34,17 @@ public class CustomerService {
 	}
 	public Page<Customer> findAllByText(String txt,Pageable pageable){
 		return repository.findAllByText(txt, pageable);
+	}
+	@Transactional
+	public boolean setUseableUser(Boolean enable,Integer userId) {
+		boolean isupdated = false;
+		try {
+			repository.setUseableUser(enable, userId);
+			isupdated = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return isupdated;
 	}
 	
 }

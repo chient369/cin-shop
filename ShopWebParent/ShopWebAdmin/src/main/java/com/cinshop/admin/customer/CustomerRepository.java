@@ -24,4 +24,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
 	@Query("select c from Customer c where concat(c.firstName,c.lastName,c.email) like %?1%")
 	public Page<Customer> findAllByText(String txt, Pageable pageable);
+	
+	@Modifying
+	@Query("update Customer c set c.enable = ?1 where c.id = ?2")
+	public void setUseableUser(Boolean enable,Integer userId);
 }

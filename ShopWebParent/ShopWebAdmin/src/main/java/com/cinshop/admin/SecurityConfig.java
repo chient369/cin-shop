@@ -1,5 +1,6 @@
 package com.cinshop.admin;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,10 +15,16 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+	
+	@Value("${cinshop.admin.username}")
+	private String username;
+	
+	@Value("${cinshop.admin.password}")
+	private String password;
 	@Bean
 	 InMemoryUserDetailsManager userDetailsService() {
-	    UserDetails admin = User.withUsername("admin")
-	        .password(passwordEncoder().encode("cinshopadmin"))
+	    UserDetails admin = User.withUsername(username)
+	        .password(passwordEncoder().encode(password))
 	        .roles("ADMIN")
 	        .build();
 	  

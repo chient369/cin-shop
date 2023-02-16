@@ -92,7 +92,7 @@
 								<tr>
 									<th scope="row" th:text ="${pd.id}">1</th>
 									<td><img
-										th:src="${pd.mainImage}"
+										th:src="@{${pd.mainImage}}"
 										class="img-thumbnail product-image" alt="product-image"></td>
 									<td th:text ="${pd.name}">ジェッツアイコン</td>
 									<td th:text ="${pd.category.name}">スニーカー</td>

@@ -1,6 +1,5 @@
 package com.cinshop.order;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,18 +16,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cinshop.cart.AbstractCartService;
 import com.cinshop.cart.CartServiceFactory;
-import com.cinshop.cart.CustomerCartService;
 import com.cinshop.common.entity.Credit;
 import com.cinshop.common.entity.Customer;
 import com.cinshop.common.entity.Order;
-import com.cinshop.common.entity.PaymentMethod;
 import com.cinshop.customer.CustomerService;
 import com.cinshop.exception.NotLoginException;
-import com.cinshop.utility.MailSenderHelper;
 import com.cinshop.utility.Utility;
 
 import jakarta.servlet.http.HttpServletRequest;

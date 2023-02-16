@@ -69,7 +69,7 @@
 
 					<!--Custom-->
 					<h2 class="p-all-10 ltext-103"
-						th:if="${#lists.size(colors) == 0}">品切り</h2>
+						th:if="${#lists.size(colors) == 0}">品切れ</h2>
 					<form th:action="@{/cart/a}" method="post"
 						th:if="${#lists.size(colors) != 0}">
 						<div class="p-t-33">

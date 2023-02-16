@@ -88,7 +88,7 @@
 						<i class="fa fa-solid fa-yen-sign fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">売上</p>
-							<h6 class="mb-0" th:text="'¥' + ${totalSale}">0</h6>
+							<h6 class="mb-0">¥<span  th:text="${totalSale == null}?0"></span></h6>
 						</div>
 					</div>
 				</div>

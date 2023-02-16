@@ -331,3 +331,26 @@ function delItem(itemId){
 	$("#deleteItem").find("a").attr("href",delLink);
 	$("#deleteItem").modal("show")
 }
+
+function setEnable(checkBox,userId){
+	var isChecked = $(checkBox).attr("checked") == "checked";
+	var enable = !isChecked
+	var URL = "http://localhost:8089/shopAdmin/api/customer/edit?enable="+enable+"&uId="+userId;
+	
+	$.ajax({
+		url : URL,
+		type: 'GET',
+		success : (response)=>{
+			if(response){
+				$("#notify-toast").find(".toast-body").html("ユーザーID<strong class='text-success'>"+userId+"</strong>のステータスが変更しました！")
+				$("#notify-toast").toast('show');
+			}
+			
+		}
+		
+		
+	})
+	
+}
+
+

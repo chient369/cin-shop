@@ -353,20 +353,17 @@ public class ProductController {
 	private void viewedProduct(HttpServletRequest request, ProductDetail detail) {
 
 		HttpSession session = request.getSession();
-
+		List<ProductDetail> viewDetails;
 		if (session.getAttribute("viewed") == null) {
-			List<ProductDetail> viewDetails = new ArrayList<>();
-			viewDetails.add(detail);
-			session.setAttribute("viewed", viewDetails);
+			viewDetails = new ArrayList<>();
 		} else {
-			List<ProductDetail> viewDetails = (List<ProductDetail>) session.getAttribute("viewed");
-			for (ProductDetail detail2 : viewDetails) {
-				if (detail2.getId() == detail.getId())
-					break;
+			viewDetails = (List<ProductDetail>) session.getAttribute("viewed");
+			boolean isExist = viewDetails.stream().anyMatch(d -> d.getId() == detail.getId());
 
-			}
-			session.setAttribute("viewed", viewDetails);
+			if (!isExist)
+				viewDetails.add(detail);
 		}
+		session.setAttribute("viewed", viewDetails);
 
 	}
 
