@@ -8,7 +8,7 @@ public class NotifyDTO {
 	private Map<String, Object> info;
 
 	public enum NotifyType {
-		ORDER, USER
+		ORDER, USER,CONTACT
 	}
 
 	public NotifyDTO() {

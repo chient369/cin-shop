@@ -59,73 +59,17 @@
 	});
 
 
-	// Worldwide Sales Chart
-	var ctx1 = $("#worldwide-sales").get(0).getContext("2d");
-	var myChart1 = new Chart(ctx1, {
-		type: "bar",
-		data: {
-			labels: ["2016", "2017", "2018", "2019", "2020", "2021", "2022"],
-			datasets: [{
-				label: "USA",
-				data: [15, 30, 55, 65, 60, 80, 95],
-				backgroundColor: "rgba(0, 156, 255, .7)"
-			},
-			{
-				label: "UK",
-				data: [8, 35, 40, 60, 70, 55, 75],
-				backgroundColor: "rgba(0, 156, 255, .5)"
-			},
-			{
-				label: "AU",
-				data: [12, 25, 45, 55, 65, 70, 60],
-				backgroundColor: "rgba(0, 156, 255, .3)"
-			}
-			]
-		},
-		options: {
-			responsive: true
-		}
-	});
-
-
-	// Salse & Revenue Chart
-	var ctx2 = $("#salse-revenue").get(0).getContext("2d");
-	var myChart2 = new Chart(ctx2, {
-		type: "line",
-		data: {
-			labels: ["2016", "2017", "2018", "2019", "2020", "2021", "2022"],
-			datasets: [{
-				label: "Salse",
-				data: [15, 30, 55, 45, 70, 65, 85],
-				backgroundColor: "rgba(0, 156, 255, .5)",
-				fill: true
-			},
-			{
-				label: "Revenue",
-				data: [99, 135, 170, 130, 190, 180, 270],
-				backgroundColor: "rgba(0, 156, 255, .3)",
-				fill: true
-			}
-			]
-		},
-		options: {
-			responsive: true
-		}
-	});
-
-
-
 	// Single Line Chart
-	var ctx3 = $("#line-chart").get(0).getContext("2d");
+	var ctx3 = $("#line-chart")[0].getContext("2d");
 	var myChart3 = new Chart(ctx3, {
 		type: "line",
 		data: {
-			labels: [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150],
+			labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, "(月)"],
 			datasets: [{
-				label: "Salse",
+				label: "売上",
 				fill: false,
 				backgroundColor: "rgba(0, 156, 255, .3)",
-				data: [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15]
+				data: [7, 8, 6.5, 9, 9, 9, 10, 11]
 			}]
 		},
 		options: {
@@ -141,7 +85,7 @@
 	})
 
 
-	// Single Bar Chart
+	/* Single Bar Chart
 	var ctx4 = $("#bar-chart").get(0).getContext("2d");
 	var myChart4 = new Chart(ctx4, {
 		type: "bar",
@@ -207,7 +151,7 @@
 		options: {
 			responsive: true
 		}
-	});
+	});*/
 
 	/*******product of js */
 
@@ -241,7 +185,7 @@ function readURLExtrasImage(input) {
 		var reader = new FileReader();
 		reader.onload = function(e) {
 			var imgTag = $(input).parent().find('.extras-img');
-			$(imgTag).attr('src',  e.target.result);
+			$(imgTag).attr('src', e.target.result);
 		}
 		reader.readAsDataURL(input.files[0]);
 	}
@@ -324,33 +268,48 @@ function deleteImage(e) {
 	})
 }
 
-function delItem(itemId){
+function delItem(itemId) {
 	var path = $("#deleteItem").find("a").attr("href");
 	var delLink = path + "/del/" + itemId;
-	$("#deleteItem").find(".modal-body").html("商品ID<strong>"+itemId+"</strong>を削除します。よろしいでしょうか");
-	$("#deleteItem").find("a").attr("href",delLink);
+	$("#deleteItem").find(".modal-body").html("商品ID<strong>" + itemId + "</strong>を削除します。よろしいでしょうか");
+	$("#deleteItem").find("a").attr("href", delLink);
 	$("#deleteItem").modal("show")
+
+}
+function editStockAmount(itemId) {
+	var colorId = $("#edit_stock-btn").parent().find("input[name=colorId]").val();
+	var sizeId = $("#edit_stock-btn").parent().find("input[name=sizeId]").val();
+	$("#edit_stock-modal").find("select[name=colorId]").find(`option[value = "${colorId}"]`).attr("selected","selected");
+	$("#edit_stock-modal").find("select[name=sizeId]").find(`option[value = "${sizeId}"]`).attr("selected","selected");
+	
+	$("#edit_stock-modal").find("select[name=colorId]").attr("disabled","disabled");
+	$("#edit_stock-modal").find("select[name=sizeId]").attr("disabled","disabled");
+	
+	$("#edit_stock-modal").find("input[name=productId]").val(itemId);
+	
+	$("#edit_stock-modal").modal("show")
 }
 
-function setEnable(checkBox,userId){
+function setEnable(checkBox, userId) {
 	var isChecked = $(checkBox).attr("checked") == "checked";
 	var enable = !isChecked
-	var URL = "http://localhost:8089/shopAdmin/api/customer/edit?enable="+enable+"&uId="+userId;
-	
+	var URL = "http://localhost:8089/shopAdmin/api/customer/edit?enable=" + enable + "&uId=" + userId;
+
 	$.ajax({
-		url : URL,
+		url: URL,
 		type: 'GET',
-		success : (response)=>{
-			if(response){
-				$("#notify-toast").find(".toast-body").html("ユーザーID<strong class='text-success'>"+userId+"</strong>のステータスが変更しました！")
+		success: (response) => {
+			if (response) {
+				console.log(response)
+				$("#notify-toast").find(".toast-body").html("ユーザーID<strong class='text-success'>" + userId + "</strong>のステータスが変更しました！")
 				$("#notify-toast").toast('show');
 			}
-			
+
 		}
-		
-		
+
+
 	})
-	
+
 }
 
 

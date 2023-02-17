@@ -89,13 +89,31 @@ public class ProductService {
 		ProductDetail savedDetail = updateDetail(DBProduct);
 		return savedDetail;
 	}
+
 	public ProductDetail deleteProduct(Integer detailId, Integer productId) {
 		ProductDetail DBProduct = findById(detailId);
 		Set<Product> products = DBProduct.getProducts();
-		
+
 		products.remove(new Product(productId));
-		
-		
+
+		ProductDetail savedDetail = updateDetail(DBProduct);
+		return savedDetail;
+	}
+
+	public ProductDetail updateStock(Integer detailId, Integer productId, Integer stockAmount) {
+		ProductDetail DBProduct = findById(detailId);
+		Set<Product> products = DBProduct.getProducts();
+
+		Iterator<Product> it = products.iterator();
+
+		while (it.hasNext()) {
+			Product p = it.next();
+			if (p.getId() == productId) {
+				p.setStockAmount(stockAmount);
+				break;
+			}
+		}
+
 		ProductDetail savedDetail = updateDetail(DBProduct);
 		return savedDetail;
 	}

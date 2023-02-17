@@ -22,16 +22,16 @@ import com.cinshop.customer.CustomerService;
 public class GuestOrderService extends AbstractOrderService {
 	private final String CUSTOMER = "customer";
 	private Logger logger = LoggerFactory.getLogger(GuestOrderService.class);
-	
+
 	@Autowired
 	private CustomerService customerService;
-	
+
 	@Override
 	public Order saveOrder(Map<String, Object> orderInfo) {
-		GuestCartService cartService = (GuestCartService)super.cartService;
+		GuestCartService cartService = (GuestCartService) super.cartService;
 		Customer customer = (Customer) cartService.getSession().getAttribute(CUSTOMER);
-		
-		PaymentMethod paymentMethod = (PaymentMethod) orderInfo.get(PAYMENT_METHOD);		
+
+		PaymentMethod paymentMethod = (PaymentMethod) getPaymentMethod((Integer) orderInfo.get(PAYMENT_METHOD));
 		Order order = new Order();
 		List<OrderDetail> details = saveOrderDetail(order);
 		Iterator<OrderDetail> it = details.iterator();
@@ -41,7 +41,7 @@ public class GuestOrderService extends AbstractOrderService {
 			OrderDetail detail = it.next();
 			order.addOrderDetail(detail);
 		}
-		//注文情報設定
+		// 注文情報設定
 		order.setOrderTime(new Date());
 		order.setPaymentMethod(paymentMethod);
 		order.setStatus(OrderStatus.PLACED);
@@ -56,11 +56,11 @@ public class GuestOrderService extends AbstractOrderService {
 			logger.info("{}の情報を保存しました", customer.getFullName());
 			order.setCustomer(savedCustomer);
 			Order savedOrder = orderService.saveOrder(order);
-			
-			logger.info("注文{}の詳細を格納した", order.getOrderNum());			
-			
+
+			logger.info("注文{}の詳細を格納した", order.getOrderNum());
+
 			mailSenderHelper.orderedNotify(customer.getEmail(), savedOrder);
-			
+
 			sendNotidy(savedOrder);
 			cartService.deleteCart();
 		} catch (Exception e) {

@@ -1,6 +1,7 @@
 package com.cinshop.common.entity;
 
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,7 +27,12 @@ import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "product_detail")
-public class ProductDetail {
+public class ProductDetail implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "detail_id")

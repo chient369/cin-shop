@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.cinshop.admin.customer.CustomerService;
 import com.cinshop.admin.order.OrderServiceAdmin;
+import com.cinshop.admin.utility.ContactService;
 import com.cinshop.common.entity.Order;
 
 @Controller
@@ -22,19 +23,17 @@ public class DashBoardController {
 
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private ContactService contactService;
 
 	@GetMapping("/")
-	public String dashBoardFirstPage(Model model) {
-		return dashBoard(1, model);
-	}
-	@GetMapping("/{pageNum}")
-	public String dashBoard(@PathVariable Integer pageNum, Model model) {
-		Pageable pageable = PageRequest.of(pageNum - 1, ITEM_PER_PAGE);
+	public String dashBoard(Model model) {
+		Pageable pageable = PageRequest.of(0, ITEM_PER_PAGE);
 		Page<Order> page = orderService.findByOrderStatus("PLACED",pageable);
 	
 		model.addAttribute("orders", page.getContent());
-		model.addAttribute("orderTotalPages", page.getTotalPages());
-		model.addAttribute("orderCurrentPage", page.getNumber());
+		model.addAttribute("contacts", contactService.findAllContact());
 
 		model.addAttribute("deliveringOrder", orderService.countDeliveringOrder());
 		model.addAttribute("orderTotal", orderService.countOrder());

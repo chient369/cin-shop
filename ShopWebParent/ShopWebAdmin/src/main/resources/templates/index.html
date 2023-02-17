@@ -27,8 +27,7 @@
 		<div class="container-fluid pt-4 px-4">
 			<div class="row g-4">
 				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
+					<div class="bg-light rounded d-flex align-items-center justify-content-around p-4">
 						<i class="fa fa-thin fa-users fa-3x text-primary"></i>
 
 						<div class="ms-3">
@@ -39,8 +38,7 @@
 					</div>
 				</div>
 				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
+					<div class="bg-light rounded d-flex align-items-center justify-content-around p-4">
 						<i class="fa fa-ligth fa-user fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">会員数</p>
@@ -49,8 +47,7 @@
 					</div>
 				</div>
 				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
+					<div class="bg-light rounded d-flex align-items-center justify-content-around p-4">
 						<i class="fa-sharp fa-solid fa-list fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">注文件数</p>
@@ -60,8 +57,7 @@
 					</div>
 				</div>
 				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
+					<div class="bg-light rounded d-flex align-items-center justify-content-around p-4">
 						<i class="fa fa-thin fa-file-pen fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">未確定注文</p>
@@ -71,8 +67,7 @@
 					</div>
 				</div>
 				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
+					<div class="bg-light rounded d-flex align-items-center justify-content-around p-4">
 						<i class="fa-sharp fa-solid fa-truck-fast fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">配達中</p>
@@ -83,12 +78,11 @@
 					</div>
 				</div>
 				<div class="col-sm-6 col-xl-3">
-					<div
-						class="bg-light rounded d-flex align-items-center justify-content-around p-4">
+					<div class="bg-light rounded d-flex align-items-center justify-content-around p-4">
 						<i class="fa fa-solid fa-yen-sign fa-3x text-primary"></i>
 						<div class="ms-3">
 							<p class="mb-2">売上</p>
-							<h6 class="mb-0">¥<span  th:text="${totalSale == null}?0"></span></h6>
+							<h6 class="mb-0">¥<span th:text="${totalSale == null}?0:${totalSale}"></span></h6>
 						</div>
 					</div>
 				</div>
@@ -98,7 +92,64 @@
 
 
 		<!-- Sale & Revenue End -->
+		<div class="container-fluid pt-4 px-4">
+			<div class="row g-4">
+				<div class="col-sm-12 col-md-12 col-xl-4">
+					<div id="msg-box" class=" bg-light rounded p-4">
+						<div class="d-flex align-items-center justify-content-between mb-2">
+							<h6 class="mb-0">メッセージ</h6>
+						</div>
 
+						<th:block th:each="msg : ${contacts}">
+							<div class="d-flex align-items-center border-bottom py-3">
+								<i class="fa fa-duotone fa-user fa-2x"></i>
+								<div class="w-100 ms-3">
+									<div class="d-flex w-100 justify-content-between">
+										<h6 class="mb-0" th:text="${#strings.substring(msg.email,0,9)}">Jhon Doe</h6>
+
+									</div>
+									<th:block
+										th:with="ctxLen = ${#strings.length(msg.content)}, index = ${ctxLen < 30}?${ctxLen} : 30">
+										<span th:text="${#strings.substring(msg.content,0,index)} + '...'">Short message
+											goes here...</span>
+									</th:block>
+								</div>
+								<button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" title="返信"><i
+										class="fa fa-light fa-share-from-square"></i></button>
+							</div>
+						</th:block>
+					</div>
+				</div>
+
+
+				<div class="col-sm-12 col-xl-8">
+					<div class="bg-light rounded h-80 p-4">
+						<div class="d-flex mb-1 justify-content-between">
+							<h6>売上累計</h6>
+							<div class="mb-0 d-flex">
+								<select class="form-control" name="year">
+									<option>年度</option>
+									<option>1</option>
+									<option>1</option>
+									<option>1</option>
+								</select>
+
+								<select class="form-control" name="month">
+									<option>月</option>
+									<option>1</option>
+									<option>1</option>
+									<option>1</option>
+								</select>
+
+							</div>
+						</div>
+						<canvas id="line-chart"></canvas>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
 
 		<!-- Recent Sales Start -->
 		<div class="container-fluid pt-4 px-4">
@@ -109,8 +160,7 @@
 
 				</div>
 				<div class="table-responsive">
-					<table
-						class="table text-start align-middle table-bordered table-hover mb-0">
+					<table class="table text-start align-middle table-bordered table-hover mb-0">
 						<thead>
 							<tr class="text-dark text-center">
 								<th scope="col">注文ID</th>
@@ -127,19 +177,17 @@
 								<tr>
 									<td th:text="${order.orderNum}"></td>
 									<td th:text="${order.orderDateString}">01 Jan 2045</td>
-									<td
-										th:text="${order.customer !=null}?${order.customer.fullName}">INV-0123</td>
-									<td
-										th:text="${order.customer !=null}?${order.customer.address.fullAddress}">
+									<td th:text="${order.customer !=null}?${order.customer.fullName}">INV-0123</td>
+									<td th:text="${order.customer !=null}?${order.customer.address.fullAddress}">
 										千葉県稲毛区穴側2-22-9</td>
 									<td th:text="'¥' +${order.total}">$123</td>
 									<td th:switch="${order.status.name}" class="text-center">
 										<span th:case="'PLACED'">未確定</span> <span th:case="'PAID'">支払い済</span>
-										<span th:case="'PROCESSING'">処理中</span> <span
-										th:case="'COMPLETED'">完了</span> <span th:case="'DELIVERING'">配送中</span>
+										<span th:case="'PROCESSING'">処理中</span> <span th:case="'COMPLETED'">完了</span>
+										<span th:case="'DELIVERING'">配送中</span>
 									</td>
-									<td><a class="btn btn-sm btn-primary"
-										th:href="@{'/order/' + ${order.id}}">詳細</a></td>
+									<td><a class="btn btn-sm btn-primary" th:href="@{'/order/' + ${order.id}}">詳細</a>
+									</td>
 								</tr>
 							</th:block>
 						</tbody>
@@ -155,128 +203,7 @@
 
 
 	<!-- Widgets Start -->
-	<!-- <div class="container-fluid pt-4 px-4">
-                <div class="row g-4">
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="h-100 bg-light rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <h6 class="mb-0">Messages</h6>
-                                <a href="">Show All</a>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt=""
-                                    style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d ｂん￥ｌ-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt=""
-                                    style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt=""
-                                    style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center pt-3">
-                                <img class="rounded-circle flex-shrink-0" src="img/user.jpg" alt=""
-                                    style="width: 40px; height: 40px;">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-0">Jhon Doe</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                    <span>Short message goes here...</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="h-100 bg-light rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Calender</h6>
-                                <a href="">Show All</a>
-                            </div>
-                            <div id="calender"></div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="h-100 bg-light rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">To Do List</h6>
-                                <a href="">Show All</a>
-                            </div>
-                            <div class="d-flex mb-2">
-                                <input class="form-control bg-transparent" type="text" placeholder="Enter task">
-                                <button type="button" class="btn btn-primary ms-2">Add</button>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox" checked>
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span><del>Short task goes here...</del></span>
-                                        <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center pt-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+
 	<!-- Widgets End -->
 	<!-- Sales Chart Start -->
 
@@ -287,8 +214,7 @@
 
 
 	<!-- Back to Top -->
-	<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
-		class="bi bi-arrow-up"></i></a>
+	<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 	</div>
 
 	<!-- JavaScript Libraries -->

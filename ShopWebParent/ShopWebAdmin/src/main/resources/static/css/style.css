@@ -108,8 +108,11 @@
 	border: 6px solid #f8f8f8;
 	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
 }
-
-.dropdown-menu {
+#msg-box{
+	max-height: 475px;
+	overflow-y: scroll;
+}
+#notify-box {
 	max-height: 400px;
 	overflow-y: scroll;
 }

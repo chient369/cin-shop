@@ -21,6 +21,9 @@ $(document).ready(function() {
 			updateNotifyStorage(resp.body)
 			renderNotifies();
 			showToast(data);
+			if (data.type == "CONTACT") {
+				createNewContactEle(data);
+			}
 		});
 	});
 
@@ -31,10 +34,9 @@ $(document).ready(function() {
 	}
 
 	function updateNotifyStorage(data) {
+		if(data.type == "CONTACT") return;
 		notifies.push(data)
 		var notifyStorage = window.localStorage.getItem("notify");
-		console.log("response data :" + window.localStorage.getItem("notify"))
-
 		if (JSON.parse(notifyStorage) == null) {
 			window.localStorage.setItem("notify", JSON.stringify(notifies));
 		} else {
@@ -114,6 +116,42 @@ function createNewUserOfNotify(notify, index) {
 							<button class="btn btn-link remove-notify" onclick="removeNotify(${index})"><i class="fa fa-light fa-xmark"></i></button>
 						</div>
 						<hr class="dropdown-divider">
+						
+		`
+	)
+}
+function createNewContactEle(data) {
+	var ctx = data.info.contact;
+	var email = ctx.email;
+	var shortName = email.slice(0, email.indexOf("@"));
+	var shortContent = ctx.content.slice(0, 25) + "...";
+	var contactId = ctx.id;
+	$('#msg-nav-box').prepend(
+		`<a href="#" class="dropdown-item">
+						<div class="d-flex align-items-center">
+							<div class="ms-2">
+								<h6 class="fw-normal mb-0">${shortName}からメッセージが受信しました</h6>
+							</div>
+						</div>
+					</a>
+					<hr class="dropdown-divider">
+						
+		`
+	)
+	$('#msg-box').append(
+		`<div class="d-flex align-items-center border-bottom py-3">
+						<button type="button" class="btn btn-link">
+							<i class="fa fa-duotone fa-user fa-2x"></i>
+							<div class="w-100 ms-3">
+								<div class="d-flex w-100 justify-content-between">
+									<h6 class="mb-0">${shortName}</h6>
+									
+								</div>
+								<span>${shortContent}</span>
+							</div>
+						</button>
+							<button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" title="返信"><i class="fa fa-light fa-share-from-square"></i></button>
+						</div>
 						
 		`
 	)

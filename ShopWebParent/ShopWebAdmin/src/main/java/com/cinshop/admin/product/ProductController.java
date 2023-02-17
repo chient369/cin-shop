@@ -41,7 +41,7 @@ public class ProductController {
 		model.addAttribute("productDetail", productDetail);
 		model.addAttribute("brands", productService.findAllBrands());
 		model.addAttribute("categories", productService.findAllCategories());
-		model.addAttribute("colors",productService.findAllColors());
+		model.addAttribute("colors", productService.findAllColors());
 		model.addAttribute("sizes", productService.findAllSizes());
 		return "product-detail";
 	}
@@ -148,20 +148,29 @@ public class ProductController {
 		return "redirect:/product/" + savedDetail.getId();
 
 	}
-	
-	/*ADD NEW PRODUCT ITEM*/
+
+	/* ADD NEW PRODUCT ITEM */
 	@PostMapping("/product/addItem")
-	public String addNewItemPost(Model model, Integer colorId, Integer sizeId,Integer stockAmount,Integer detailId){
+	public String addNewItemPost(Model model, Integer colorId, Integer sizeId, Integer stockAmount, Integer detailId) {
 		ProductDetail savedDetail = productService.addNewProduct(colorId, sizeId, stockAmount, detailId);
-	
+
 		return "redirect:/product/" + savedDetail.getId();
 
 	}
+
 	@GetMapping("/product/{detailId}/del/{pId}")
-	public String deleteProduct(Model model, @PathVariable("detailId") Integer detailId,@PathVariable("pId") Integer productId){
+	public String deleteProduct(Model model, @PathVariable("detailId") Integer detailId,
+			@PathVariable("pId") Integer productId) {
 		ProductDetail savedDetail = productService.deleteProduct(detailId, productId);
-		
+
 		return "redirect:/product/" + savedDetail.getId();
 
+	}
+
+	@PostMapping("/product/{detailId}/editStock")
+	public String editStock(Model model, @PathVariable("detailId") Integer detailId, Integer productId,
+			Integer stockAmount) {
+		ProductDetail savedDetail = productService.updateStock(detailId, productId, stockAmount);
+		return "redirect:/product/" + savedDetail.getId();
 	}
 }

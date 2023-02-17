@@ -194,9 +194,12 @@
 													th:text="${p.color.name}"></span></td>
 												<td th:text="${p.size.value}">Doe</td>
 												<td th:text="${p.stockAmount}">jhon@email.com</td>
-												<td class="justify-content-around"><button id="deleteBtn" th:onclick="'delItem('+${p.id}+')'"
+												<td class="justify-content-around">
+													<input type="hidden" th:value="${p.color.id}" name="colorId">
+													<input type="hidden" th:value="${p.size.id}" name="sizeId">
+													<button id="deleteBtn" th:onclick="'delItem('+${p.id}+')'"
 													type="button" class="btn text-danger fs-4" title="Delete"><i class="fa-solid fa-trash"></i></button>&nbsp;&nbsp;
-													<a href="#" class="h4 text-succes" data-bs-toggle="tooltip"
+													<a id="edit_stock-btn" href="#" class="h4 text-succes" data-bs-toggle="tooltip" th:onclick="'editStockAmount('+${p.id}+')'"
 													title="Edit"><i class="fa-solid fa-user-pen"></i></a></td>
 
 											</tr>
@@ -257,6 +260,7 @@
 				</div>
 			</div>
 
+<!--add item modal-->
 			<div class="modal fade" id="addItem">
 				<div class="modal-dialog">
 					<!-- Modal content-->
@@ -265,6 +269,60 @@
 							<h4 class="modal-title">追加</h4>
 						</div>
 						<form th:action="@{/product/addItem}" method= "POST">
+							<div class="modal-body">
+								<div class="mb-3 row">
+									<label for="brand" class="col-sm-3 col-form-label">カラー</label>
+									<div class="col-sm-7">
+										<select class="form-select" aria-label="Color" name="colorId">
+											<th:block th:each="c : ${colors}">
+												<option th:value="${c.id}" th:text="${c.name}"></option>
+											</th:block>
+										</select>
+
+									</div>
+
+								</div>
+								<div class="mb-3 row">
+									<label for="category" class="col-sm-3 col-form-label">サイズ</label>
+									<div class="col-sm-7">
+										<select class="form-select" aria-label="size" name="sizeId">
+											<th:block th:each="s : ${sizes}">
+												<option th:value="${s.id}" th:text="${s.value}"></option>
+											</th:block>
+										</select>
+
+									</div>
+
+								</div>
+								<div class="mb-3 row">
+									<label for="productName" class="col-sm-3 col-form-label">在庫数</label>
+									<div class="col-sm-7">
+										<input type="number" class="form-control" id="stockAmount" name="stockAmount"
+											required>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-success">登録</button>
+								<button type="button" class="btn btn-danger"
+									data-bs-dismiss="modal">閉じる</button>
+
+							</div>
+						</form>
+					</div>
+
+				</div>
+			</div>
+			<!--edit	 item modal-->
+			<div class="modal fade" id="edit_stock-modal">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">在庫編集</h4>
+						</div>
+						<form th:action="@{'/product/'+${productDetail.id}+'/editStock'}" method= "POST">
+							<input type="hidden" name="productId">
 							<div class="modal-body">
 								<div class="mb-3 row">
 								<input type="hidden" name ="detailId" th:value="${productDetail.id}">

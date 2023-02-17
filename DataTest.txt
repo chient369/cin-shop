@@ -14,6 +14,8 @@ grant select on cinshopdb.product to 'cinshop_user'@'localhost';
 grant select on cinshopdb.product_detail to 'cinshop_user'@'localhost';
 grant select on cinshopdb.product_image to 'cinshop_user'@'localhost';
 
+grant insert on cinshopdb.contact to 'cinshop_user'@'localhost'
+
 grant select,insert,update,delete on cinshopdb.cart_item to 'cinshop_user'@'localhost';
 grant select,insert,update,delete on cinshopdb.favorite_product to 'cinshop_user'@'localhost';
 grant select,insert,update,delete on cinshopdb.credit to 'cinshop_user'@'localhost';

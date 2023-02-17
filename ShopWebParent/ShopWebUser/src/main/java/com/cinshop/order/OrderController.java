@@ -110,6 +110,7 @@ public class OrderController {
 			}
 			orderService.saveOrder(orderInfo);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return "error/404";
 		}
 		// カート削除
