@@ -108,8 +108,8 @@
 				type: "post",
 				success: function () {
 					changedFavoriteProductList[dId] = 'true';
-					document.getElementById(dId).src = "../images/icons/icon-heart-02.png";
-					swal(dName, "is added to wishlist !", "success");
+					document.getElementById(dId).src = "/cinshop/images/icons/icon-heart-02.png";
+					swal(dName, "お気に入りに追加しました", "success");
 				},
 				error: function () {
 					console.log("access error fav post (add)")
@@ -125,8 +125,8 @@
 				type: "post",
 				success: function () {
 					changedFavoriteProductList[dId] = 'false';
-					document.getElementById(dId).src = "../images/icons/icon-heart-01.png";
-					swal(dName, "is removed to wishlist !", "success");
+					document.getElementById(dId).src = "/cinshop/images/icons/icon-heart-01.png";
+					swal(dName, "お気に入りから削除しました", "success");
 				},
 				error: function () {
 					console.log("access error fav post (remove)")

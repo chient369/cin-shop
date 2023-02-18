@@ -471,7 +471,7 @@
 					wishlist.style.color = "#6c7ae0"
 					favoriteProductChecked = 'true'
 
-					swal(dName, "お気に入りに追加しました !", "success");
+					swal(dName, "お気に入りに追加しました", "success");
 				},
 				error: function () {
 					console.log("access error fav post (add)")
@@ -488,7 +488,7 @@
 				success: function () {
 					wishlist.style.color = "#000"
 					favoriteProductChecked = 'false'
-					swal(dName, "お気に入りから削除した !", "success");
+					swal(dName, "お気に入りから削除しました", "success");
 				},
 				error: function () {
 					console.log("access error fav post (remove)")
