@@ -49,9 +49,11 @@
 												th:value="${item.product.id}">
 											<th:block th:with="detail = ${item.product.productDetail}">
 												<td class="column-1">
-													<div class="how-itemcart1">
-														<img th:src="@{${detail.mainImage}}" alt="IMG">
-													</div>
+													<a th:href="@{'/cart/delete?pId=' + ${item.product.id}}">
+														<div class="how-itemcart1">
+															<img th:src="@{${detail.mainImage}}" alt="IMG">
+														</div>
+													</a>
 												</td>
 												<td class="column-2" th:with="p = ${item.product}">
 													<div class="stext-301" th:text="${detail.name}"></div>

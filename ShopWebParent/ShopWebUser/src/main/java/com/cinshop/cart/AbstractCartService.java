@@ -33,4 +33,6 @@ public abstract class AbstractCartService {
 	public abstract List<CartItem> updateCartItem(HttpServletRequest request);
 
 	public abstract void deleteCart();
+
+	public abstract List<CartItem> deleteCartItem(Integer pId);
 }

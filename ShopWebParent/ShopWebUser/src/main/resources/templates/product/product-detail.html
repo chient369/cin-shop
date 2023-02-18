@@ -299,17 +299,22 @@
 												<p class="stext-102 cl6" th:text="${reviewList.content}"></p>
 											</div>
 										</div>
-									</div>
-
-
-									<p class="stext-102 cl6 p-tb-12 text-center"
-										sec:authorize="!isAuthenticated()">
-										<a th:href="@{/login}">ログインした上、評価する</a>
+									</div>									
+									<p class="stext-102 cl6 p-tb-12 text-center" sec:authorize="!isAuthenticated()">
+										<a th:href="@{/login}">
+											ログインしてレビューを投稿
+										</a>
 									</p>
-
-
+									
+									<th:block th:if="${userDetails != null && orderDetail == null}">
+										<p class="stext-102 cl6 p-tb-12 text-center">
+											<a th:href="@{/login}">
+												商品を購入してレビューを投稿
+											</a>
+										</p>
+									</th:block>
 									<!-- Add review -->
-									<div th:if="${userDetails != null}">
+									<div th:if="${userDetails != null && orderDetail != null}">
 										<form class="w-full" th:action="@{/p}" th:object="${review}"
 											th:method="POST">
 											<h5 class="mtext-108 cl2 p-b-7">あなたの評価</h5>
@@ -478,7 +483,7 @@
 				success: function () {
 					wishlist.style.color = "#000"
 					favoriteProductChecked = 'false'
-					swal(dName, "お気に入りから削除した", "success");
+					swal(dName, "お気に入りから削除しました", "success");
 				},
 				error: function () {
 					console.log("access error fav post (remove)")
@@ -488,4 +493,3 @@
 	</script>
 </body>
 </html>
-

@@ -50,10 +50,6 @@ public class ProductDetailService {
 	public Page<ProductDetail> findByColor(Integer colorId, Pageable pageable) {
 		return detailRepository.findByColor(colorId, pageable);
 	}
-	// 未定
-//	public Page<ProductDetail> findAllWithRankASC(Pageable pageable){
-//		return detailRepository.findAllWithRankASC(pageable);
-//	}
 
 	public List<Color> findAllColors() {
 		return utility.findAllColors();

@@ -72,21 +72,10 @@ public class ShopController {
 		List<Brand> brands = service.findAllBranchs();
 		List<Category> categories = service.findAllCategories();
 
-		// ここからレビュー、平均集計
-		float avgVote = 0.0F;
-		float totalVote = 0.0F;
-		for (int i = 0; i < page.getContent().size(); i++) {
-			for (int j = 0; j < page.getContent().get(i).getReviews().size(); j++) {
-				totalVote += page.getContent().get(i).getReviews().get(j).getVote().floatValue();
-			}
-			avgVote = totalVote / page.getContent().get(i).getReviews().size();
-			avgVote = ((float) Math.round(avgVote * 10)) / 10;
-			page.getContent().get(i).setAvgVote(avgVote);
-			totalVote = 0.0F;
-			avgVote = 0.0F;
-		}
-
 		// お気に入り登録しているか判定
+		//お気に入り集計
+		avgVoteCalc(page);
+
 		List<FavoriteProduct> favoriteProduct = new ArrayList<FavoriteProduct>();
 		if (customer != null) {
 			favoriteProduct = fService.findByCustomer(customer.getId());
@@ -153,5 +142,20 @@ public class ShopController {
 			customer = customerService.findCustomerByEmail(email).get();
 		return customer;
 	}
-
+	
+	private void avgVoteCalc(Page<ProductDetail> page) {
+		//ここからレビュー、平均集計
+		float avgVote = 0.0F;
+		float totalVote = 0.0F;
+		for (int i = 0; i < page.getContent().size(); i++) {
+			for (int j = 0; j < page.getContent().get(i).getReviews().size(); j++) {
+				totalVote += page.getContent().get(i).getReviews().get(j).getVote().floatValue();
+			}
+			avgVote = totalVote / page.getContent().get(i).getReviews().size();
+			avgVote = ((float)Math.round(avgVote * 10))/10;
+			page.getContent().get(i).setAvgVote(avgVote);
+			totalVote = 0.0F;
+			avgVote = 0.0F;
+		}
+	}
 }

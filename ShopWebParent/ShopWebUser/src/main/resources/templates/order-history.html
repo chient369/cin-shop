@@ -99,6 +99,8 @@
 												<div class="fs-12">サイズ :<span
 														th:text="${detail.product.size.value}">15</span></div>
 												<div class="fs-12">数量 :<span th:text="${detail.quantity}">1</span></div>
+												<br>
+												<a th:href="@{'/p/' + ${detail.product.productDetail.id}}" class="btn btn-primary" role="button">商品レビューを書く</a>									
 											</div>
 										</div>
 									</th:block>

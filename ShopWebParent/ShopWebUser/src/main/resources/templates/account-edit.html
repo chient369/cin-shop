@@ -150,6 +150,8 @@
 										id="gender" value="1" th:checked="${sexDBValue == 1}">男性</span>
 								<span class="flex-w"><input class="stext-111" type="radio" name="gender" id="gender"
 										value="2" th:checked="${sexDBValue == 2}">女性</span>
+								<span class="flex-w"><input class="stext-111" type="radio" name="gender" id="gender"
+										value="3" th:checked="${sexDBValue == 3}">未登録</span>
 							</div>
 
 						</div>
@@ -269,6 +271,8 @@
 			gender[0].checked = true;
 		} else if (genderDBValue == 2) {
 			gender[1].checked = true;
+		} else{
+			gender[2].checked = true;
 		}
 		if (!firstNameDBValue == "") firstName.defaultValue = firstNameDBValue;
 		if (!lastNameDBValue == "") lastName.defaultValue = lastNameDBValue;
