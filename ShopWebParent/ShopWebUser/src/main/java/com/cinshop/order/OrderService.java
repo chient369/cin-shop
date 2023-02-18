@@ -1,5 +1,7 @@
 package com.cinshop.order;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,10 @@ public class OrderService {
 	
 	public Page<Order> findOrderByCustomerId(Integer id,Pageable pageable) {
 		return repository.findByCustomer(new Customer(id),pageable);
+	}
+	
+	public List<Order> findOrderByCustomerAndProductId(Integer custId, Integer dId) {
+		return repository.findOrderByCustomerAndProductId(custId, dId);
 	}
 	
 	public Order saveOrder(Order order) {

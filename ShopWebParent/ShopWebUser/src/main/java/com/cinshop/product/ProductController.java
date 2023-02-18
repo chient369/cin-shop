@@ -28,10 +28,12 @@ import com.cinshop.common.entity.Brand;
 import com.cinshop.common.entity.Category;
 import com.cinshop.common.entity.Color;
 import com.cinshop.common.entity.FavoriteProduct;
+import com.cinshop.common.entity.Order;
 import com.cinshop.common.entity.Product;
 import com.cinshop.common.entity.ProductDetail;
 import com.cinshop.common.entity.Review;
 import com.cinshop.customer.LoginUserDetails;
+import com.cinshop.order.OrderService;
 import com.cinshop.review.ReviewService;
 
 import jakarta.servlet.http.Cookie;
@@ -55,6 +57,9 @@ public class ProductController {
 
 	@Autowired
 	private FavoriteProductService fService;
+	
+	@Autowired
+	private OrderService oService;
 
 	@GetMapping("")
 	public String viewProductPage(Model model, @AuthenticationPrincipal LoginUserDetails userDetails,
@@ -134,12 +139,24 @@ public class ProductController {
 		if (userDetails != null) {
 			FavoriteProduct favoriteProduct = fService
 					.findByCustomerAndDetailId(userDetails.getCustomer().get().getId(), pId);
+			List<Order> orderCustomerList = oService
+					.findOrderByCustomerAndProductId(userDetails.getCustomer().get().getId(), pId);
+			
+			//お気に入り検索結果あり
 			if (favoriteProduct != null) {
 				model.addAttribute("favoriteProduct", favoriteProduct.getClass());
 			} else {
 				model.addAttribute("favoriteProduct", null);
 			}
+			//注文検索結果あり
+			if (orderCustomerList.size() > 0) {
+				model.addAttribute("orderDetail", orderCustomerList);
+			} else {
+				model.addAttribute("orderDetail", null);
+			}
+			System.out.println(orderCustomerList);
 			model.addAttribute("userDetails", userDetails.getCustomer().get());
+			
 			// ゲスト
 		} else {
 			if (!v.equals("no data")) {
