@@ -1,5 +1,7 @@
 package com.cinshop.admin.order;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -37,5 +39,6 @@ public interface OrderRepositoryAdmin extends JpaRepository<Order, Integer> {
 	
 	@Query("select o from Order o where concat(o.customer.firstName,o.customer.lastName) like %?1%")
 	public Page<Order> findByCustomerName(String custName,Pageable pageable);
+	
 	
 }

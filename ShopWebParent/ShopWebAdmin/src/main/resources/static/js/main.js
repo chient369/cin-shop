@@ -57,19 +57,33 @@
 		loop: true,
 		nav: false
 	});
+	/*sale  chart*/
+	var label = []
+	for (let i = 1; i <= 31; i++) {
+		label.push(i);
+	}
+	label.push("(月)");
 
-
-	// Single Line Chart
+	for (let i = 1; i <= 12; i++) {
+		var optionEle = $("<option></option>").text(i).attr("value", i);
+		$("#selectMonth").append(optionEle);
+	}
+	/**get data from db demo */
+	var dataFromDB = []
+	for (let i = 0; i < 31; i++) {
+		var random = Math.floor(Math.random() * 90);
+		dataFromDB[i] = random
+	}
 	var ctx3 = $("#line-chart")[0].getContext("2d");
 	var myChart3 = new Chart(ctx3, {
 		type: "line",
 		data: {
-			labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, "(月)"],
+			labels: label,
 			datasets: [{
-				label: "売上",
+				label: "売上（単位 : 万円）",
 				fill: false,
 				backgroundColor: "rgba(0, 156, 255, .3)",
-				data: [7, 8, 6.5, 9, 9, 9, 10, 11]
+				data: dataFromDB
 			}]
 		},
 		options: {
@@ -77,12 +91,16 @@
 		}
 	});
 
-	//Delete confirm modal
-	$("#deleteBtn").on('click', function(e) {
-		alert("confirm")
-		e.preventDefault();
-		$('#deleteModal').modal();
-	})
+
+// Single Line Chart
+
+
+//Delete confirm modal
+$("#deleteBtn").on('click', function(e) {
+	alert("confirm")
+	e.preventDefault();
+	$('#deleteModal').modal();
+})
 
 
 	/* Single Bar Chart
@@ -156,7 +174,7 @@
 	/*******product of js */
 
 
-})(jQuery);
+}) (jQuery);
 
 function editAble(e) {
 	var parent = $(e).parent();
@@ -279,14 +297,14 @@ function delItem(itemId) {
 function editStockAmount(itemId) {
 	var colorId = $("#edit_stock-btn").parent().find("input[name=colorId]").val();
 	var sizeId = $("#edit_stock-btn").parent().find("input[name=sizeId]").val();
-	$("#edit_stock-modal").find("select[name=colorId]").find(`option[value = "${colorId}"]`).attr("selected","selected");
-	$("#edit_stock-modal").find("select[name=sizeId]").find(`option[value = "${sizeId}"]`).attr("selected","selected");
-	
-	$("#edit_stock-modal").find("select[name=colorId]").attr("disabled","disabled");
-	$("#edit_stock-modal").find("select[name=sizeId]").attr("disabled","disabled");
-	
+	$("#edit_stock-modal").find("select[name=colorId]").find(`option[value = "${colorId}"]`).attr("selected", "selected");
+	$("#edit_stock-modal").find("select[name=sizeId]").find(`option[value = "${sizeId}"]`).attr("selected", "selected");
+
+	$("#edit_stock-modal").find("select[name=colorId]").attr("disabled", "disabled");
+	$("#edit_stock-modal").find("select[name=sizeId]").attr("disabled", "disabled");
+
 	$("#edit_stock-modal").find("input[name=productId]").val(itemId);
-	
+
 	$("#edit_stock-modal").modal("show")
 }
 
@@ -310,6 +328,59 @@ function setEnable(checkBox, userId) {
 
 	})
 
+}
+
+function reply(msgId) {
+	var URL = "http://localhost:8089/shopAdmin/api/contact/" + msgId;
+
+	$.ajax({
+		url: URL,
+		type: 'GET',
+		success: (data) => {
+			if (data) {
+				const date = new Date(data.receivedTime);
+				var time = date.toLocaleDateString() + " " + date.getHours() + ":" + date.getMinutes();
+				$("#reply_modal-time").text(time);
+				$("#reply_modal-email").val(data.email);
+				$("#reply_modal-content").text(data.content);
+			}
+			$("#replyModal").modal("show");
+
+		}
+	})
+
+}
+function sendMessage(ele) {
+	var URL = "http://localhost:8089/shopAdmin/api/contact/send";
+
+	var email = $(ele).parent().parent().find("#reply_modal-email").val();
+	var mailContent = $(ele).parent().parent().find("#message-text").val();
+	if (mailContent == "") {
+		$("#notify-toast").find(".toast-body").html("<strong class='text-success'>返事の内容</strong>を入力して下さい")
+		$("#notify-toast").toast("show");
+		return;
+	};
+
+	$.ajax({
+		url: URL,
+		type: 'POST',
+		data: {
+			email: email,
+			content: mailContent
+		},
+		success: (res) => {
+			if (res) {
+				$("#notify-toast").find(".toast-body").html("<strong class='text-success'>" + email + "</strong>に返事しました！")
+
+			} else {
+				$("#notify-toast").find(".toast-body").html("<strong class='text-success'>エラーが発生しました</strong>！")
+			}
+			$(ele).parent().parent().find("#message-text").val("");
+			$("#notify-toast").toast("show");
+			$("#replyModal").modal("hide");
+
+		}
+	})
 }
 
 

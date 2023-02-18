@@ -114,7 +114,8 @@
 											goes here...</span>
 									</th:block>
 								</div>
-								<button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" title="返信"><i
+								<button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" title="返信" 　
+									th:onclick="'reply('+${msg.id}+')'"><i
 										class="fa fa-light fa-share-from-square"></i></button>
 							</div>
 						</th:block>
@@ -127,19 +128,13 @@
 						<div class="d-flex mb-1 justify-content-between">
 							<h6>売上累計</h6>
 							<div class="mb-0 d-flex">
-								<select class="form-control" name="year">
-									<option>年度</option>
-									<option>1</option>
-									<option>1</option>
-									<option>1</option>
-								</select>
 
-								<select class="form-control" name="month">
-									<option>月</option>
-									<option>1</option>
-									<option>1</option>
-									<option>1</option>
-								</select>
+								<div class="input-group mb-1">
+									<select class="form-select" id="selectMonth">
+									</select>
+									<label class="input-group-text" for="#selectMonth">月</label>
+								</div>
+
 
 							</div>
 						</div>
@@ -200,6 +195,51 @@
 		</div>
 	</div>
 	<!-- Recent Sales End -->
+	<!--reply mail modal-->
+	<div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">返事</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<span id="reply_modal-time"></span>
+					<div>
+						<div class="mb-1">
+							<label for="recipient-name" class="col-form-label">Email:</label>
+							<input type="text" class="form-control-plaintext bg-secondary text-light ps-2 rounded"
+								id="reply_modal-email" readonly>
+						</div>
+						<div class="mb-1">
+							<label for="message-text" class="col-form-label">内容:</label>
+							<textarea class="form-control-plaintext bg-secondary text-light ps-2 rounded"
+								id="reply_modal-content" readonly></textarea>
+						</div>
+					</div>
+					<div>
+						<div class="mb-3">
+							<label for="message-text" class="col-form-label">返事:</label>
+							<textarea class="form-control" id="message-text" style="height: 200px"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+					<button type="button" class="btn btn-primary" onclick="sendMessage(this)">送信</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="toast fade position-absolute bottom-0 start-50" role="alert" aria-live="assertive" aria-atomic="true"
+		style="z-index: 12" id="notify-toast">
+		<div class="toast-header">
+			<strong class="me-auto text-success">通知</strong>
+			<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+		</div>
+		<div class="toast-body"></div>
+	</div>
 
 
 	<!-- Widgets Start -->

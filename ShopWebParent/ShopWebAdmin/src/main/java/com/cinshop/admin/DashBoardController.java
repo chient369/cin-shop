@@ -40,7 +40,6 @@ public class DashBoardController {
 		model.addAttribute("placedOrder", orderService.countPlacedOrder());
 		model.addAttribute("memberTotal", customerService.countAllShopMember());
 		model.addAttribute("customerTotal", customerService.countAllCustomer());
-
 		model.addAttribute("totalSale", orderService.totalSales());
 		return "index";
 	}

@@ -1,5 +1,10 @@
 package com.cinshop.admin.order;
 
+import java.time.Year;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +31,7 @@ public class OrderServiceAdmin {
 		return repository.findByCustomerName(custName, pageable);
 	}
 
-	public Page<Order> findByOrderStatus(String status, Pageable pageable){
+	public Page<Order> findByOrderStatus(String status, Pageable pageable) {
 		OrderStatus orderStatus = null;
 		switch (status.toUpperCase()) {
 		case "PAID":
@@ -34,23 +39,24 @@ public class OrderServiceAdmin {
 			break;
 
 		case "PLACED":
-			orderStatus =  OrderStatus.PLACED;
+			orderStatus = OrderStatus.PLACED;
 			break;
 
 		case "PROCESSING":
-			orderStatus =  OrderStatus.PROCESSING;
+			orderStatus = OrderStatus.PROCESSING;
 			break;
 
 		case "DELIVERING":
-			orderStatus =  OrderStatus.DELIVERING;
+			orderStatus = OrderStatus.DELIVERING;
 			break;
 
 		case "COMPLETED":
-			orderStatus =  OrderStatus.COMPLETED;
+			orderStatus = OrderStatus.COMPLETED;
 			break;
 		}
 		return repository.findByStatus(orderStatus, pageable);
 	}
+
 
 	public Order findOrderById(Integer id) {
 		return repository.findByOrderId(id);
