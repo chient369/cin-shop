@@ -33,8 +33,8 @@
 						<div class="col-3 mb-3">
 							<form th:action="@{/product/search}" method="post" class="mb-2">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="検索文字"
-										name="searchTxt" required>
+									<input type="text" class="form-control" placeholder="検索文字" name="searchTxt"
+										required>
 									<button class="btn btn-outline-secondary" type="submit">検索</button>
 								</div>
 							</form>
@@ -44,8 +44,7 @@
 						<div class="row">
 							<div class="col-2 mb-3">
 								<div class="input-group">
-									<select class="form-select" aria-label="Category"
-										name="category">
+									<select class="form-select" aria-label="Category" name="category">
 										<option value="0" selected>カテゴリー</option>
 										<th:block th:each="cat : ${categories}">
 											<option th:value="${cat.id}" th:text="${cat.name}">Three</option>
@@ -84,44 +83,42 @@
 								<th scope="col">ブランド</th>
 								<th scope="col">値段</th>
 								<th scope="col">入庫日</th>
-								<th scope="col">操作</th>
+								<th scope="col" class="text-center">操作</th>
 							</tr>
 						</thead>
 						<tbody>
 							<th:block th:each="pd : ${productDetails}">
 								<tr>
-									<th scope="row" th:text ="${pd.id}">1</th>
-									<td><img
-										th:src="@{${pd.mainImage}}"
-										class="img-thumbnail product-image" alt="product-image"></td>
-									<td th:text ="${pd.name}">ジェッツアイコン</td>
-									<td th:text ="${pd.category.name}">スニーカー</td>
-									<td th:text ="${pd.brand.name}">NIKE</td>
-									<td th:text ="${pd.priceCurrency}">50</td>
+									<th scope="row" th:text="${pd.id}">1</th>
+									<td><img th:src="@{${pd.mainImage}}" class="img-thumbnail product-image"
+											alt="product-image"></td>
+									<td th:text="${pd.name}">ジェッツアイコン</td>
+									<td th:text="${pd.category.name}">スニーカー</td>
+									<td th:text="${pd.brand.name}">NIKE</td>
+									<td th:text="${pd.priceCurrency}">50</td>
 									<td th:text="${pd.createDate}">500000</td>
 
-									<td class="justify-content-around"><a th:href="@{'/product/' + ${pd.id}}"
-										class="	btn btn-primary" data-bs-toggle="tooltip"
-										title="詳細">詳細</a></td>
+									<td class="text-center">
+										<button id="deleteBtn" type="button"
+											class="btn text-danger fs-4 ms-2" title="Delete"><i
+												class="fa-solid fa-trash"></i></button>
+										<a th:href="@{'/product/' + ${pd.id}}" class="	btn btn-primary"
+											data-bs-toggle="tooltip" title="詳細">詳細</a>
+									</td>
 
 								</tr>
 							</th:block>
 						</tbody>
 					</table>
 					<div class="btn-toolbar justify-content-center mt-4" th:if="${searchTxt == null && totalPages>=1}">
-						<div class="btn-group me-2"
-							th:each="page : ${#numbers.sequence(1,totalPages)}">
-							<a
-								th:href="@{'/product/p/' + ${page}}"
-								class="btn btn-secondary" th:text="${page}"
+						<div class="btn-group me-2" th:each="page : ${#numbers.sequence(1,totalPages)}">
+							<a th:href="@{'/product/p/' + ${page}}" class="btn btn-secondary" th:text="${page}"
 								th:classappend="${page == currentPage +1}?'disabled'"></a>
 						</div>
 					</div>
 					<div class="btn-toolbar justify-content-center mt-4" th:if="${searchTxt != null}">
-						<div class="btn-group me-2"
-							th:each="page : ${#numbers.sequence(1,totalPages)}">
-							<a
-								th:href="@{'/product/search?s-txt='+${searchTxt} +'&pageNum=' + ${page}}"
+						<div class="btn-group me-2" th:each="page : ${#numbers.sequence(1,totalPages)}">
+							<a th:href="@{'/product/search?s-txt='+${searchTxt} +'&pageNum=' + ${page}}"
 								class="btn btn-secondary" th:text="${page}"
 								th:classappend="${page == currentPage +1}?'disabled'"></a>
 						</div>
@@ -142,8 +139,7 @@
 						</div>
 						<div class="modal-footer">
 							<a href="" class="btn btn-success">Yes</a>
-							<button type="button" class="btn btn-danger"
-								data-bs-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
 						</div>
 					</div>
 

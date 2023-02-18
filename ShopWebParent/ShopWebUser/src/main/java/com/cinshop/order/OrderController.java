@@ -90,7 +90,7 @@ public class OrderController {
 		}
 	}
 
-	@GetMapping("/order/placed")
+	@PostMapping("/order/placed")
 	public String placeOrder(Model model, HttpServletRequest request) {
 
 		Customer customer = getAuthenticatedCustomer(request);
