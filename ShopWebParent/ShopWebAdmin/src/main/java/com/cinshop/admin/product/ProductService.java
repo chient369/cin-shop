@@ -27,7 +27,7 @@ public class ProductService {
 
 	@Autowired
 	private ProductRepository productRepository;
-
+	
 	@Autowired
 	private ProductUtility utility;
 
@@ -117,7 +117,7 @@ public class ProductService {
 		ProductDetail savedDetail = updateDetail(DBProduct);
 		return savedDetail;
 	}
-
+	/*Categories*/
 	public List<Category> findAllCategories() {
 		return utility.findAllCategories();
 	}

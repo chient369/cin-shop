@@ -47,7 +47,7 @@ public class GuestOrderService extends AbstractOrderService {
 		order.setStatus(OrderStatus.PLACED);
 		order.setShippingCost(getShippingCost());
 		order.setTax(utility.getCurrentTax());
-		order.setTotal(getTotal());
+		order.setTotal(super.getTotal());
 
 		// 仮に0割引を設定
 		order.setDiscountPercent(0);

@@ -14,6 +14,7 @@ import com.cinshop.common.entity.Order;
 @Repository
 public interface OrderRepositoryAdmin extends JpaRepository<Order, Integer> {
 
+	@Query("select o from Order o ORDER BY o.orderTime DESC")
 	Page<Order> findAll(Pageable pageable);
 
 	@Query("select o from Order o where o.id =?1")
@@ -34,10 +35,10 @@ public interface OrderRepositoryAdmin extends JpaRepository<Order, Integer> {
 	@Query("select o from Order o where o.orderNum = ?1")
 	public Page<Order> findByOrderNum(String orderNum,Pageable pageable);
 	
-	@Query("select o from Order o where o.status = ?1")
+	@Query("select o from Order o where o.status = ?1 ORDER BY o.orderTime DESC")
 	public Page<Order> findByStatus(OrderStatus status,Pageable pageable);
 	
-	@Query("select o from Order o where concat(o.customer.firstName,o.customer.lastName) like %?1%")
+	@Query("select o from Order o where concat(o.customer.firstName,o.customer.lastName) like %?1% ORDER BY o.orderTime DESC")
 	public Page<Order> findByCustomerName(String custName,Pageable pageable);
 	
 	

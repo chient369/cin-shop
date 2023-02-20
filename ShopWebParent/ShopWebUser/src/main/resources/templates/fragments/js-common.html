@@ -75,8 +75,24 @@
 
 	<input id="pagePath" type="hidden" th:value="${@environment.getProperty('cinshop.requestURI')}">
 	<script>
-		/*ブランド一覧を表示する */
 		const path = $('#pagePath').val();
+		let favURL = path + "/api/p/favProductLength";
+console.log(path);
+		$.ajax({
+			url: favURL,
+			type: "post",
+			success: function (data) {
+				favorite.innerHTML = "<a href='/cinshop/p/fav' data-notify='" + data + "' class='dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti'><i class='zmdi zmdi-favorite-outline'></i></a>"
+			},
+			error: function () {
+				console.log("access error find fav product")
+			}
+		})
+
+
+
+
+		/*ブランド一覧を表示する */
 		let URL = path + "/api/p/gb";
 		$.ajax({
 			url: URL,
@@ -103,7 +119,7 @@
 				)
 			}
 		}
-		
+
 		/*favourite module*/
 		//const path = $('#pagePath').val();
 		var dName = '';

@@ -86,7 +86,6 @@ public abstract class AbstractOrderService {
 	}
 
 	public List<PaymentMethod> findAllPaymentMethods() {
-
 		return utility.findAllPaymentMethods();
 
 	}

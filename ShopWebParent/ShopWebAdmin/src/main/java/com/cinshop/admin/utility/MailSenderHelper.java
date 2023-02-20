@@ -68,7 +68,7 @@ public class MailSenderHelper {
 		String text = "<html>"
 					+ "<head></head>"
 					+ "<body>"
-					+ "<p>ご質問ありがとうございます。回答は以下の通り：</p>"
+					+ "<p>cin-shopお問い合わせフォームよりご連絡いただき有難うございます。</p>"
 					+ "<p>"+content+"</p>"
 					+ "</body>"
 					+ "</html>";
@@ -79,7 +79,7 @@ public class MailSenderHelper {
 	      helper.setTo(toEmail);
 	      //helper.setCc("xxxxx@xxx.xx");
 	      //helper.setBcc("xxxxx@xxx.xx");
-	      helper.setSubject("【返事】問い合わせ");
+	      helper.setSubject("お問い合わせ内容の回答について");
 	      helper.setText(text, true);
 	      //メール送信
 	      mailSender.send(message);

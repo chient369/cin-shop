@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments :: page-head('ブランド')}">
+</head>
+
+<body>
+	<div class="
+	container-xxl position-relative bg-whited-flexp-0">
+		<!-- Spinner Start -->
+		<div th:replace="~{fragments:: spinner}"></div>
+		<!-- Spinner End -->
+	</div>
+
+	<!-- Sidebar Start -->
+	<div th:replace="~{fragments:: sidebar}"></div>
+	<!-- Sidebar End -->
+
+
+	<!-- Content Start -->
+	<div class="content">
+		<!-- Navbar Start -->
+		<nav th:replace="~{fragments:: head-nav}"></nav>
+		<!-- Navbar End -->
+		<!-- Table Start -->
+		<div class="container-fluid pt-4 px-4">
+			<div class="row g-4">
+
+				<div class="bg-light rounded h-100 p-4">
+					<h4>ブランド一覧</h4>
+					<a class="my-4 d-block" th:href="@{/product/crt}">ブランド新規登録</a>
+					<div class="row">
+						<div class="col-3 mb-3">
+							<form th:action="@{/product/search}" method="post" class="mb-2">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="検索文字" name="searchTxt"
+										required>
+									<button class="btn btn-outline-secondary" type="submit">検索</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="d-inline-flex"></div>
+
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">イメージ</th>
+								<th scope="col">ブランド名</th>
+								
+								<th scope="col" class="text-center">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each="b : ${brands}">
+								<tr>
+									<th scope="row" th:text="${b.id}">1</th>
+									<td><img th:src="@{${b.brandLogo}}" class="img-thumbnail product-image"
+											alt="product-image"></td>
+									<td th:text="${b.name}">ジェッツアイコン</td>
+									<td class="text-center">
+										<button id="deleteBtn" type="button"
+											class="btn text-danger fs-4 ms-2" title="Delete"><i
+												class="fa-solid fa-trash"></i></button>
+										<a th:href="@{'/product/brand/' + ${b.id}}" class="	btn btn-primary"
+											data-bs-toggle="tooltip" title="詳細">詳細</a>
+									</td>
+
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- Content End -->
+			<!--Modal start-->
+			<div class="modal fade" id="deleteModal">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Delete Confirm</h4>
+						</div>
+						<div class="modal-body">
+							<p>Are you sure delete user with ID:</p>
+						</div>
+						<div class="modal-footer">
+							<a href="" class="btn btn-success">Yes</a>
+							<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<!--Modal end-->
+
+		</div>
+	</div>
+	<!-- Table End -->
+
+	</div>
+
+
+	<!-- JavaScript Libraries -->
+	<div th:replace="~{fragments::common-js}"></div>
+	<!-- <script>
+            $(document).ready(function() {
+                //Delete confirm modal
+                $("#deleteBtn").on('click', function(e) {
+                    e.preventDefault();
+                    $("#deleteModal").modal('show');
+                })
+            })
+        </script> -->
+</body>
+
+</html>

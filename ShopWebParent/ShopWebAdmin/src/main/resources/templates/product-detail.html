@@ -269,6 +269,7 @@
 							<h4 class="modal-title">追加</h4>
 						</div>
 						<form th:action="@{/product/addItem}" method= "POST">
+							<input type="hidden" name="detailId" th:value="${productDetail.id}">
 							<div class="modal-body">
 								<div class="mb-3 row">
 									<label for="brand" class="col-sm-3 col-form-label">カラー</label>

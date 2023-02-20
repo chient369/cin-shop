@@ -173,4 +173,18 @@ public class ProductController {
 		ProductDetail savedDetail = productService.updateStock(detailId, productId, stockAmount);
 		return "redirect:/product/" + savedDetail.getId();
 	}
+	
+	@GetMapping("/product/cat")
+	public String viewCategories(Model model) {
+		model.addAttribute("categories",productService.findAllCategories());
+
+		return "categories";
+
+	}
+	@GetMapping("/product/brand")
+	public String viewBrands(Model model) {
+		model.addAttribute("brands",productService.findAllBrands());
+		return "brand";
+
+	}
 }

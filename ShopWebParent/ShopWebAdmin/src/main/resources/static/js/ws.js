@@ -2,6 +2,7 @@
 $(document).ready(function() {
 	//window.localStorage.clear()
 	var notifies = [];
+	var messages = [];
 	renderNotifies();
 
 
@@ -18,7 +19,7 @@ $(document).ready(function() {
 		console.log('Connected: ' + frame);
 		stompClient.subscribe('/topic/admin', function(resp) {
 			var data = JSON.parse(resp.body)
-			updateNotifyStorage(resp.body)
+			updateStorage(data)
 			renderNotifies();
 			showToast(data);
 			if (data.type == "CONTACT") {
@@ -33,16 +34,30 @@ $(document).ready(function() {
 		$(".toast").toast('show');
 	}
 
-	function updateNotifyStorage(data) {
-		if(data.type == "CONTACT") return;
-		notifies.push(data)
-		var notifyStorage = window.localStorage.getItem("notify");
-		if (JSON.parse(notifyStorage) == null) {
-			window.localStorage.setItem("notify", JSON.stringify(notifies));
-		} else {
-			var notifyArr = JSON.parse(notifyStorage);
-			notifyArr.push(data)
-			window.localStorage.setItem("notify", JSON.stringify(notifyArr));
+	function updateStorage(data) {
+		console.log("type :" +data.type)
+		if (data.type == "CONTACT") {
+			messages.push(data);
+			var msgStorage = window.localStorage.getItem("message");
+			if (JSON.parse(msgStorage) == null) {
+				window.localStorage.setItem("message", JSON.stringify(msgStorage));
+			} else {
+				var msgArr = JSON.parse(msgStorage);
+				notifyArr.push(data)
+				window.localStorage.setItem("message", JSON.stringify(msgArr));
+			}
+		}
+		else {
+
+			notifies.push(data)
+			var notifyStorage = window.localStorage.getItem("notify");
+			if (JSON.parse(notifyStorage) == null) {
+				window.localStorage.setItem("notify", JSON.stringify(notifies));
+			} else {
+				var notifyArr = JSON.parse(notifyStorage);
+				notifyArr.push(data)
+				window.localStorage.setItem("notify", JSON.stringify(notifyArr));
+			}
 		}
 	}
 
@@ -73,7 +88,7 @@ function renderNotifies() {
 	$(".notify-num").text(countNotify);
 
 	notifies.forEach((item, index) => {
-		var notify = JSON.parse(item);
+		var notify = item;
 
 		if (notify.type == "ORDER") {
 			createNewOrderOfNotify(notify, index);
@@ -125,7 +140,7 @@ function createNewContactEle(data) {
 	var email = ctx.email;
 	var shortName = email.slice(0, email.indexOf("@"));
 	var shortContent = ctx.content.slice(0, 25) + "...";
-	var contactId = ctx.id;
+	var contactId = "msg-" + ctx.id;
 	$('#msg-nav-box').prepend(
 		`<a href="#" class="dropdown-item">
 						<div class="d-flex align-items-center">
@@ -138,20 +153,20 @@ function createNewContactEle(data) {
 						
 		`
 	)
-	$('#msg-box').append(
-		`<div class="d-flex align-items-center border-bottom py-3">
-						<button type="button" class="btn btn-link">
-							<i class="fa fa-duotone fa-user fa-2x"></i>
-							<div class="w-100 ms-3">
-								<div class="d-flex w-100 justify-content-between">
-									<h6 class="mb-0">${shortName}</h6>
-									
+	$('#msg-box').prepend(
+		`
+			<div class="d-flex align-items-center border-bottom py-3">
+								<i class="fa fa-duotone fa-user fa-2x"></i>
+								<div class="w-100 ms-3">
+									<div class="d-flex w-100 justify-content-between">
+										<h6 class="mb-0">${shortName}</h6>
+									</div>														
+										<span>${shortContent}</span>
 								</div>
-								<span>${shortContent}</span>
+								<button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" title="返信" 　
+									onclick="reply(${ctx.id})"><i
+										class="fa fa-light fa-share-from-square"></i></button>
 							</div>
-						</button>
-							<button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" title="返信"><i class="fa fa-light fa-share-from-square"></i></button>
-						</div>
 						
 		`
 	)

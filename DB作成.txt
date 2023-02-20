@@ -1,0 +1,8 @@
+CREATE DATABASE  IF NOT EXISTS `cinshopdb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
+
+#DBユーザー作成
+＃＃＃Shop User
+create user 'cinshop_user'@'localhost' identified by "cinshopuser";
+
+create user 'cinshop_admin'@'localhost' identified by "cinshopadmin";

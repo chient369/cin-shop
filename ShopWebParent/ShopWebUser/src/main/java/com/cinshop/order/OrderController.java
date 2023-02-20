@@ -50,7 +50,7 @@ public class OrderController {
 		AbstractCartService cartService = cartServiceFactory.getCartService(customer, session);
 		AbstractOrderService orderService = orderServiceFactory.getOrderService(cartService);
 		if (customer != null) {
-			model.addAttribute("total", orderService.getTotalWithTax());
+			model.addAttribute("total", orderService.getTotal());
 			model.addAttribute("shipCost", orderService.getShippingCost());
 			model.addAttribute("cartItems", cartService.findCartItems());
 			model.addAttribute("cust", customer);
@@ -90,6 +90,21 @@ public class OrderController {
 			return "404";
 		}
 	}
+	@GetMapping("/order/g")
+	public String checkoutForGuestGet(Model model, HttpServletRequest request) {
+		try {
+			HttpSession session = request.getSession();
+
+			Customer guest = (Customer) session.getAttribute("customer");
+			model.addAttribute("cust", guest);
+			return "guest-form-order";
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e);
+			return "404";
+		}
+	}
+
 
 	@PostMapping("/order/placed")
 	public String placeOrder(Model model, HttpServletRequest request) {

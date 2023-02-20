@@ -95,17 +95,19 @@
 		<div class="container-fluid pt-4 px-4">
 			<div class="row g-4">
 				<div class="col-sm-12 col-md-12 col-xl-4">
-					<div id="msg-box" class=" bg-light rounded p-4">
+					<div id="msg-box-wrapper" class=" bg-light rounded p-4" style="height: 475px;">
 						<div class="d-flex align-items-center justify-content-between mb-2">
 							<h6 class="mb-0">メッセージ</h6>
 						</div>
 
-						<th:block th:each="msg : ${contacts}">
+						<div th:if="${#lists.size(contacts) == 0}" class="text-center">データなし</div>
+						<div th:each="msg : ${contacts}" id="msg-box">
 							<div class="d-flex align-items-center border-bottom py-3">
 								<i class="fa fa-duotone fa-user fa-2x"></i>
 								<div class="w-100 ms-3">
-									<div class="d-flex w-100 justify-content-between">
-										<h6 class="mb-0" th:text="${#strings.substring(msg.email,0,9)}">Jhon Doe</h6>
+									<div class="d-flex w-100 justify-content-between"
+										th:with="idx = ${#strings.indexOf(msg.email,'@')}">
+										<h6 class="mb-0" th:text="${#strings.substring(msg.email,0,idx)}">Jhon Doe</h6>
 
 									</div>
 									<th:block
@@ -118,7 +120,7 @@
 									th:onclick="'reply('+${msg.id}+')'"><i
 										class="fa fa-light fa-share-from-square"></i></button>
 							</div>
-						</th:block>
+						</div>
 					</div>
 				</div>
 
