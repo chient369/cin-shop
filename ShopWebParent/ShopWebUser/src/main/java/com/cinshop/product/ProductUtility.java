@@ -21,7 +21,7 @@ public class ProductUtility {
 	private JdbcTemplate template;
 
 	public List<Color> findAllColors() {
-		String sql = "SELECT * FROM COLOR";
+		String sql = "SELECT * FROM color";
 		List<Color> colors = template.query(sql, new RowMapper<Color>() {
 
 			@Override
@@ -38,7 +38,7 @@ public class ProductUtility {
 	}
 
 	public List<Brand> findAllBrands() {
-		String sql = "SELECT * FROM BRAND LIMIT 5";
+		String sql = "SELECT * FROM brand LIMIT 5";
 		List<Brand> brands = template.query(sql, new RowMapper<Brand>() {
 
 			@Override
@@ -55,7 +55,7 @@ public class ProductUtility {
 	}
 
 	public List<Category> findAllCategories() {
-		String sql = "SELECT * FROM CATEGORY";
+		String sql = "SELECT * FROM category";
 		List<Category> categories = template.query(sql, new RowMapper<Category>() {
 
 			@Override
@@ -71,7 +71,7 @@ public class ProductUtility {
 	}
 
 	public List<Size> findAllSizes() {
-		String sql = "SELECT * FROM SIZE";
+		String sql = "SELECT * FROM size";
 		List<Size> sizes = template.query(sql, new RowMapper<Size>() {
 
 			@Override

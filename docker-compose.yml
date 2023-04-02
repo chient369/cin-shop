@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  cinshop-mysql-service:
+    image: mysql:8.0.32
+    container_name: cinshop-mysql-container
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=cinshopAdmin
+      - MYSQL_DATABASE=cinshopdb
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d:rw
+      - mysql-cinshop-data:/var/lib/mysql
+      - mysql-config:/etc/mysql/conf.d
+    networks:
+      - db-network
+  user-app-service:
+    build: /ShopWebParent/ShopWebUser
+    container_name: user-app-container
+    restart: always
+    ports:
+      - 8085:8085
+    networks:
+      - db-network
+      - app-network
+  admin-app-service:
+    build: /ShopWebParent/ShopWebAdmin
+    container_name: admin-app-container
+    restart: always
+    ports:
+      - 8089:8089
+    networks:
+      - db-network
+      - app-network     
+networks:
+  db-network : {}
+  app-network : {}
+
+volumes:
+  mysql-cinshop-data:
+  mysql-config:
+  initdb:
+
+
